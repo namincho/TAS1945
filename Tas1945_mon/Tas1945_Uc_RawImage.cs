@@ -89,18 +89,18 @@ namespace Tas1945_mon
 
 							// BookMark #7 : 비트맵 이미지에 칼라 공식 부분
 							// 칼라 표현 원본
-							/*uiColor_R = (Int32)(255.0 * Math.Sqrt (Math.Sin ((dbSeat * 3.141592) / 2)));
+							uiColor_R = (Int32)(255.0 * Math.Sqrt (Math.Sin ((dbSeat * 3.141592) / 2)));
 							uiColor_G = (Int32)(255.0 * dbSeat * dbSeat);
 							if (dbSeat < 0.5)	uiColor_B = (Int32)(160.0 * Math.Sin(dbSeat * 2.0 * 3.141592));
 							else				uiColor_B = (Int32)(255.0 * (2 * (dbSeat - 0.5)) * (2 * (dbSeat - 0.5)));
-							*/
+							
 							
 							// 칼라 표현 박사님 추가본 - 20240114
-							uiColor_R = (Int32)((43.144*Math.Pow(dbSeat,6)-154.96*Math.Pow(dbSeat,5)+216.62*Math.Pow(dbSeat,4)-145.47* Math.Pow(dbSeat, 3)+44.483 * Math.Pow(dbSeat, 2) - 2.8428 * dbSeat+0.0235)*255);
+							/*uiColor_R = (Int32)((43.144*Math.Pow(dbSeat,6)-154.96*Math.Pow(dbSeat,5)+216.62*Math.Pow(dbSeat,4)-145.47* Math.Pow(dbSeat, 3)+44.483 * Math.Pow(dbSeat, 2) - 2.8428 * dbSeat+0.0235)*255);
 							uiColor_G = (Int32)((-2.5295 * Math.Pow(dbSeat, 3) + 4.758 * Math.Pow(dbSeat, 2) - 1.2734* dbSeat + 0.0509)*255);
 							if (dbSeat > 0.75) uiColor_B = (Int32)((12.48*dbSeat*dbSeat-18.686*dbSeat+6.9931)*255);
 							else uiColor_B = (Int32)((-3.6076*Math.Pow(dbSeat,4)+17.728*Math.Pow(dbSeat,3)-19.358*dbSeat*dbSeat+5.9906*dbSeat+0.0388)*255);
-							
+							*/
 							if (uiColor_R < 0)    uiColor_R = 0;
 							if (uiColor_R > 255)  uiColor_R = 255;
 							if (uiColor_G < 0)    uiColor_G = 0;
