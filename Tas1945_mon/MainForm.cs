@@ -21,7 +21,8 @@ namespace Tas1945_mon
 
 		public	OpenFileDialog g_openFileDlg = new OpenFileDialog ();
 
-		private string g_strTitle = "GUI Ver 2.05";
+		private string g_strTitle = "GUI Ver 2.77";
+		// 20240215 GitHub version v2.77 배포
 
 		public DirectoryInfo dirPixelCsvFolder = new DirectoryInfo (Application.StartupPath + @"\Data\");
 
