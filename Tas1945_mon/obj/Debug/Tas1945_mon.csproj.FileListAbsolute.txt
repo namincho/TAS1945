@@ -1,0 +1,114 @@
+D:\00. Project\03. Tas1945\01. SW\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.MainForm.resources
+D:\00. Project\03. Tas1945\01. SW\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.Properties.Resources.resources
+D:\00. Project\03. Tas1945\01. SW\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.GenerateResource.cache
+D:\00. Project\03. Tas1945\01. SW\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.CoreCompileInputs.cache
+D:\00. Project\03. Tas1945\01. SW\Tas1945_mon\Tas1945_mon\bin\Debug\Tas1945_mon.exe.config
+D:\00. Project\03. Tas1945\01. SW\Tas1945_mon\Tas1945_mon\bin\Debug\Tas1945_mon.exe
+D:\00. Project\03. Tas1945\01. SW\Tas1945_mon\Tas1945_mon\bin\Debug\Tas1945_mon.pdb
+D:\00. Project\03. Tas1945\01. SW\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.CopyComplete
+D:\00. Project\03. Tas1945\01. SW\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.exe
+D:\00. Project\03. Tas1945\01. SW\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.pdb
+D:\00. Project\03. Tas1945\01. SW\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.SuggestedBindingRedirects.cache
+D:\00. Project\03. Tas1945\01. SW\Tas1945_mon\Tas1945_mon\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+D:\00. Project\03. Tas1945\01. SW\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.Fody.CopyLocal.cache
+D:\00. Project\03. Tas1945\01. SW\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.AssemblyReference.cache
+D:\00. Project\03. Tas1945\01. SW\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.Tas1945_PixelChartForm.resources
+D:\00. Project\03. Tas1945\01. SW\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.Tas1945_RegForm.resources
+D:\00. Project\03. Tas1945\01. SW\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.Tas1945_Uc_RawImage.resources
+D:\00. Project\03. Tas1945\01. SW\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.Tas1945_Uc_RawPixels.resources
+D:\00. Project\03. Tas1945\01. SW\Tas1945_mon\Tas1945_mon\bin\Debug\ZedGraph.xml
+C:\TAS1945\Tas1945_mon\Tas1945_mon\bin\Debug\Tas1945_mon.exe.config
+C:\TAS1945\Tas1945_mon\Tas1945_mon\bin\Debug\Tas1945_mon.exe
+C:\TAS1945\Tas1945_mon\Tas1945_mon\bin\Debug\Tas1945_mon.pdb
+C:\TAS1945\Tas1945_mon\Tas1945_mon\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+C:\TAS1945\Tas1945_mon\Tas1945_mon\bin\Debug\ZedGraph.xml
+C:\TAS1945\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.AssemblyReference.cache
+C:\TAS1945\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.SuggestedBindingRedirects.cache
+C:\TAS1945\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.MainForm.resources
+C:\TAS1945\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.Tas1945_PixelChartForm.resources
+C:\TAS1945\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.Properties.Resources.resources
+C:\TAS1945\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.Tas1945_RegForm.resources
+C:\TAS1945\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.Tas1945_Uc_RawImage.resources
+C:\TAS1945\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.Tas1945_Uc_RawPixels.resources
+C:\TAS1945\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.GenerateResource.cache
+C:\TAS1945\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.CoreCompileInputs.cache
+C:\TAS1945\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.Fody.CopyLocal.cache
+C:\TAS1945\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.CopyComplete
+C:\TAS1945\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.exe
+C:\TAS1945\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.pdb
+C:\8060Code_ChoNI\Tas1945_mon\Tas1945_mon\bin\Debug\Tas1945_mon.exe.config
+C:\8060Code_ChoNI\Tas1945_mon\Tas1945_mon\bin\Debug\Tas1945_mon.exe
+C:\8060Code_ChoNI\Tas1945_mon\Tas1945_mon\bin\Debug\Tas1945_mon.pdb
+C:\8060Code_ChoNI\Tas1945_mon\Tas1945_mon\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+C:\8060Code_ChoNI\Tas1945_mon\Tas1945_mon\bin\Debug\ZedGraph.xml
+C:\8060Code_ChoNI\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.AssemblyReference.cache
+C:\8060Code_ChoNI\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.SuggestedBindingRedirects.cache
+C:\8060Code_ChoNI\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.MainForm.resources
+C:\8060Code_ChoNI\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.Tas1945_PixelChartForm.resources
+C:\8060Code_ChoNI\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.Properties.Resources.resources
+C:\8060Code_ChoNI\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.Tas1945_RegForm.resources
+C:\8060Code_ChoNI\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.Tas1945_Uc_RawImage.resources
+C:\8060Code_ChoNI\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.Tas1945_Uc_RawPixels.resources
+C:\8060Code_ChoNI\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.GenerateResource.cache
+C:\8060Code_ChoNI\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.CoreCompileInputs.cache
+C:\8060Code_ChoNI\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.Fody.CopyLocal.cache
+C:\8060Code_ChoNI\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.CopyComplete
+C:\8060Code_ChoNI\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.exe
+C:\8060Code_ChoNI\Tas1945_mon\Tas1945_mon\obj\Debug\Tas1945_mon.pdb
+C:\8060Code_ChoNI\Tas1945_mon(v2.06)\Tas1945_mon\bin\Debug\Tas1945_mon.exe.config
+C:\8060Code_ChoNI\Tas1945_mon(v2.06)\Tas1945_mon\bin\Debug\Tas1945_mon.exe
+C:\8060Code_ChoNI\Tas1945_mon(v2.06)\Tas1945_mon\bin\Debug\Tas1945_mon.pdb
+C:\8060Code_ChoNI\Tas1945_mon(v2.06)\Tas1945_mon\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+C:\8060Code_ChoNI\Tas1945_mon(v2.06)\Tas1945_mon\bin\Debug\ZedGraph.xml
+C:\8060Code_ChoNI\Tas1945_mon(v2.06)\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.AssemblyReference.cache
+C:\8060Code_ChoNI\Tas1945_mon(v2.06)\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.SuggestedBindingRedirects.cache
+C:\8060Code_ChoNI\Tas1945_mon(v2.06)\Tas1945_mon\obj\Debug\Tas1945_mon.MainForm.resources
+C:\8060Code_ChoNI\Tas1945_mon(v2.06)\Tas1945_mon\obj\Debug\Tas1945_mon.Tas1945_PixelChartForm.resources
+C:\8060Code_ChoNI\Tas1945_mon(v2.06)\Tas1945_mon\obj\Debug\Tas1945_mon.Properties.Resources.resources
+C:\8060Code_ChoNI\Tas1945_mon(v2.06)\Tas1945_mon\obj\Debug\Tas1945_mon.Tas1945_RegForm.resources
+C:\8060Code_ChoNI\Tas1945_mon(v2.06)\Tas1945_mon\obj\Debug\Tas1945_mon.Tas1945_Uc_RawImage.resources
+C:\8060Code_ChoNI\Tas1945_mon(v2.06)\Tas1945_mon\obj\Debug\Tas1945_mon.Tas1945_Uc_RawPixels.resources
+C:\8060Code_ChoNI\Tas1945_mon(v2.06)\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.GenerateResource.cache
+C:\8060Code_ChoNI\Tas1945_mon(v2.06)\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.CoreCompileInputs.cache
+C:\8060Code_ChoNI\Tas1945_mon(v2.06)\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.Fody.CopyLocal.cache
+C:\8060Code_ChoNI\Tas1945_mon(v2.06)\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.CopyComplete
+C:\8060Code_ChoNI\Tas1945_mon(v2.06)\Tas1945_mon\obj\Debug\Tas1945_mon.exe
+C:\8060Code_ChoNI\Tas1945_mon(v2.06)\Tas1945_mon\obj\Debug\Tas1945_mon.pdb
+C:\8060Code_ChoNI\Tas1945_mon(v2.05)\Tas1945_mon\bin\Debug\Tas1945_mon.exe.config
+C:\8060Code_ChoNI\Tas1945_mon(v2.05)\Tas1945_mon\bin\Debug\Tas1945_mon.exe
+C:\8060Code_ChoNI\Tas1945_mon(v2.05)\Tas1945_mon\bin\Debug\Tas1945_mon.pdb
+C:\8060Code_ChoNI\Tas1945_mon(v2.05)\Tas1945_mon\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+C:\8060Code_ChoNI\Tas1945_mon(v2.05)\Tas1945_mon\bin\Debug\ZedGraph.xml
+C:\8060Code_ChoNI\Tas1945_mon(v2.05)\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.AssemblyReference.cache
+C:\8060Code_ChoNI\Tas1945_mon(v2.05)\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.SuggestedBindingRedirects.cache
+C:\8060Code_ChoNI\Tas1945_mon(v2.05)\Tas1945_mon\obj\Debug\Tas1945_mon.MainForm.resources
+C:\8060Code_ChoNI\Tas1945_mon(v2.05)\Tas1945_mon\obj\Debug\Tas1945_mon.Tas1945_PixelChartForm.resources
+C:\8060Code_ChoNI\Tas1945_mon(v2.05)\Tas1945_mon\obj\Debug\Tas1945_mon.Properties.Resources.resources
+C:\8060Code_ChoNI\Tas1945_mon(v2.05)\Tas1945_mon\obj\Debug\Tas1945_mon.Tas1945_RegForm.resources
+C:\8060Code_ChoNI\Tas1945_mon(v2.05)\Tas1945_mon\obj\Debug\Tas1945_mon.Tas1945_Uc_RawImage.resources
+C:\8060Code_ChoNI\Tas1945_mon(v2.05)\Tas1945_mon\obj\Debug\Tas1945_mon.Tas1945_Uc_RawPixels.resources
+C:\8060Code_ChoNI\Tas1945_mon(v2.05)\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.GenerateResource.cache
+C:\8060Code_ChoNI\Tas1945_mon(v2.05)\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.CoreCompileInputs.cache
+C:\8060Code_ChoNI\Tas1945_mon(v2.05)\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.Fody.CopyLocal.cache
+C:\8060Code_ChoNI\Tas1945_mon(v2.05)\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.CopyComplete
+C:\8060Code_ChoNI\Tas1945_mon(v2.05)\Tas1945_mon\obj\Debug\Tas1945_mon.exe
+C:\8060Code_ChoNI\Tas1945_mon(v2.05)\Tas1945_mon\obj\Debug\Tas1945_mon.pdb
+C:\Users\USER\Documents\GitHub\TAS1945\Tas1945_mon\bin\Debug\Tas1945_mon.exe.config
+C:\Users\USER\Documents\GitHub\TAS1945\Tas1945_mon\bin\Debug\Tas1945_mon.exe
+C:\Users\USER\Documents\GitHub\TAS1945\Tas1945_mon\bin\Debug\Tas1945_mon.pdb
+C:\Users\USER\Documents\GitHub\TAS1945\Tas1945_mon\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+C:\Users\USER\Documents\GitHub\TAS1945\Tas1945_mon\bin\Debug\ZedGraph.xml
+C:\Users\USER\Documents\GitHub\TAS1945\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.AssemblyReference.cache
+C:\Users\USER\Documents\GitHub\TAS1945\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.SuggestedBindingRedirects.cache
+C:\Users\USER\Documents\GitHub\TAS1945\Tas1945_mon\obj\Debug\Tas1945_mon.MainForm.resources
+C:\Users\USER\Documents\GitHub\TAS1945\Tas1945_mon\obj\Debug\Tas1945_mon.Tas1945_PixelChartForm.resources
+C:\Users\USER\Documents\GitHub\TAS1945\Tas1945_mon\obj\Debug\Tas1945_mon.Properties.Resources.resources
+C:\Users\USER\Documents\GitHub\TAS1945\Tas1945_mon\obj\Debug\Tas1945_mon.Tas1945_RegForm.resources
+C:\Users\USER\Documents\GitHub\TAS1945\Tas1945_mon\obj\Debug\Tas1945_mon.Tas1945_Uc_RawImage.resources
+C:\Users\USER\Documents\GitHub\TAS1945\Tas1945_mon\obj\Debug\Tas1945_mon.Tas1945_Uc_RawPixels.resources
+C:\Users\USER\Documents\GitHub\TAS1945\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.GenerateResource.cache
+C:\Users\USER\Documents\GitHub\TAS1945\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.CoreCompileInputs.cache
+C:\Users\USER\Documents\GitHub\TAS1945\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.Fody.CopyLocal.cache
+C:\Users\USER\Documents\GitHub\TAS1945\Tas1945_mon\obj\Debug\Tas1945_mon.csproj.CopyComplete
+C:\Users\USER\Documents\GitHub\TAS1945\Tas1945_mon\obj\Debug\Tas1945_mon.exe
+C:\Users\USER\Documents\GitHub\TAS1945\Tas1945_mon\obj\Debug\Tas1945_mon.pdb
