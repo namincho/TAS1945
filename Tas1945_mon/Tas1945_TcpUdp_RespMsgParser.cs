@@ -429,12 +429,12 @@ namespace Tas1945_mon
 
 								// BookMark #1 : 수신된 Byte Data가 short와 float형으로 바뀌는 함수
 								Convert_PixelData (g_abyPixelData, g_iPixelLen, ref g_asPixelData);                 //	2 byte Pixel data 를 signed data 로 변환
-								/*
+								
 								if (monteCarlo_Method(ref g_asPixelData, 8) == false)
 								{
 									Algorithm_Flag = false;
 									break;
-								}*/
+								}
 
 								//if (data_status != 1) LOG("비상!!", Color.Red);
 								//data_status = 2;
@@ -530,6 +530,8 @@ namespace Tas1945_mon
 									{
 										// BookMark #8 : DPC 함수들 실행위치
 
+										//BicubicInterpolation(g_asPixelData, )
+
 										//DPC_Apply_NP1(ref g_asPixelData, g_asPixelData.Length);
 										//DPC_Apply_NP2(ref g_asPixelData, g_asPixelData.Length);
 										//DPC_Apply_NP1(ref g_asPixelData, g_asPixelData.Length);
@@ -543,12 +545,8 @@ namespace Tas1945_mon
 										//DPC_Apply_NNP_Edge1(ref g_asPixelData, g_asPixelData.Length);
 										//DPC_Apply_NNP_Edge2(ref g_asPixelData, g_asPixelData.Length);
 
-										DPC_Apply_NNP_Total1(ref g_asPixelData, g_asPixelData.Length);
-										DPC_Apply_NNP_Total2(ref g_asPixelData, g_asPixelData.Length);
-										DPC_Apply_NNP_Total1(ref g_asPixelData, g_asPixelData.Length);
-										DPC_Apply_NNP_Total2(ref g_asPixelData, g_asPixelData.Length);
-										DPC_Apply_NNP_Total1(ref g_asPixelData, g_asPixelData.Length);
-										DPC_Apply_NNP_Total2(ref g_asPixelData, g_asPixelData.Length);
+										//DPC_Apply_NNP_Total1(ref g_asPixelData, g_asPixelData.Length);
+										//DPC_Apply_NNP_Total2(ref g_asPixelData, g_asPixelData.Length);
 									}
 
 									// 조건없이 무조건 최근 데이터를 버퍼에 저장하는 함수
