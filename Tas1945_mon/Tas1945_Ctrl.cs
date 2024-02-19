@@ -3947,6 +3947,7 @@ namespace Tas1945_mon
 			LOG($"Bitmap Time: {stopwatch_Bitmap.ElapsedMilliseconds} ms", Color.Red);
 			//Console.WriteLine($"Data Processing Time: {stopwatch.ElapsedMilliseconds} ms");
 		}
+		/*
 		private void BicubicInterpolation(ref float[,] data, int outWidth, int outHeight)
 		{
 			if (outWidth < 1 || outHeight < 1)
@@ -4022,6 +4023,6 @@ namespace Tas1945_mon
 			});
 
 			return ;
-		}
+		}*/
 	}
 }

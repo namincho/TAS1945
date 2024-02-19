@@ -81,6 +81,7 @@ namespace Tas1945_mon
             this.rbSingleOdd = new System.Windows.Forms.RadioButton();
             this.btnGetPixelInfo = new System.Windows.Forms.Button();
             this.rgRegCtrl = new System.Windows.Forms.GroupBox();
+            this.cbReg24yearSetting = new System.Windows.Forms.CheckBox();
             this.cbReg127mode = new System.Windows.Forms.ComboBox();
             this.btnRegAllRead = new System.Windows.Forms.Button();
             this.btnTas1945RegCtrl = new System.Windows.Forms.Button();
@@ -91,13 +92,16 @@ namespace Tas1945_mon
             this.tbRegData = new System.Windows.Forms.TextBox();
             this.nudRegAddr = new System.Windows.Forms.NumericUpDown();
             this.gbTcpConnect = new System.Windows.Forms.GroupBox();
+            this.btnComClose = new System.Windows.Forms.Button();
+            this.btnComOpen = new System.Windows.Forms.Button();
+            this.btnPortSearch = new System.Windows.Forms.Button();
+            this.cbPort = new System.Windows.Forms.ComboBox();
             this.tgsNetMode = new JCS.ToggleSwitch();
             this.ipAddress = new IPAddressControlLib.IPAddressControl();
             this.nudTcpPort = new System.Windows.Forms.NumericUpDown();
             this.btnTcpConnect = new System.Windows.Forms.Button();
             this.rbClient = new System.Windows.Forms.RadioButton();
             this.rbServer = new System.Windows.Forms.RadioButton();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tpDeviceCtrl = new System.Windows.Forms.TabPage();
             this.gbIpSetup = new System.Windows.Forms.GroupBox();
@@ -239,7 +243,6 @@ namespace Tas1945_mon
             this.lbEven = new Bulb.LedBulb();
             this.lbOdd = new Bulb.LedBulb();
             this.panMain = new Tas1945_mon.DoubleBufferPanel();
-            this.cbReg24yearSetting = new System.Windows.Forms.CheckBox();
             this.tpTas1945Ctrl.SuspendLayout();
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudCsvSaveCnt)).BeginInit();
@@ -260,7 +263,6 @@ namespace Tas1945_mon
             ((System.ComponentModel.ISupportInitialize)(this.nudRegAddr)).BeginInit();
             this.gbTcpConnect.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudTcpPort)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tpDeviceCtrl.SuspendLayout();
             this.gbIpSetup.SuspendLayout();
@@ -296,7 +298,6 @@ namespace Tas1945_mon
             this.tpTas1945Ctrl.Controls.Add(this.gbSingleRead);
             this.tpTas1945Ctrl.Controls.Add(this.rgRegCtrl);
             this.tpTas1945Ctrl.Controls.Add(this.gbTcpConnect);
-            this.tpTas1945Ctrl.Controls.Add(this.pictureBox1);
             this.tpTas1945Ctrl.Location = new System.Drawing.Point(4, 27);
             this.tpTas1945Ctrl.Name = "tpTas1945Ctrl";
             this.tpTas1945Ctrl.Padding = new System.Windows.Forms.Padding(3);
@@ -997,6 +998,16 @@ namespace Tas1945_mon
             this.rgRegCtrl.TabStop = false;
             this.rgRegCtrl.Text = "REG Ctrl";
             // 
+            // cbReg24yearSetting
+            // 
+            this.cbReg24yearSetting.AutoSize = true;
+            this.cbReg24yearSetting.Location = new System.Drawing.Point(94, 132);
+            this.cbReg24yearSetting.Name = "cbReg24yearSetting";
+            this.cbReg24yearSetting.Size = new System.Drawing.Size(54, 22);
+            this.cbReg24yearSetting.TabIndex = 48;
+            this.cbReg24yearSetting.Text = "24\'";
+            this.cbReg24yearSetting.UseVisualStyleBackColor = true;
+            // 
             // cbReg127mode
             // 
             this.cbReg127mode.FormattingEnabled = true;
@@ -1101,6 +1112,10 @@ namespace Tas1945_mon
             // 
             // gbTcpConnect
             // 
+            this.gbTcpConnect.Controls.Add(this.btnComClose);
+            this.gbTcpConnect.Controls.Add(this.btnComOpen);
+            this.gbTcpConnect.Controls.Add(this.btnPortSearch);
+            this.gbTcpConnect.Controls.Add(this.cbPort);
             this.gbTcpConnect.Controls.Add(this.tgsNetMode);
             this.gbTcpConnect.Controls.Add(this.ipAddress);
             this.gbTcpConnect.Controls.Add(this.nudTcpPort);
@@ -1109,16 +1124,55 @@ namespace Tas1945_mon
             this.gbTcpConnect.Controls.Add(this.rbServer);
             this.gbTcpConnect.Location = new System.Drawing.Point(6, 6);
             this.gbTcpConnect.Name = "gbTcpConnect";
-            this.gbTcpConnect.Size = new System.Drawing.Size(177, 93);
+            this.gbTcpConnect.Size = new System.Drawing.Size(177, 157);
             this.gbTcpConnect.TabIndex = 38;
             this.gbTcpConnect.TabStop = false;
             this.gbTcpConnect.Text = "TCP IP / UDP";
+            // 
+            // btnComClose
+            // 
+            this.btnComClose.Location = new System.Drawing.Point(86, 123);
+            this.btnComClose.Name = "btnComClose";
+            this.btnComClose.Size = new System.Drawing.Size(77, 31);
+            this.btnComClose.TabIndex = 71;
+            this.btnComClose.Text = "Close";
+            this.btnComClose.UseVisualStyleBackColor = true;
+            this.btnComClose.Click += new System.EventHandler(this.btnComClose_Click);
+            // 
+            // btnComOpen
+            // 
+            this.btnComOpen.Location = new System.Drawing.Point(5, 123);
+            this.btnComOpen.Name = "btnComOpen";
+            this.btnComOpen.Size = new System.Drawing.Size(77, 31);
+            this.btnComOpen.TabIndex = 71;
+            this.btnComOpen.Text = "Open";
+            this.btnComOpen.UseVisualStyleBackColor = true;
+            this.btnComOpen.Click += new System.EventHandler(this.btnComOpen_Click);
+            // 
+            // btnPortSearch
+            // 
+            this.btnPortSearch.Font = new System.Drawing.Font("Consolas", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPortSearch.Location = new System.Drawing.Point(5, 91);
+            this.btnPortSearch.Name = "btnPortSearch";
+            this.btnPortSearch.Size = new System.Drawing.Size(67, 31);
+            this.btnPortSearch.TabIndex = 71;
+            this.btnPortSearch.Text = "COM";
+            this.btnPortSearch.UseVisualStyleBackColor = true;
+            this.btnPortSearch.Click += new System.EventHandler(this.btnPortSearch_Click);
+            // 
+            // cbPort
+            // 
+            this.cbPort.FormattingEnabled = true;
+            this.cbPort.Location = new System.Drawing.Point(78, 94);
+            this.cbPort.Name = "cbPort";
+            this.cbPort.Size = new System.Drawing.Size(93, 26);
+            this.cbPort.TabIndex = 70;
             // 
             // tgsNetMode
             // 
             this.tgsNetMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.tgsNetMode.BackColor = System.Drawing.SystemColors.Control;
-            this.tgsNetMode.Location = new System.Drawing.Point(119, 33);
+            this.tgsNetMode.Location = new System.Drawing.Point(119, 34);
             this.tgsNetMode.Name = "tgsNetMode";
             this.tgsNetMode.OffFont = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tgsNetMode.OffText = "UDP";
@@ -1199,15 +1253,6 @@ namespace Tas1945_mon
             this.rbServer.Text = "Server";
             this.rbServer.UseVisualStyleBackColor = true;
             this.rbServer.CheckedChanged += new System.EventHandler(this.rbServer_CheckedChanged);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::Tas1945_mon.Properties.Resources._크기변환_Tempus_Logo;
-            this.pictureBox1.Location = new System.Drawing.Point(4, 102);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(179, 67);
-            this.pictureBox1.TabIndex = 37;
-            this.pictureBox1.TabStop = false;
             // 
             // tabControl1
             // 
@@ -2842,16 +2887,6 @@ namespace Tas1945_mon
             this.panMain.Size = new System.Drawing.Size(693, 826);
             this.panMain.TabIndex = 20;
             // 
-            // cbReg24yearSetting
-            // 
-            this.cbReg24yearSetting.AutoSize = true;
-            this.cbReg24yearSetting.Location = new System.Drawing.Point(94, 132);
-            this.cbReg24yearSetting.Name = "cbReg24yearSetting";
-            this.cbReg24yearSetting.Size = new System.Drawing.Size(54, 22);
-            this.cbReg24yearSetting.TabIndex = 48;
-            this.cbReg24yearSetting.Text = "24\'";
-            this.cbReg24yearSetting.UseVisualStyleBackColor = true;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
@@ -2922,7 +2957,6 @@ namespace Tas1945_mon
             this.gbTcpConnect.ResumeLayout(false);
             this.gbTcpConnect.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudTcpPort)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tpDeviceCtrl.ResumeLayout(false);
             this.gbIpSetup.ResumeLayout(false);
@@ -2970,7 +3004,6 @@ namespace Tas1945_mon
 		public System.Windows.Forms.Button btnTcpConnect;
 		public System.Windows.Forms.RadioButton rbClient;
 		public System.Windows.Forms.RadioButton rbServer;
-		private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.TabControl tabControl1;
 		private System.Windows.Forms.ToolStripStatusLabel tssConnectStatus;
 		private System.Windows.Forms.RichTextBox rtbLog;
@@ -3166,6 +3199,10 @@ namespace Tas1945_mon
         private System.Windows.Forms.TextBox tbReg127_Set2;
         private System.Windows.Forms.ComboBox cbReg127mode;
         public System.Windows.Forms.CheckBox cbReg24yearSetting;
+        private System.Windows.Forms.Button btnComClose;
+        private System.Windows.Forms.Button btnComOpen;
+        private System.Windows.Forms.Button btnPortSearch;
+        private System.Windows.Forms.ComboBox cbPort;
     }
 }
 

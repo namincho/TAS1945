@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.IO.Ports;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -32,6 +33,14 @@ namespace Tas1945_mon
 		public UDPSocket g_clsUDPClient;
 
 		public Thread g_thrImage;
+
+		/* SERIAL SETTING --------------------------------------------------------*/
+		public SerialPort serial = new SerialPort();       // Set Serial Port
+		private const int BAURATE = 115200;                   // Set Baurate
+		private const int DATABITS = 8;                     // Set BataBits
+		private const StopBits STOPBITS = (StopBits)1;      // Set StopBits
+		private const Parity PARITY = (Parity)0;            // Set Parity
+		private Mutex mutex = new Mutex();
 
 		//private const string dialogInitPath    = "c:\\";
 		public string dialogInitPath = "c:\\Cal_buf_Info\\";
@@ -2188,6 +2197,81 @@ namespace Tas1945_mon
 			else
 			{
 				Tas1945_RegisterWrite(127, 0x00);
+			}
+		}
+
+        private void btnPortSearch_Click(object sender, EventArgs e)
+        {
+			cbPort.DataSource = SerialPort.GetPortNames();
+			
+			// SerialPort.GetPortNames()로 검색된 모든 포트 가져오기
+			string[] portNames = SerialPort.GetPortNames();
+
+			// 각 포트를 로그로 출력
+			foreach (string portName in portNames)
+			{
+				LOG("Found Port: " + portName, Color.Blue);
+			}
+		}
+
+		private void btnComOpen_Click(object sender, EventArgs e)
+		{
+			if (cbPort.Text == "") return;
+			if (!serial.IsOpen)
+			{
+				/* SERIAL OPEN BEGIN */
+				serial.PortName = cbPort.Text;          // Port Name
+				serial.BaudRate = BAURATE;              // Baud Rate
+				serial.DataBits = DATABITS;             // Data Bits
+				serial.StopBits = STOPBITS;             // Stop Bits
+				serial.Parity = PARITY;                 // Parity
+				serial.DataReceived += new SerialDataReceivedEventHandler(Receive_USB); // Event Handler
+				serial.Open();                          // Serial Open
+
+				btnPortSearch.Enabled = false;
+				cbPort.Enabled = false;
+
+				TcpIpButtonEnable(true);
+
+				/* SERIAL OPEN END */
+				LOG("Port Open : " + cbPort.Text, Color.Blue);
+			}
+			else
+			{
+				LOG("Port Already Open", Color.Red);
+			}
+		}
+		private void Receive_USB(object sender, SerialDataReceivedEventArgs e)
+		{
+			// 이벤트 핸들러에서 호출할 메서드
+			if (serial.IsOpen)
+			{
+				int bytesToRead = serial.BytesToRead;
+				byte[] buffer = new byte[bytesToRead];
+				serial.Read(buffer, 0, bytesToRead);
+
+				// 데이터를 받으면 Tas1945_RespParser 호출
+				Tas1945_RespParser(buffer, bytesToRead);
+			}
+		}
+
+		private void btnComClose_Click(object sender, EventArgs e)
+        {
+			if (serial.IsOpen)
+			{
+				serial.Close();
+
+				btnPortSearch.Enabled = true;
+				cbPort.Enabled = true;
+
+				LOG("Port Close" , Color.Blue);
+			}
+			else
+			{
+				btnPortSearch.Enabled = true;
+				cbPort.Enabled = true;
+
+				LOG("Port Already Close", Color.Red);
 			}
 		}
     }
