@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FTD2XX_NET;
 
 namespace Tas1945_mon
 {
@@ -108,6 +109,34 @@ namespace Tas1945_mon
             catch (Exception ex)
             {
                 Debug.Print(ex.Message);
+            }
+        }
+
+        void print_ftStatus(FTDI.FT_STATUS status)
+        {
+            switch (status)
+            {
+                case FTDI.FT_STATUS.FT_OK: LOG("FT_OK\r\n"); break;
+                case FTDI.FT_STATUS.FT_INVALID_HANDLE: LOG("FT_INVALID_HANDLE\r\n"); break;
+                case FTDI.FT_STATUS.FT_DEVICE_NOT_FOUND: LOG("FT_DEVICE_NOT_FOUND\r\n"); break;
+                case FTDI.FT_STATUS.FT_DEVICE_NOT_OPENED: LOG("FT_DEVICE_NOT_OPENED\r\n"); break;
+                case FTDI.FT_STATUS.FT_IO_ERROR: LOG("FT_IO_ERROR\r\n"); break;
+                case FTDI.FT_STATUS.FT_INSUFFICIENT_RESOURCES: LOG("FT_INSUFFICIENT_RESOURCES\r\n"); break;
+                case FTDI.FT_STATUS.FT_INVALID_PARAMETER: LOG("FT_INVALID_PARAMETER\r\n"); break;
+                case FTDI.FT_STATUS.FT_INVALID_BAUD_RATE: LOG("FT_INVALID_BAUD_RATE\r\n"); break;
+                case FTDI.FT_STATUS.FT_DEVICE_NOT_OPENED_FOR_ERASE: LOG("FT_DEVICE_NOT_OPENED_FOR_ERASE\r\n"); break;
+                case FTDI.FT_STATUS.FT_DEVICE_NOT_OPENED_FOR_WRITE: LOG("FT_DEVICE_NOT_OPENED_FOR_WRITE\r\n"); break;
+                case FTDI.FT_STATUS.FT_FAILED_TO_WRITE_DEVICE: LOG("FT_FAILED_TO_WRITE_DEVICE\r\n"); break;
+                case FTDI.FT_STATUS.FT_EEPROM_READ_FAILED: LOG("FT_EEPROM_READ_FAILED\r\n"); break;
+                case FTDI.FT_STATUS.FT_EEPROM_WRITE_FAILED: LOG("FT_EEPROM_WRITE_FAILED\r\n"); break;
+                case FTDI.FT_STATUS.FT_EEPROM_ERASE_FAILED: LOG("FT_EEPROM_ERASE_FAILED\r\n"); break;
+                case FTDI.FT_STATUS.FT_EEPROM_NOT_PRESENT: LOG("FT_EEPROM_NOT_PRESENT\r\n"); break;
+                case FTDI.FT_STATUS.FT_EEPROM_NOT_PROGRAMMED: LOG("FT_EEPROM_NOT_PROGRAMMED\r\n"); break;
+                case FTDI.FT_STATUS.FT_INVALID_ARGS: LOG("FT_INVALID_ARGS\r\n"); break;
+                //case FTDI.FT_STATUS.FT_NOT_SUPPORTED: LOG("FT_NOT_SUPPORTED\r\n"); break;
+                case FTDI.FT_STATUS.FT_OTHER_ERROR: LOG("FT_OTHER_ERROR\r\n"); break;
+                //case FTDI.FT_STATUS.FT_DEVICE_LIST_NOT_READY: LOG("FT_DEVICE_LIST_NOT_READY\r\n"); break;
+                default: LOG("FT_UNKNOWN\r\n"); break;
             }
         }
     }

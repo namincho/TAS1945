@@ -48,6 +48,9 @@
     <Reference Include="DirectShowLib-2005">
       <HintPath>..\..\..\..\..\104. Lib\DirectShowLibV2-1\lib\DirectShowLib-2005.dll</HintPath>
     </Reference>
+    <Reference Include="FTDI2XX, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FTD2XX.Net.1.2.1\lib\net45\FTDI2XX.dll</HintPath>
+    </Reference>
     <Reference Include="IPAddressControlLib, Version=1.2.4446.28646, Culture=neutral, PublicKeyToken=64ca5a4287aa7107, processorArchitecture=MSIL">
       <HintPath>..\packages\IPAddressControl.1.2.4446.28646\lib\IPAddressControlLib.dll</HintPath>
     </Reference>
@@ -205,9 +208,19 @@
     <Compile Include="Filter.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="FT_SPI\FtChannelConfig.cs" />
+    <Compile Include="FT_SPI\FtConfigOptions.cs" />
+    <Compile Include="FT_SPI\FtDeviceInfo.cs" />
+    <Compile Include="FT_SPI\FtResult.cs" />
+    <Compile Include="FT_SPI\FtSpiTransferOptions.cs" />
     <Compile Include="LedBulb.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="FT_SPI\LibMpsse.cs" />
+    <Compile Include="FT_SPI\LibMpsseSPI.cs" />
+    <Compile Include="FT_SPI\SpiChannelNotConnectedException.cs" />
+    <Compile Include="FT_SPI\SpiConfiguration.cs" />
+    <Compile Include="FT_SPI\SpiDevice.cs" />
     <Compile Include="Tas1945_BWPixel.cs" />
     <Compile Include="CClientSocket.cs" />
     <Compile Include="Tas1945_PixelChartForm.cs">
@@ -329,8 +342,12 @@
     <None Include="Resources\icons8-폴더-열기-16.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="FTDI2XX.xml" />
     <Content Include="hnet.com-image.ico" />
     <Content Include="License-LGPL.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.6.6.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.6.0\build\Fody.targets')" />

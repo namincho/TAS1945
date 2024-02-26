@@ -12,6 +12,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FTD2XX_NET;
+using libMPSSEWrapper.Types;
 
 namespace Tas1945_mon
 {
@@ -33,8 +35,8 @@ namespace Tas1945_mon
 		public UDPSocket g_clsUDPClient;
 
 		public Thread g_thrImage;
-
-		/* SERIAL SETTING --------------------------------------------------------*/
+		
+		// SERIAL SETTING --------------------------------------------------------
 		public SerialPort serial = new SerialPort();       // Set Serial Port
 		private const int BAURATE = 115200;                   // Set Baurate
 		private const int DATABITS = 8;                     // Set BataBits
@@ -72,6 +74,8 @@ namespace Tas1945_mon
 //		public double g_dbMinScale = 32400;
 
 		decimal g_decPreClockValue;
+
+		public string Ret_Log_String = "";
 
 		/// <summary>
 		/// 
@@ -2217,29 +2221,55 @@ namespace Tas1945_mon
 		private void btnComOpen_Click(object sender, EventArgs e)
 		{
 			if (cbPort.Text == "") return;
-			if (!serial.IsOpen)
-			{
-				/* SERIAL OPEN BEGIN */
-				serial.PortName = cbPort.Text;          // Port Name
-				serial.BaudRate = BAURATE;              // Baud Rate
-				serial.DataBits = DATABITS;             // Data Bits
-				serial.StopBits = STOPBITS;             // Stop Bits
-				serial.Parity = PARITY;                 // Parity
-				serial.DataReceived += new SerialDataReceivedEventHandler(Receive_USB); // Event Handler
-				serial.Open();                          // Serial Open
 
-				btnPortSearch.Enabled = false;
-				cbPort.Enabled = false;
+			FTDI.FT_STATUS ftStaus = FTDI.FT_STATUS.FT_OK;
+			FT_DEVICE_LIST_INFO_NODE ftDevList = default;
+			FtChannelConfig ftChannelConfig = default;
+			uint address = 0;
+			ushort data = 0;
+			uint i = 0;
+			byte latency = 2;
+			int numChannels = 0;
 
-				TcpIpButtonEnable(true);
+			ftChannelConfig.ClockRate = 5000000;
+			ftChannelConfig.LatencyTimer = latency;
+			ftChannelConfig.configOptions = FtConfigOptions.Mode0 | FtConfigOptions.CsDbus3 | FtConfigOptions.CsActivelow;
+			ftChannelConfig.Pin = 0x00000000;
 
-				/* SERIAL OPEN END */
-				LOG("Port Open : " + cbPort.Text, Color.Blue);
-			}
-			else
-			{
-				LOG("Port Already Open", Color.Red);
-			}
+			LibMpsse.Init();
+
+			LibMpsseSpi.SPI_GetNumChannels(out numChannels);
+			print_ftStatus(ftStaus);
+			Ret_Log_String = "channel num : " + numChannels.ToString() + "\r\n";
+			LOG(Ret_Log_String);
+
+
+
+
+			// UART 통신 준비하는 코드
+			//if (!serial.IsOpen)
+			//{
+			//    /* SERIAL OPEN BEGIN */
+			//    serial.PortName = cbPort.Text;          // Port Name
+			//    serial.BaudRate = BAURATE;              // Baud Rate
+			//    serial.DataBits = DATABITS;             // Data Bits
+			//    serial.StopBits = STOPBITS;             // Stop Bits
+			//    serial.Parity = PARITY;                 // Parity
+			//    serial.DataReceived += new SerialDataReceivedEventHandler(Receive_USB); // Event Handler
+			//    serial.Open();                          // Serial Open
+
+			//    btnPortSearch.Enabled = false;
+			//    cbPort.Enabled = false;
+
+			//	TcpIpButtonEnable(true);
+
+			//	/* SERIAL OPEN END */
+			//	LOG("Port Open : " + cbPort.Text, Color.Blue);
+			//}
+			//else
+			//{
+			//	LOG("Port Already Open", Color.Red);
+			//}
 		}
 		private void Receive_USB(object sender, SerialDataReceivedEventArgs e)
 		{
