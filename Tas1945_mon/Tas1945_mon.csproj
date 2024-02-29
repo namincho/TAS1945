@@ -344,6 +344,7 @@
   <ItemGroup>
     <Content Include="FTDI2XX.xml" />
     <Content Include="hnet.com-image.ico" />
+    <Content Include="libmpsse.dll" />
     <Content Include="License-LGPL.txt" />
   </ItemGroup>
   <ItemGroup>

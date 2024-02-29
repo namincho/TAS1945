@@ -2220,7 +2220,7 @@ namespace Tas1945_mon
 
 		private void btnComOpen_Click(object sender, EventArgs e)
 		{
-			if (cbPort.Text == "") return;
+			//if (cbPort.Text == "") return;
 
 			FTDI.FT_STATUS ftStaus = FTDI.FT_STATUS.FT_OK;
 			FT_DEVICE_LIST_INFO_NODE ftDevList = default;
