@@ -75,7 +75,28 @@ namespace Tas1945_mon
 
 		decimal g_decPreClockValue;
 
+		// FTDI 관련 정의들
 		public string Ret_Log_String = "";
+		public const int SPI_DEVICE_BUFFER_SIZE = 256;
+		public const int SPI_WRITE_COMPLETION_RETRY = 10;
+		public const int CHANNEL_TO_OPEN = 0;
+		public const int START_ADDRESS_EEPROM = 0x00;
+		public const int END_ADDRESS_EEPROM = 0x10;
+		public const int RETRY_COUNT_EEPROM = 10;
+		public const int SPI_SLAVE_0 = 0;
+		public const int SPI_SLAVE_1 = 1;
+		public const int SPI_SLAVE_2 = 2;
+		public const int DATA_OFFSET = 3;
+
+		uint channels;
+		IntPtr FT_HANDLE = IntPtr.Zero;
+		FT_HANDLE ftHandle;
+
+
+		ChannelConfig channelConf;
+		uint8_t buffer[SPI_DEVICE_BUFFER_SIZE];
+
+
 
 		/// <summary>
 		/// 
@@ -2227,7 +2248,7 @@ namespace Tas1945_mon
 			FtChannelConfig ftChannelConfig = default;
 			uint address = 0;
 			ushort data = 0;
-			uint i = 0;
+			//uint i = 0;
 			byte latency = 2;
 			int numChannels = 0;
 
@@ -2243,7 +2264,23 @@ namespace Tas1945_mon
 			Ret_Log_String = "channel num : " + numChannels.ToString() + "\r\n";
 			LOG(Ret_Log_String);
 
+			if (numChannels > 0)
+            {
+				for (int i = 0; i < numChannels; i++)
+                {
+					LibMpsseSpi.SPI_GetChannelInfo(numChannels, out ftDevList);
+					print_ftStatus(ftStaus);
 
+					Ret_Log_String = "Flag : " + ftDevList.Flags.ToString() + ", Type : " + ftDevList.Type.ToString()
+						+ ", ID : " + ftDevList.ID.ToString() + ", LocId : " + ftDevList.LocId.ToString()
+						+ ", serial_num : " + ftDevList.SerialNumber.ToString() + ", description : " + ftDevList.Description.ToString()
+						+ ", handle : " + ftDevList.ftHandle.ToString() + "\r\n";
+
+					LOG(Ret_Log_String);
+
+					ftStaus = LibMpsseSpi.SPI_OpenChannel(CHANNEL_TO_OPEN, &ftHandle);
+				}
+			}
 
 
 			// UART 통신 준비하는 코드

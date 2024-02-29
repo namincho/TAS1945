@@ -29,9 +29,10 @@ namespace Tas1945_mon
         }
 
         [DllImport(DllName, SetLastError = true, CallingConvention = CallingConvention.Cdecl)]
-        private extern static void Init_libMPSSE();
+        //[DllImport(DllName, SetLastError = true, EntryPoint = "Init_libMPSSE")]
+        public extern static void Init_libMPSSE();
 
         [DllImport(DllName, SetLastError = true, CallingConvention = CallingConvention.Cdecl)]
-        private extern static void Cleanup_libMPSSE();
+        public extern static void Cleanup_libMPSSE();
     }
 }
