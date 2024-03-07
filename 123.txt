@@ -1,0 +1,1094 @@
+commit 93922f036040313337c453fcab2e3ccf18d06092
+Merge: 6034fd9 d2ea61e
+Author: DESKTOP-TPS8060PC <scvnscv@naver.com>
+Date:   Thu Mar 7 18:07:38 2024 +0900
+
+    On main: !!GitHub_Desktop<develop>
+
+diff --cc .vs/Tas1945_mon/v17/.suo
+index 8ebdeb1,8ebdeb1..1d6ebe9
+Binary files differ
+diff --cc .vs/Tas1945_mon/v17/Browse.VC.db
+index 91f4662,91f4662..5faf1a3
+Binary files differ
+diff --cc Tas1945_mon/Log.cs
+index 3683502,3683502..f65dda0
+--- a/Tas1945_mon/Log.cs
++++ b/Tas1945_mon/Log.cs
+@@@ -116,27 -116,27 +116,27 @@@ namespace Tas1945_mo
+          {
+              switch (status)
+              {
+--                case FTDI.FT_STATUS.FT_OK: LOG("FT_OK\r\n"); break;
+--                case FTDI.FT_STATUS.FT_INVALID_HANDLE: LOG("FT_INVALID_HANDLE\r\n"); break;
+--                case FTDI.FT_STATUS.FT_DEVICE_NOT_FOUND: LOG("FT_DEVICE_NOT_FOUND\r\n"); break;
+--                case FTDI.FT_STATUS.FT_DEVICE_NOT_OPENED: LOG("FT_DEVICE_NOT_OPENED\r\n"); break;
+--                case FTDI.FT_STATUS.FT_IO_ERROR: LOG("FT_IO_ERROR\r\n"); break;
+--                case FTDI.FT_STATUS.FT_INSUFFICIENT_RESOURCES: LOG("FT_INSUFFICIENT_RESOURCES\r\n"); break;
+--                case FTDI.FT_STATUS.FT_INVALID_PARAMETER: LOG("FT_INVALID_PARAMETER\r\n"); break;
+--                case FTDI.FT_STATUS.FT_INVALID_BAUD_RATE: LOG("FT_INVALID_BAUD_RATE\r\n"); break;
+--                case FTDI.FT_STATUS.FT_DEVICE_NOT_OPENED_FOR_ERASE: LOG("FT_DEVICE_NOT_OPENED_FOR_ERASE\r\n"); break;
+--                case FTDI.FT_STATUS.FT_DEVICE_NOT_OPENED_FOR_WRITE: LOG("FT_DEVICE_NOT_OPENED_FOR_WRITE\r\n"); break;
+--                case FTDI.FT_STATUS.FT_FAILED_TO_WRITE_DEVICE: LOG("FT_FAILED_TO_WRITE_DEVICE\r\n"); break;
+--                case FTDI.FT_STATUS.FT_EEPROM_READ_FAILED: LOG("FT_EEPROM_READ_FAILED\r\n"); break;
+--                case FTDI.FT_STATUS.FT_EEPROM_WRITE_FAILED: LOG("FT_EEPROM_WRITE_FAILED\r\n"); break;
+--                case FTDI.FT_STATUS.FT_EEPROM_ERASE_FAILED: LOG("FT_EEPROM_ERASE_FAILED\r\n"); break;
+--                case FTDI.FT_STATUS.FT_EEPROM_NOT_PRESENT: LOG("FT_EEPROM_NOT_PRESENT\r\n"); break;
+--                case FTDI.FT_STATUS.FT_EEPROM_NOT_PROGRAMMED: LOG("FT_EEPROM_NOT_PROGRAMMED\r\n"); break;
+--                case FTDI.FT_STATUS.FT_INVALID_ARGS: LOG("FT_INVALID_ARGS\r\n"); break;
+--                //case FTDI.FT_STATUS.FT_NOT_SUPPORTED: LOG("FT_NOT_SUPPORTED\r\n"); break;
+--                case FTDI.FT_STATUS.FT_OTHER_ERROR: LOG("FT_OTHER_ERROR\r\n"); break;
+--                //case FTDI.FT_STATUS.FT_DEVICE_LIST_NOT_READY: LOG("FT_DEVICE_LIST_NOT_READY\r\n"); break;
+--                default: LOG("FT_UNKNOWN\r\n"); break;
+++                case FTDI.FT_STATUS.FT_OK: LOG("FT_OK"); break;
+++                case FTDI.FT_STATUS.FT_INVALID_HANDLE: LOG("FT_INVALID_HANDLE"); break;
+++                case FTDI.FT_STATUS.FT_DEVICE_NOT_FOUND: LOG("FT_DEVICE_NOT_FOUND"); break;
+++                case FTDI.FT_STATUS.FT_DEVICE_NOT_OPENED: LOG("FT_DEVICE_NOT_OPENED"); break;
+++                case FTDI.FT_STATUS.FT_IO_ERROR: LOG("FT_IO_ERROR"); break;
+++                case FTDI.FT_STATUS.FT_INSUFFICIENT_RESOURCES: LOG("FT_INSUFFICIENT_RESOURCES"); break;
+++                case FTDI.FT_STATUS.FT_INVALID_PARAMETER: LOG("FT_INVALID_PARAMETER"); break;
+++                case FTDI.FT_STATUS.FT_INVALID_BAUD_RATE: LOG("FT_INVALID_BAUD_RATE"); break;
+++                case FTDI.FT_STATUS.FT_DEVICE_NOT_OPENED_FOR_ERASE: LOG("FT_DEVICE_NOT_OPENED_FOR_ERASE"); break;
+++                case FTDI.FT_STATUS.FT_DEVICE_NOT_OPENED_FOR_WRITE: LOG("FT_DEVICE_NOT_OPENED_FOR_WRITE"); break;
+++                case FTDI.FT_STATUS.FT_FAILED_TO_WRITE_DEVICE: LOG("FT_FAILED_TO_WRITE_DEVICE"); break;
+++                case FTDI.FT_STATUS.FT_EEPROM_READ_FAILED: LOG("FT_EEPROM_READ_FAILED"); break;
+++                case FTDI.FT_STATUS.FT_EEPROM_WRITE_FAILED: LOG("FT_EEPROM_WRITE_FAILED"); break;
+++                case FTDI.FT_STATUS.FT_EEPROM_ERASE_FAILED: LOG("FT_EEPROM_ERASE_FAILED"); break;
+++                case FTDI.FT_STATUS.FT_EEPROM_NOT_PRESENT: LOG("FT_EEPROM_NOT_PRESENT"); break;
+++                case FTDI.FT_STATUS.FT_EEPROM_NOT_PROGRAMMED: LOG("FT_EEPROM_NOT_PROGRAMMED"); break;
+++                case FTDI.FT_STATUS.FT_INVALID_ARGS: LOG("FT_INVALID_ARGS"); break;
+++                //case FTDI.FT_STATUS.FT_NOT_SUPPORTED: LOG("FT_NOT_SUPPORTED"); break;
+++                case FTDI.FT_STATUS.FT_OTHER_ERROR: LOG("FT_OTHER_ERROR"); break;
+++                //case FTDI.FT_STATUS.FT_DEVICE_LIST_NOT_READY: LOG("FT_DEVICE_LIST_NOT_READY"); break;
+++                default: LOG("FT_UNKNOWN"); break;
+              }
+          }
+      }
+diff --cc Tas1945_mon/MainForm.Designer.cs
+index da3fc05,da3fc05..df09edb
+--- a/Tas1945_mon/MainForm.Designer.cs
++++ b/Tas1945_mon/MainForm.Designer.cs
+@@@ -92,10 -92,10 +92,7 @@@ namespace Tas1945_mo
+              this.tbRegData = new System.Windows.Forms.TextBox();
+              this.nudRegAddr = new System.Windows.Forms.NumericUpDown();
+              this.gbTcpConnect = new System.Windows.Forms.GroupBox();
+--            this.btnComClose = new System.Windows.Forms.Button();
+--            this.btnComOpen = new System.Windows.Forms.Button();
+--            this.btnPortSearch = new System.Windows.Forms.Button();
+--            this.cbPort = new System.Windows.Forms.ComboBox();
+++            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+              this.tgsNetMode = new JCS.ToggleSwitch();
+              this.ipAddress = new IPAddressControlLib.IPAddressControl();
+              this.nudTcpPort = new System.Windows.Forms.NumericUpDown();
+@@@ -213,6 -213,6 +210,12 @@@
+              this.label32 = new System.Windows.Forms.Label();
+              this.label31 = new System.Windows.Forms.Label();
+              this.label29 = new System.Windows.Forms.Label();
+++            this.tpFTDI = new System.Windows.Forms.TabPage();
+++            this.btnFTDIoffset = new System.Windows.Forms.Button();
+++            this.button1 = new System.Windows.Forms.Button();
+++            this.btnFTDIOpen = new System.Windows.Forms.Button();
+++            this.btnFTDIRead = new System.Windows.Forms.Button();
+++            this.btnFTDIRegSet = new System.Windows.Forms.Button();
+              this.ssMainStrip = new System.Windows.Forms.StatusStrip();
+              this.tssConnectStatus = new System.Windows.Forms.ToolStripStatusLabel();
+              this.rtbLog = new System.Windows.Forms.RichTextBox();
+@@@ -243,6 -243,6 +246,8 @@@
+              this.lbEven = new Bulb.LedBulb();
+              this.lbOdd = new Bulb.LedBulb();
+              this.panMain = new Tas1945_mon.DoubleBufferPanel();
+++            this.tmSisoRD = new System.Windows.Forms.Timer(this.components);
+++            this.cbFTDILog = new System.Windows.Forms.CheckBox();
+              this.tpTas1945Ctrl.SuspendLayout();
+              this.groupBox5.SuspendLayout();
+              ((System.ComponentModel.ISupportInitialize)(this.nudCsvSaveCnt)).BeginInit();
+@@@ -262,6 -262,6 +267,7 @@@
+              this.rgRegCtrl.SuspendLayout();
+              ((System.ComponentModel.ISupportInitialize)(this.nudRegAddr)).BeginInit();
+              this.gbTcpConnect.SuspendLayout();
+++            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+              ((System.ComponentModel.ISupportInitialize)(this.nudTcpPort)).BeginInit();
+              this.tabControl1.SuspendLayout();
+              this.tpDeviceCtrl.SuspendLayout();
+@@@ -284,6 -284,6 +290,7 @@@
+              ((System.ComponentModel.ISupportInitialize)(this.nudTestReg_213)).BeginInit();
+              ((System.ComponentModel.ISupportInitialize)(this.nudTestReg_154)).BeginInit();
+              ((System.ComponentModel.ISupportInitialize)(this.nudTestReg_127)).BeginInit();
+++            this.tpFTDI.SuspendLayout();
+              this.ssMainStrip.SuspendLayout();
+              ((System.ComponentModel.ISupportInitialize)(this.nudPixelSpace)).BeginInit();
+              this.SuspendLayout();
+@@@ -1112,10 -1112,10 +1119,7 @@@
+              // 
+              // gbTcpConnect
+              // 
+--            this.gbTcpConnect.Controls.Add(this.btnComClose);
+--            this.gbTcpConnect.Controls.Add(this.btnComOpen);
+--            this.gbTcpConnect.Controls.Add(this.btnPortSearch);
+--            this.gbTcpConnect.Controls.Add(this.cbPort);
+++            this.gbTcpConnect.Controls.Add(this.pictureBox1);
+              this.gbTcpConnect.Controls.Add(this.tgsNetMode);
+              this.gbTcpConnect.Controls.Add(this.ipAddress);
+              this.gbTcpConnect.Controls.Add(this.nudTcpPort);
+@@@ -1129,44 -1129,44 +1133,14 @@@
+              this.gbTcpConnect.TabStop = false;
+              this.gbTcpConnect.Text = "TCP IP / UDP";
+              // 
+--            // btnComClose
+--            // 
+--            this.btnComClose.Location = new System.Drawing.Point(86, 123);
+--            this.btnComClose.Name = "btnComClose";
+--            this.btnComClose.Size = new System.Drawing.Size(77, 31);
+--            this.btnComClose.TabIndex = 71;
+--            this.btnComClose.Text = "Close";
+--            this.btnComClose.UseVisualStyleBackColor = true;
+--            this.btnComClose.Click += new System.EventHandler(this.btnComClose_Click);
+--            // 
+--            // btnComOpen
+--            // 
+--            this.btnComOpen.Location = new System.Drawing.Point(5, 123);
+--            this.btnComOpen.Name = "btnComOpen";
+--            this.btnComOpen.Size = new System.Drawing.Size(77, 31);
+--            this.btnComOpen.TabIndex = 71;
+--            this.btnComOpen.Text = "Open";
+--            this.btnComOpen.UseVisualStyleBackColor = true;
+--            this.btnComOpen.Click += new System.EventHandler(this.btnComOpen_Click);
+--            // 
+--            // btnPortSearch
+--            // 
+--            this.btnPortSearch.Font = new System.Drawing.Font("Consolas", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+--            this.btnPortSearch.Location = new System.Drawing.Point(5, 91);
+--            this.btnPortSearch.Name = "btnPortSearch";
+--            this.btnPortSearch.Size = new System.Drawing.Size(67, 31);
+--            this.btnPortSearch.TabIndex = 71;
+--            this.btnPortSearch.Text = "COM";
+--            this.btnPortSearch.UseVisualStyleBackColor = true;
+--            this.btnPortSearch.Click += new System.EventHandler(this.btnPortSearch_Click);
+--            // 
+--            // cbPort
+--            // 
+--            this.cbPort.FormattingEnabled = true;
+--            this.cbPort.Location = new System.Drawing.Point(78, 94);
+--            this.cbPort.Name = "cbPort";
+--            this.cbPort.Size = new System.Drawing.Size(93, 26);
+--            this.cbPort.TabIndex = 70;
+++            // pictureBox1
+++            // 
+++            this.pictureBox1.Image = global::Tas1945_mon.Properties.Resources._크기변환_Tempus_Logo;
+++            this.pictureBox1.Location = new System.Drawing.Point(5, 94);
+++            this.pictureBox1.Name = "pictureBox1";
+++            this.pictureBox1.Size = new System.Drawing.Size(166, 63);
+++            this.pictureBox1.TabIndex = 70;
+++            this.pictureBox1.TabStop = false;
+              // 
+              // tgsNetMode
+              // 
+@@@ -1263,6 -1263,6 +1237,7 @@@
+              this.tabControl1.Controls.Add(this.tpFilter);
+              this.tabControl1.Controls.Add(this.tpImageCal);
+              this.tabControl1.Controls.Add(this.tpRegTest);
+++            this.tabControl1.Controls.Add(this.tpFTDI);
+              this.tabControl1.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
+              this.tabControl1.Location = new System.Drawing.Point(6, 831);
+              this.tabControl1.Name = "tabControl1";
+@@@ -2560,6 -2560,6 +2535,72 @@@
+              this.label29.TabIndex = 0;
+              this.label29.Text = "Addr.";
+              // 
+++            // tpFTDI
+++            // 
+++            this.tpFTDI.Controls.Add(this.cbFTDILog);
+++            this.tpFTDI.Controls.Add(this.btnFTDIoffset);
+++            this.tpFTDI.Controls.Add(this.button1);
+++            this.tpFTDI.Controls.Add(this.btnFTDIOpen);
+++            this.tpFTDI.Controls.Add(this.btnFTDIRead);
+++            this.tpFTDI.Controls.Add(this.btnFTDIRegSet);
+++            this.tpFTDI.Location = new System.Drawing.Point(4, 27);
+++            this.tpFTDI.Name = "tpFTDI";
+++            this.tpFTDI.Padding = new System.Windows.Forms.Padding(3);
+++            this.tpFTDI.Size = new System.Drawing.Size(1370, 168);
+++            this.tpFTDI.TabIndex = 5;
+++            this.tpFTDI.Text = "tabPage1";
+++            this.tpFTDI.UseVisualStyleBackColor = true;
+++            // 
+++            // btnFTDIoffset
+++            // 
+++            this.btnFTDIoffset.Location = new System.Drawing.Point(299, 67);
+++            this.btnFTDIoffset.Name = "btnFTDIoffset";
+++            this.btnFTDIoffset.Size = new System.Drawing.Size(121, 34);
+++            this.btnFTDIoffset.TabIndex = 3;
+++            this.btnFTDIoffset.Text = "Offset";
+++            this.btnFTDIoffset.UseVisualStyleBackColor = true;
+++            this.btnFTDIoffset.Click += new System.EventHandler(this.btnFTDIoffset_Click);
+++            // 
+++            // button1
+++            // 
+++            this.button1.Location = new System.Drawing.Point(301, 25);
+++            this.button1.Name = "button1";
+++            this.button1.Size = new System.Drawing.Size(121, 34);
+++            this.button1.TabIndex = 2;
+++            this.button1.Text = "FTDI Open";
+++            this.button1.UseVisualStyleBackColor = true;
+++            this.button1.Click += new System.EventHandler(this.btnComOpen_Click);
+++            // 
+++            // btnFTDIOpen
+++            // 
+++            this.btnFTDIOpen.Location = new System.Drawing.Point(1131, 23);
+++            this.btnFTDIOpen.Name = "btnFTDIOpen";
+++            this.btnFTDIOpen.Size = new System.Drawing.Size(121, 34);
+++            this.btnFTDIOpen.TabIndex = 1;
+++            this.btnFTDIOpen.Text = "FTDI Open";
+++            this.btnFTDIOpen.UseVisualStyleBackColor = true;
+++            this.btnFTDIOpen.Click += new System.EventHandler(this.btnFTDIOpen_Click);
+++            // 
+++            // btnFTDIRead
+++            // 
+++            this.btnFTDIRead.Location = new System.Drawing.Point(1125, 113);
+++            this.btnFTDIRead.Name = "btnFTDIRead";
+++            this.btnFTDIRead.Size = new System.Drawing.Size(100, 34);
+++            this.btnFTDIRead.TabIndex = 1;
+++            this.btnFTDIRead.Text = "Read";
+++            this.btnFTDIRead.UseVisualStyleBackColor = true;
+++            this.btnFTDIRead.Click += new System.EventHandler(this.btnFTDIRead_Click);
+++            // 
+++            // btnFTDIRegSet
+++            // 
+++            this.btnFTDIRegSet.Location = new System.Drawing.Point(1125, 68);
+++            this.btnFTDIRegSet.Name = "btnFTDIRegSet";
+++            this.btnFTDIRegSet.Size = new System.Drawing.Size(121, 34);
+++            this.btnFTDIRegSet.TabIndex = 1;
+++            this.btnFTDIRegSet.Text = "Reg Set(22\')";
+++            this.btnFTDIRegSet.UseVisualStyleBackColor = true;
+++            this.btnFTDIRegSet.Click += new System.EventHandler(this.btnFTDIRegSet_Click);
+++            // 
+              // ssMainStrip
+              // 
+              this.ssMainStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+@@@ -2887,6 -2887,6 +2928,20 @@@
+              this.panMain.Size = new System.Drawing.Size(693, 826);
+              this.panMain.TabIndex = 20;
+              // 
+++            // tmSisoRD
+++            // 
+++            this.tmSisoRD.Tick += new System.EventHandler(this.tmSisoRD_Tick);
+++            // 
+++            // cbFTDILog
+++            // 
+++            this.cbFTDILog.AutoSize = true;
+++            this.cbFTDILog.Location = new System.Drawing.Point(501, 42);
+++            this.cbFTDILog.Name = "cbFTDILog";
+++            this.cbFTDILog.Size = new System.Drawing.Size(102, 22);
+++            this.cbFTDILog.TabIndex = 4;
+++            this.cbFTDILog.Text = "checkBox1";
+++            this.cbFTDILog.UseVisualStyleBackColor = true;
+++            // 
+              // MainForm
+              // 
+              this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
+@@@ -2956,6 -2956,6 +3011,7 @@@
+              ((System.ComponentModel.ISupportInitialize)(this.nudRegAddr)).EndInit();
+              this.gbTcpConnect.ResumeLayout(false);
+              this.gbTcpConnect.PerformLayout();
+++            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+              ((System.ComponentModel.ISupportInitialize)(this.nudTcpPort)).EndInit();
+              this.tabControl1.ResumeLayout(false);
+              this.tpDeviceCtrl.ResumeLayout(false);
+@@@ -2982,6 -2982,6 +3038,8 @@@
+              ((System.ComponentModel.ISupportInitialize)(this.nudTestReg_213)).EndInit();
+              ((System.ComponentModel.ISupportInitialize)(this.nudTestReg_154)).EndInit();
+              ((System.ComponentModel.ISupportInitialize)(this.nudTestReg_127)).EndInit();
+++            this.tpFTDI.ResumeLayout(false);
+++            this.tpFTDI.PerformLayout();
+              this.ssMainStrip.ResumeLayout(false);
+              this.ssMainStrip.PerformLayout();
+              ((System.ComponentModel.ISupportInitialize)(this.nudPixelSpace)).EndInit();
+@@@ -3199,10 -3199,10 +3257,15 @@@
+          private System.Windows.Forms.TextBox tbReg127_Set2;
+          private System.Windows.Forms.ComboBox cbReg127mode;
+          public System.Windows.Forms.CheckBox cbReg24yearSetting;
+--        private System.Windows.Forms.Button btnComClose;
+--        private System.Windows.Forms.Button btnComOpen;
+--        private System.Windows.Forms.Button btnPortSearch;
+--        private System.Windows.Forms.ComboBox cbPort;
+++        public System.Windows.Forms.Timer tmSisoRD;
+++        private System.Windows.Forms.PictureBox pictureBox1;
+++        private System.Windows.Forms.TabPage tpFTDI;
+++        private System.Windows.Forms.Button btnFTDIRegSet;
+++        private System.Windows.Forms.Button btnFTDIOpen;
+++        private System.Windows.Forms.Button btnFTDIRead;
+++        private System.Windows.Forms.Button button1;
+++        private System.Windows.Forms.Button btnFTDIoffset;
+++        private System.Windows.Forms.CheckBox cbFTDILog;
+      }
+  }
+  
+diff --cc Tas1945_mon/MainForm.cs
+index 0a8d404,0a8d404..5d7f10c
+--- a/Tas1945_mon/MainForm.cs
++++ b/Tas1945_mon/MainForm.cs
+@@@ -88,13 -88,13 +88,14 @@@ namespace Tas1945_mo
+  		public const int SPI_SLAVE_2 = 2;
+  		public const int DATA_OFFSET = 3;
+  
+++		byte[] rx_ftData = new byte[SpiTempDataSizeByte];
+++
+  		uint channels;
+--		IntPtr FT_HANDLE = IntPtr.Zero;
+--		FT_HANDLE ftHandle;
+  
+++		FtChannelConfig ftChannelConfig;
+++		byte[] ftbuffer = new byte[SPI_DEVICE_BUFFER_SIZE];
+  
+--		ChannelConfig channelConf;
+--		uint8_t buffer[SPI_DEVICE_BUFFER_SIZE];
+++		int frame_cnt = 0;
+  
+  
+  
+@@@ -268,6 -268,6 +269,9 @@@
+  
+  				g_bContinueRead = false;
+  
+++				btnFTDIRegSet.Enabled = false;
+++				btnFTDIRead.Enabled = false;
+++
+  				RBSet (rbTestPixel, true);
+  				if (RBGet (rbTestPixel) == true)
+  				{
+@@@ -2119,6 -2119,6 +2123,7 @@@
+  			gr.DrawString("Filter", fon1, Brushes.IndianRed, this.tabControl1.GetTabRect(2), sf);
+  			gr.DrawString("Image Cal", fon1, Brushes.Blue, this.tabControl1.GetTabRect(3), sf);
+  			gr.DrawString("Reg Test", fon1, Brushes.CadetBlue, this.tabControl1.GetTabRect(4), sf);
+++			gr.DrawString("FTDI Ctrl", fon1, Brushes.Indigo, this.tabControl1.GetTabRect(5), sf);
+  		}
+  
+          private void btnRegWR_Set1_Click(object sender, EventArgs e)
+@@@ -2227,7 -2227,7 +2232,7 @@@
+  
+          private void btnPortSearch_Click(object sender, EventArgs e)
+          {
+--			cbPort.DataSource = SerialPort.GetPortNames();
+++			//cbPort.DataSource = SerialPort.GetPortNames();
+  			
+  			// SerialPort.GetPortNames()로 검색된 모든 포트 가져오기
+  			string[] portNames = SerialPort.GetPortNames();
+@@@ -2239,12 -2239,12 +2244,28 @@@
+  			}
+  		}
+  
+--		private void btnComOpen_Click(object sender, EventArgs e)
+--		{
+--			//if (cbPort.Text == "") return;
+++		byte[] rcvBuf = new byte[1024];
+++		byte[] sndBuf = new byte[1024];
+++
+++		int rcv_len = 1024;
+++		int snd_len = 1024;
+++		int snd_len_l = 0;
+++
+++		public FT_DEVICE_LIST_INFO_NODE ftDevList = default;
+  
+++		int mis_match_cnt = 0;
+++		
+++		/// <summary>
+++		/// FTDI 모듈과 연결하기 위해 첫번째로 작성했던 함수 (~24' 03/06 조남인)
+++		/// SPI Open 부터 image data read까지 all in one 함수였으나 통신에 문제가 있어 FTDI tap을 만들고 함수 기능을 분할하기 시작함
+++		/// </summary>
+++		/// <param name="sender"></param>
+++		/// <param name="e"></param>
+++		private async void btnComOpen_Click(object sender, EventArgs e)
+++		{
+  			FTDI.FT_STATUS ftStaus = FTDI.FT_STATUS.FT_OK;
+--			FT_DEVICE_LIST_INFO_NODE ftDevList = default;
+++			FtResult ftResult = default;
+++			
+  			FtChannelConfig ftChannelConfig = default;
+  			uint address = 0;
+  			ushort data = 0;
+@@@ -2264,6 -2264,6 +2285,13 @@@
+  			Ret_Log_String = "channel num : " + numChannels.ToString() + "\r\n";
+  			LOG(Ret_Log_String);
+  
+++			for (int k = 0; k < 4860; k++)
+++            {
+++				for (int t = 0; t < 3; t++)
+++					offsetdata_ft[t,k] = 0;
+++				offset_ft[k] = 0;
+++            }
+++
+  			if (numChannels > 0)
+              {
+  				for (int i = 0; i < numChannels; i++)
+@@@ -2278,35 -2278,35 +2306,64 @@@
+  
+  					LOG(Ret_Log_String);
+  
+--					ftStaus = LibMpsseSpi.SPI_OpenChannel(CHANNEL_TO_OPEN, &ftHandle);
+--				}
+--			}
+++					ftResult = LibMpsseSpi.SPI_OpenChannel(CHANNEL_TO_OPEN, out ftDevList.ftHandle);
+++					ftStaus = (FTDI.FT_STATUS) ftResult;
+++					print_ftStatus(ftStaus);
+++					ftResult = LibMpsseSpi.SPI_InitChannel(ftDevList.ftHandle, ref ftChannelConfig);
+++					ftStaus = (FTDI.FT_STATUS)ftResult;
+++					print_ftStatus(ftStaus);
+  
+++					sndBuf[0] = 0xB0;
+++					sndBuf[1] = 0x00;
+++					sndBuf[2] = 0xFF;
+++					sndBuf[3] = 0xFF;
+++					snd_len = 4;
+  
+--			// UART 통신 준비하는 코드
+--			//if (!serial.IsOpen)
+--			//{
+--			//    /* SERIAL OPEN BEGIN */
+--			//    serial.PortName = cbPort.Text;          // Port Name
+--			//    serial.BaudRate = BAURATE;              // Baud Rate
+--			//    serial.DataBits = DATABITS;             // Data Bits
+--			//    serial.StopBits = STOPBITS;             // Stop Bits
+--			//    serial.Parity = PARITY;                 // Parity
+--			//    serial.DataReceived += new SerialDataReceivedEventHandler(Receive_USB); // Event Handler
+--			//    serial.Open();                          // Serial Open
+++					ftResult = LibMpsseSpi.SPI_ReadWrite(ftDevList.ftHandle, rcvBuf, sndBuf, snd_len, out snd_len_l, FtSpiTransferOptions.SizeInBytes | FtSpiTransferOptions.ChipselectEnable | FtSpiTransferOptions.ChipselectDisable);
+++					ftStaus = (FTDI.FT_STATUS)ftResult;
+++					print_ftStatus(ftStaus);
+  
+--			//    btnPortSearch.Enabled = false;
+--			//    cbPort.Enabled = false;
+++					Ret_Log_String = "";
+++					for (int j = 0; j < snd_len; j++)
+++						Ret_Log_String += sndBuf[j].ToString("X2")+ " ";
+++					LOG(Ret_Log_String);
+  
+--			//	TcpIpButtonEnable(true);
+++					Ret_Log_String = "";
+++					for (int j = 0; j < snd_len; j++)
+++						Ret_Log_String += rcvBuf[j].ToString("X2") + " ";
+++					LOG(Ret_Log_String);
+  
+--			//	/* SERIAL OPEN END */
+--			//	LOG("Port Open : " + cbPort.Text, Color.Blue);
+--			//}
+--			//else
+--			//{
+--			//	LOG("Port Already Open", Color.Red);
+--			//}
+++					LOG("init reg start");
+++					tp3l_init_sen();
+++					LOG("init reg end");
+++					Thread.Sleep(1000);
+++
+++					if (mis_match_cnt > 13)
+++					{
+++						LOG($"Register mis_match : {mis_match_cnt}개 발생으로 통신종료");
+++						mis_match_cnt = 0;
+++
+++						LibMpsse.Cleanup();
+++						return;
+++					}
+++
+++					tp3l_rd_img_enable();
+++
+++					tp3l_spi_wr_fpga(ftDevList.ftHandle, RahDbgCode01, 0x0, 0x0728);
+++
+++					//tmSisoRD.Interval = (int)NUDGet(nudInterval);
+++					tmSisoRD.Interval = (int)200;
+++					tmSisoRD.Start();
+++					tmImageDsp.Start();		
+++
+++					return;
+++				}
+++			}
+++		}
+++		void tp3l_rd_img_enable()
+++        {
+++			tp3l_spi_wr_fpga(ftDevList.ftHandle, RahRdSenImgFrameCycleMs, 0x0, 200);
+++			tp3l_spi_wr_fpga(ftDevList.ftHandle, RahRdSenImgEn, 0x0, RdRdBufFrStart | RdRdSenImgEnOddEvAll);    // Read Sensor Start Odd & Even
+  		}
+  		private void Receive_USB(object sender, SerialDataReceivedEventArgs e)
+  		{
+@@@ -2328,19 -2328,19 +2385,220 @@@
+  			{
+  				serial.Close();
+  
+--				btnPortSearch.Enabled = true;
+--				cbPort.Enabled = true;
+++				//btnPortSearch.Enabled = true;
+++				//cbPort.Enabled = true;
+  
+  				LOG("Port Close" , Color.Blue);
+  			}
+  			else
+  			{
+--				btnPortSearch.Enabled = true;
+--				cbPort.Enabled = true;
+++				//btnPortSearch.Enabled = true;
+++				//cbPort.Enabled = true;
+  
+  				LOG("Port Already Close", Color.Red);
+  			}
+  		}
+++
+++        private void tmSisoRD_Tick(object sender, EventArgs e)
+++        {
+++			tp3l_rd_img_Namin3();
+++		}
+++
+++		float[] imgdata_ft = new float[4860];
+++		float[,] offsetdata_ft = new float[3,4860];
+++		float[] offset_ft = new float[4860];
+++
+++		int ft_cnt = 0;
+++		int byte_cnt = 0;
+++		int ftoffset_cnt = 0;
+++
+++		bool FToffset_flag = false;
+++		bool FToffset_Apply_flag = false;
+++
+++		void tp3l_rd_img_Namin3()
+++		{
+++			float imgData = 0;
+++			byte[] imgRaw = new byte[4860 * 2];
+++			ushort rdData;
+++
+++			while (true)
+++			{
+++				rdData = tp3l_spi_rd_fpga(ftDevList.ftHandle, RahRdStatus, 0x0);
+++				Thread.Sleep(5);
+++				//if ((rdData & 0x1) != 0)
+++					break;
+++				LOG("#");
+++			}
+++
+++			tp3l_spi_wr_fpga(ftDevList.ftHandle, RahRdBufFrStart, 0x0, (ushort)RdRdBufFrStart);
+++
+++			ft_cnt = 0;
+++			byte_cnt = 0;
+++
+++			for (int j = 0; j < 60; j++)
+++            {
+++				tp3l_spi_rd_img_frame(ftDevList.ftHandle, 81 * 2);
+++				for (int i = 0; i < 81 * 2; i++)
+++				{
+++					if ((i & 0x1) == 0)
+++                    {
+++						imgRaw[byte_cnt] = rx_ftData[i];
+++						byte_cnt++;
+++					}
+++					else
+++					{
+++						imgRaw[byte_cnt] = rx_ftData[i];
+++						byte_cnt++;
+++					}
+++				}
+++			}
+++
+++			Convert_PixelData(imgRaw, 4860 * 2, ref imgdata_ft);
+++
+++			if ((FToffset_flag == false) && (FToffset_Apply_flag == false))
+++            {
+++				for (int k = 0; k < 4860; k++)
+++					offsetdata_ft[ftoffset_cnt, k] = imgdata_ft[k];
+++				ftoffset_cnt++;
+++				ftoffset_cnt %= 3;
+++			}
+++			else if ((FToffset_flag == true) && (FToffset_Apply_flag == false))
+++            {
+++				for (int k = 0; k < 4860; k++)
+++                {
+++					offset_ft[k] = 0;
+++					for (int j = 0;j < 3; j++)
+++						offset_ft[k] += offsetdata_ft[j,k];
+++					offset_ft[k] /= 3;
+++				}
+++				FToffset_Apply_flag = true;
+++				LOG("Offset Apply", Color.Blue);
+++			}
+++			else if ((FToffset_flag == true) && (FToffset_Apply_flag == true))
+++            {
+++				for (int k = 0; k < 4860; k++)
+++					imgdata_ft[k] = imgdata_ft[k] - offset_ft[k];
+++			}
+++
+++
+++			if (g_queImage.Count < 20)              //	Timer 에서 Display 할 시
+++			{
+++				g_queImage.Enqueue(imgdata_ft);
+++			}
+++
+++			frame_cnt++;
+++			if(CBGet(cbFTDILog) == true)
+++				LOG($"Frame No. : {frame_cnt} , Pixel[2813] : {imgdata_ft[2813]}");
+++		}
+++		void tp3l_spi_rd_img_frame(IntPtr ftHandle, int rdFrameSize)
+++		{
+++			FtResult ftResult = default;
+++			int sizeTransfered;
+++			int snd_len_l = 0;
+++			ushort spi_rdData;
+++
+++			ftResult = LibMpsseSpi.SPI_Read(ftHandle, rx_ftData, rdFrameSize, out sizeTransfered, FtSpiTransferOptions.SizeInBytes | FtSpiTransferOptions.ChipselectEnable | FtSpiTransferOptions.ChipselectDisable);
+++		}
+++
+++        private void btnFTDIOpen_Click(object sender, EventArgs e)
+++        {
+++			FTDI.FT_STATUS ftStaus = FTDI.FT_STATUS.FT_OK;
+++			FtResult ftResult = default;
+++
+++			FtChannelConfig ftChannelConfig = default;
+++			uint address = 0;
+++			ushort data = 0;
+++			//uint i = 0;
+++			byte latency = 2;
+++			int numChannels = 0;
+++
+++			ftChannelConfig.ClockRate = 5000000;
+++			ftChannelConfig.LatencyTimer = latency;
+++			ftChannelConfig.configOptions = FtConfigOptions.Mode0 | FtConfigOptions.CsDbus3 | FtConfigOptions.CsActivelow;
+++			ftChannelConfig.Pin = 0x00000000;
+++
+++			LibMpsse.Init();
+++
+++			ftResult = LibMpsseSpi.SPI_GetNumChannels(out numChannels);
+++			ftStaus = (FTDI.FT_STATUS) ftResult;
+++			print_ftStatus(ftStaus);
+++			Ret_Log_String = $"Number of available SPI Channels = : {numChannels}";
+++			LOG(Ret_Log_String);
+++
+++			if (numChannels > 0)
+++			{
+++				for (int i = 0; i < numChannels; i++)
+++				{
+++					LibMpsseSpi.SPI_GetChannelInfo(numChannels, out ftDevList);
+++					print_ftStatus(ftStaus);
+++
+++					Ret_Log_String = "Flag : " + ftDevList.Flags.ToString() + ", Type : " + ftDevList.Type.ToString()
+++						+ ", ID : " + ftDevList.ID.ToString() + ", LocId : " + ftDevList.LocId.ToString()
+++						+ ", serial_num : " + ftDevList.SerialNumber.ToString() + ", description : " + ftDevList.Description.ToString()
+++						+ ", handle : " + ftDevList.ftHandle.ToString() + "\r\n";
+++
+++					LOG(Ret_Log_String);
+++				}
+++
+++				ftResult = LibMpsseSpi.SPI_OpenChannel(CHANNEL_TO_OPEN, out ftDevList.ftHandle);
+++				ftStaus = (FTDI.FT_STATUS)ftResult;
+++				print_ftStatus(ftStaus);
+++				ftResult = LibMpsseSpi.SPI_InitChannel(ftDevList.ftHandle, ref ftChannelConfig);
+++				ftStaus = (FTDI.FT_STATUS)ftResult;
+++				print_ftStatus(ftStaus);
+++
+++				sndBuf[0] = 0xB0;
+++				sndBuf[1] = 0x00;
+++				sndBuf[2] = 0xFF;
+++				sndBuf[3] = 0xFF;
+++				snd_len = 4;
+++
+++				ftResult = LibMpsseSpi.SPI_ReadWrite(ftDevList.ftHandle, rcvBuf, sndBuf, snd_len, out snd_len_l, FtSpiTransferOptions.SizeInBytes | FtSpiTransferOptions.ChipselectEnable | FtSpiTransferOptions.ChipselectDisable);
+++				ftStaus = (FTDI.FT_STATUS)ftResult;
+++				print_ftStatus(ftStaus);
+++
+++				Ret_Log_String = "";
+++				for (int j = 0; j < snd_len; j++)
+++					Ret_Log_String += sndBuf[j].ToString("X2") + " ";
+++				LOG(Ret_Log_String);
+++
+++				Ret_Log_String = "";
+++				for (int j = 0; j < snd_len; j++)
+++					Ret_Log_String += rcvBuf[j].ToString("X2") + " ";
+++				LOG(Ret_Log_String);
+++				btnFTDIRegSet.Enabled = true;
+++				btnFTDIRead.Enabled = true;
+++				LOG("Success SPI Open", Color.Blue);
+++			}
+++			else
+++				LOG("Failed SPI Open", Color.Red);
+++
+++		}
+++
+++        private void btnFTDIRegSet_Click(object sender, EventArgs e)
+++        {
+++
+++		}
+++
+++        private void btnFTDIRead_Click(object sender, EventArgs e)
+++        {
+++
+++        }
+++
+++        private void btnFTDIoffset_Click(object sender, EventArgs e)
+++        {
+++			if (FToffset_flag == false)
+++			{
+++				FToffset_flag = true;
+++				BTNSet(btnFTDIoffset, "Offset 적용중");
+++			}
+++			else
+++			{
+++				FToffset_flag = false;
+++				FToffset_Apply_flag = false;
+++				BTNSet(btnFTDIoffset, "Offset 해제");
+++			}	
+++		}
+      }
+  
+      /// <summary>
+diff --cc Tas1945_mon/MainForm.resx
+index a7a0aa5,a7a0aa5..754f74a
+--- a/Tas1945_mon/MainForm.resx
++++ b/Tas1945_mon/MainForm.resx
+@@@ -118,16 -118,16 +118,19 @@@
+      <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <metadata name="ssMainStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+--    <value>100, 17</value>
+++    <value>80, 14</value>
+    </metadata>
+    <metadata name="tmImageDsp.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+--    <value>356, 17</value>
+++    <value>285, 14</value>
+    </metadata>
+    <metadata name="tmPixelCountinue.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+--    <value>479, 17</value>
+++    <value>383, 14</value>
+    </metadata>
+    <metadata name="ttHint.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+--    <value>17, 17</value>
+++    <value>14, 14</value>
+++  </metadata>
+++  <metadata name="tmSisoRD.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+++    <value>531, 14</value>
+    </metadata>
+    <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <value>86</value>
+diff --cc Tas1945_mon/Tas1945_Ctrl.cs
+index 99389de,99389de..87ae49d
+--- a/Tas1945_mon/Tas1945_Ctrl.cs
++++ b/Tas1945_mon/Tas1945_Ctrl.cs
+@@@ -7,6 -7,6 +7,8 @@@ using System.Text
+  using System.Threading;
+  using System.Threading.Tasks;
+  using System.Windows.Forms;
+++using FTD2XX_NET;
+++using libMPSSEWrapper.Types;
+  
+  namespace Tas1945_mon
+  {
+@@@ -146,10 -146,10 +148,40 @@@
+  
+  		public int int32data;
+  
+--		/// <summary>
+--		/// 
+--		/// </summary>
+--		public void cal25_calibration(float[] g_asPixelData_Cal)
+++        #region  //FTDI parameter
+++        public const int SpiTempHeaderSize = 0;
+++		public const int SpiTempLineSize = 81;
+++		public const int SpiTempLineSizeByte = SpiTempLineSize * 2;
+++		public const int SpiTempRowSize = 60;
+++		public const int SpiTempDataSize = SpiTempLineSize * SpiTempRowSize;
+++		public const int SpiTempDataSizeByte = SpiTempDataSize * 2;
+++
+++		public const byte RahSenCtrl = 0x00;
+++
+++		public const byte RahRdSenImgEn = 0x01;
+++		public const byte RdRdSenImgEn = 0x01;
+++		public const byte RdRdSenImgEnOdd = 0x02;
+++		public const byte RdRdSenImgEnOddEvAll = 0x04;
+++
+++		public const byte RahRdBufFrStart = 0x02;
+++		public const byte RdRdBufFrStart = 0x01;
+++
+++		// Uncomment if needed
+++		// public const byte RahRdBufImg = 0x03;
+++
+++		public const byte RahRdSenImgFrameCycleMs = 0x04;
+++
+++		public const byte RahRdStatus = 0x20;
+++
+++		public const byte RahRdVersion = 0x30;
+++		public const byte RahRdWrTest = 0x31;
+++		public const byte RahDbgCode01 = 0x32;
+++        #endregion
+++
+++        /// <summary>
+++        /// 
+++        /// </summary>
+++        public void cal25_calibration(float[] g_asPixelData_Cal)
+          {
+  			cal25_Cnt++;
+  
+@@@ -4024,5 -4024,5 +4056,219 @@@
+  
+  			return ;
+  		}*/
+++
+++		void tp3l_init_sen()
+++        {
+++			tp3l_sen_wr_rd(255, 0x10);
+++			tp3l_sen_wr_rd(255, 0x00);
+++			tp3l_sen_wr_rd(0, 0x01);
+++			tp3l_sen_wr_rd(1, 0x00);
+++			tp3l_sen_wr_rd(2, 0xA6);
+++			tp3l_sen_wr_rd(3, 0x01);
+++			tp3l_sen_wr_rd(4, 0x00);
+++			tp3l_sen_wr_rd(5, 0x01);
+++			tp3l_sen_wr_rd(6, 0x02);
+++			tp3l_sen_wr_rd(7, 0x01);
+++			tp3l_sen_wr_rd(8, 0x01);
+++			tp3l_sen_wr_rd(9, 0x00);
+++			tp3l_sen_wr_rd(10, 0x1A);
+++			tp3l_sen_wr_rd(11, 0x00);
+++			tp3l_sen_wr_rd(12, 0x01);
+++			tp3l_sen_wr_rd(13, 0x00);
+++			tp3l_sen_wr_rd(14, 0x0E);
+++			tp3l_sen_wr_rd(15, 0x00);
+++			tp3l_sen_wr_rd(16, 0x01);
+++			tp3l_sen_wr_rd(17, 0x00);
+++			tp3l_sen_wr_rd(18, 0x0E);
+++			tp3l_sen_wr_rd(19, 0x00);
+++			tp3l_sen_wr_rd(20, 0x1A);
+++			tp3l_sen_wr_rd(21, 0x00);
+++			tp3l_sen_wr_rd(22, 0x01);
+++			tp3l_sen_wr_rd(23, 0x00);
+++			tp3l_sen_wr_rd(24, 0x03);
+++			tp3l_sen_wr_rd(25, 0x01);
+++			tp3l_sen_wr_rd(26, 0x05);
+++			tp3l_sen_wr_rd(27, 0x01);
+++			tp3l_sen_wr_rd(28, 0x0C);
+++			tp3l_sen_wr_rd(29, 0x01);
+++			tp3l_sen_wr_rd(30, 0x06);
+++			tp3l_sen_wr_rd(31, 0x01);
+++			tp3l_sen_wr_rd(32, 0x01);
+++			tp3l_sen_wr_rd(33, 0x00);
+++			tp3l_sen_wr_rd(34, 0x1C);
+++			tp3l_sen_wr_rd(35, 0x00);
+++			tp3l_sen_wr_rd(36, 0x01);
+++			tp3l_sen_wr_rd(37, 0x00);
+++			tp3l_sen_wr_rd(38, 0xEE);
+++			tp3l_sen_wr_rd(39, 0x0F);
+++			tp3l_sen_wr_rd(40, 0x07);
+++			tp3l_sen_wr_rd(41, 0x00);
+++			tp3l_sen_wr_rd(42, 0x09);
+++			tp3l_sen_wr_rd(43, 0x00);
+++			tp3l_sen_wr_rd(48, 0x50);
+++			tp3l_sen_wr_rd(49, 0x00);
+++			tp3l_sen_wr_rd(50, 0x6A);
+++			tp3l_sen_wr_rd(51, 0x03);
+++			tp3l_sen_wr_rd(52, 0x54);
+++			tp3l_sen_wr_rd(53, 0x00);
+++			tp3l_sen_wr_rd(54, 0x66);
+++			tp3l_sen_wr_rd(55, 0x03);
+++			tp3l_sen_wr_rd(56, 0x01);
+++			tp3l_sen_wr_rd(57, 0x00);
+++			tp3l_sen_wr_rd(58, 0x1C);
+++			tp3l_sen_wr_rd(59, 0x03);
+++			tp3l_sen_wr_rd(60, 0x2E);
+++			tp3l_sen_wr_rd(61, 0x06);
+++			tp3l_sen_wr_rd(62, 0x31);
+++			tp3l_sen_wr_rd(63, 0x06);
+++			tp3l_sen_wr_rd(64, 0x65);
+++			tp3l_sen_wr_rd(65, 0x00);
+++			tp3l_sen_wr_rd(66, 0x30);
+++			tp3l_sen_wr_rd(67, 0x00);
+++			tp3l_sen_wr_rd(68, 0x32);
+++			tp3l_sen_wr_rd(69, 0x00);
+++			tp3l_sen_wr_rd(70, 0x65);
+++			tp3l_sen_wr_rd(71, 0x00);
+++			tp3l_sen_wr_rd(72, 0x5F);
+++			tp3l_sen_wr_rd(73, 0x00);
+++			tp3l_sen_wr_rd(74, 0x3D);
+++			tp3l_sen_wr_rd(75, 0x00);
+++			tp3l_sen_wr_rd(76, 0x2C);
+++			tp3l_sen_wr_rd(77, 0x00);
+++			tp3l_sen_wr_rd(78, 0x09);
+++			tp3l_sen_wr_rd(79, 0x00);
+++			tp3l_sen_wr_rd(80, 0x01);
+++			tp3l_sen_wr_rd(81, 0x00);
+++			tp3l_sen_wr_rd(82, 0x31);
+++			tp3l_sen_wr_rd(83, 0x00);
+++			tp3l_sen_wr_rd(84, 0x32);
+++			tp3l_sen_wr_rd(85, 0x00);
+++			tp3l_sen_wr_rd(86, 0x00);
+++			tp3l_sen_wr_rd(87, 0x00);
+++			tp3l_sen_wr_rd(88, 0x00);
+++			tp3l_sen_wr_rd(89, 0x00);
+++			tp3l_sen_wr_rd(90, 0x00);
+++			tp3l_sen_wr_rd(91, 0x00);
+++			tp3l_sen_wr_rd(92, 0x62);
+++			tp3l_sen_wr_rd(93, 0x00);
+++			tp3l_sen_wr_rd(94, 0x64);
+++			tp3l_sen_wr_rd(95, 0x00);
+++			tp3l_sen_wr_rd(112, 0x1E);
+++			tp3l_sen_wr_rd(113, 0x1E);
+++			tp3l_sen_wr_rd(114, 0x1E);
+++			tp3l_sen_wr_rd(115, 0x1E);
+++			tp3l_sen_wr_rd(116, 0x1E);
+++			tp3l_sen_wr_rd(117, 0x1E);
+++			tp3l_sen_wr_rd(118, 0x1E);
+++			tp3l_sen_wr_rd(119, 0x1E);
+++			tp3l_sen_wr_rd(121, 0x25);
+++			tp3l_sen_wr_rd(122, 0x09);
+++			tp3l_sen_wr_rd(123, 0x1F);
+++			tp3l_sen_wr_rd(127, 0x00);
+++			//tp3l_sen_wr_rd(127	  ,	0x03	 );
+++			tp3l_sen_wr_rd(128, 0xAA);
+++			tp3l_sen_wr_rd(129, 0x00);
+++			tp3l_sen_wr_rd(130, 0xA8);
+++			tp3l_sen_wr_rd(131, 0x00);
+++			tp3l_sen_wr_rd(132, 0x2A);
+++			tp3l_sen_wr_rd(133, 0x00);
+++			tp3l_sen_wr_rd(134, 0xAA);
+++			tp3l_sen_wr_rd(135, 0x00);
+++			tp3l_sen_wr_rd(136, 0xAA);
+++			tp3l_sen_wr_rd(137, 0x00);
+++			tp3l_sen_wr_rd(138, 0xAA);
+++			tp3l_sen_wr_rd(139, 0x00);
+++			tp3l_sen_wr_rd(140, 0xAA);
+++			tp3l_sen_wr_rd(141, 0x00);
+++			tp3l_sen_wr_rd(144, 0x00);
+++			tp3l_sen_wr_rd(154, 0x2F);
+++			//tp3l_sen_wr_rd(154	  ,	0x1F	 );
+++			tp3l_sen_wr_rd(155, 0x00);
+++			tp3l_sen_wr_rd(156, 0x00);
+++			tp3l_sen_wr_rd(157, 0x00);
+++			tp3l_sen_wr_rd(158, 0xC0);
+++			tp3l_sen_wr_rd(176, 0x00);
+++			tp3l_sen_wr_rd(177, 0x00);
+++			tp3l_sen_wr_rd(178, 0x01);
+++			tp3l_sen_wr_rd(179, 0x00);
+++			tp3l_sen_wr_rd(180, 0x00);
+++			tp3l_sen_wr_rd(181, 0x48);
+++			tp3l_sen_wr_rd(182, 0x00);
+++			tp3l_sen_wr_rd(190, 0x00);
+++			tp3l_sen_wr_rd(191, 0x00);
+++			tp3l_sen_wr_rd(208, 0x00);
+++			tp3l_sen_wr_rd(209, 0x00);
+++			tp3l_sen_wr_rd(210, 0x53);
+++			tp3l_sen_wr_rd(211, 0x01);
+++			tp3l_sen_wr_rd(212, 0x81);
+++			tp3l_sen_wr_rd(213, 0x14);
+++			tp3l_sen_wr_rd(214, 0x1D);
+++			tp3l_sen_wr_rd(215, 0x1F);
+++			tp3l_sen_wr_rd(216, 0x1F);
+++			tp3l_sen_wr_rd(217, 0x1F);
+++			tp3l_sen_wr_rd(218, 0x1F);
+++			tp3l_sen_wr_rd(219, 0x07);
+++			tp3l_sen_wr_rd(220, 0x1D);
+++			tp3l_sen_wr_rd(221, 0x1B);
+++			tp3l_sen_wr_rd(240, 0x80);
+++			tp3l_sen_wr_rd(255, 0x00);
+++			tp3l_sen_wr_rd(138, 0x6A);
+++			tp3l_sen_wr_rd(138, 0xAA);
+++			tp3l_sen_wr_rd(134, 0x6A);
+++			tp3l_sen_wr_rd(134, 0xAA);
+++		}
+++
+++		void tp3l_sen_wr_rd(byte regAddr, byte regData)
+++		{
+++			ushort rdData_echo;
+++			ushort rdData;
+++
+++			tp3l_spi_wr_fpga(ftDevList.ftHandle, RahSenCtrl, regAddr, (ushort) regData);
+++			rdData_echo = tp3l_spi_rd_fpga(ftDevList.ftHandle, RahSenCtrl, regAddr);
+++			rdData = tp3l_spi_rd_fpga(ftDevList.ftHandle, RahSenCtrl, regAddr);
+++
+++			if (regData == (byte) (rdData & 0xff))
+++            {
+++				Ret_Log_String = $"(match)    {regAddr} : 0x{regData:X2}, 0x{(byte)(rdData & 0xFF):X2}(0x{(byte)(rdData_echo & 0xFF):X2})";
+++				LOG(Ret_Log_String);
+++			}
+++			else
+++            {
+++				Ret_Log_String = $"(mis-match) {regAddr}  : 0x{regData:X2}, 0x{(byte)(rdData & 0xFF):X2}(0x{(byte)(rdData_echo & 0xFF):X2})";
+++				LOG(Ret_Log_String);
+++				mis_match_cnt++;
+++			}
+++		}
+++
+++		void tp3l_spi_wr_fpga(IntPtr ftHandle, byte addrH, byte addrL, ushort wrData)
+++		{
+++			int sizeTransfered;
+++			byte[] txBuf = new byte[4];
+++			byte[] rxBuf = new byte[4];
+++
+++			txBuf[0] = (byte)(addrH & 0x7F);        // & 0x7f : Write Bit Mast
+++			txBuf[1] = addrL;
+++			txBuf[2] = (byte) ((wrData >> 0) & 0xff);
+++			txBuf[3] = (byte) ((wrData >> 8) & 0xff);
+++
+++			LibMpsseSpi.SPI_Write(ftHandle, txBuf, 4, out sizeTransfered, FtSpiTransferOptions.SizeInBytes | FtSpiTransferOptions.ChipselectEnable | FtSpiTransferOptions.ChipselectDisable);
+++		}
+++
+++		ushort tp3l_spi_rd_fpga(IntPtr ftHandle, byte addrH, byte addrL)
+++		{
+++			//FTDI.FT_STATUS ftStaus = FTDI.FT_STATUS.FT_OK;
+++			int snd_len_l;
+++			ushort spi_rdData;
+++
+++			FtResult ftResult = default;
+++
+++			byte[] txBuf = new byte[] { (byte)(addrH | 0x80), addrL, 0xFF, 0xFF };
+++			byte[] rxBuf = new byte[4];
+++
+++			ftResult = LibMpsseSpi.SPI_ReadWrite(ftHandle, rxBuf, txBuf, 4, out snd_len_l, FtSpiTransferOptions.SizeInBytes | FtSpiTransferOptions.ChipselectEnable | FtSpiTransferOptions.ChipselectDisable);
+++			//ftStaus = (FTDI.FT_STATUS)ftResult;
+++			spi_rdData = (ushort)((rxBuf[3] << 8) | (rxBuf[2] & 0xFF));
+++			return (spi_rdData);
+++		}
+  	}
+  }
+diff --cc Tas1945_mon/Tas1945_TcpUdp_RespMsgParser.cs
+index 0ca2ae0,0ca2ae0..c84ab23
+--- a/Tas1945_mon/Tas1945_TcpUdp_RespMsgParser.cs
++++ b/Tas1945_mon/Tas1945_TcpUdp_RespMsgParser.cs
+@@@ -429,12 -429,12 +429,12 @@@ namespace Tas1945_mo
+  
+  								// BookMark #1 : 수신된 Byte Data가 short와 float형으로 바뀌는 함수
+  								Convert_PixelData (g_abyPixelData, g_iPixelLen, ref g_asPixelData);                 //	2 byte Pixel data 를 signed data 로 변환
+--								
+++								/*
+  								if (monteCarlo_Method(ref g_asPixelData, 8) == false)
+  								{
+  									Algorithm_Flag = false;
+  									break;
+--								}
+++								}*/
+  
+  								//if (data_status != 1) LOG("비상!!", Color.Red);
+  								//data_status = 2;
+diff --cc Tas1945_mon/Tas1945_Uc_RawImage.cs
+index 29f9442,29f9442..dd37b27
+--- a/Tas1945_mon/Tas1945_Uc_RawImage.cs
++++ b/Tas1945_mon/Tas1945_Uc_RawImage.cs
+@@@ -19,7 -19,7 +19,7 @@@ namespace Tas1945_mo
+  		ushort[]    g_u16ImageValue = new ushort[4860]; //	X, Y position pixel value
+  		float[]		g_s16ImageValue = new float[4860]; //	X, Y position pixel value
+  
+--		public int	g_iZoom = 1;
+++		public int	g_iZoom = 10;
+  
+  		Graphics	g_gGraphics = null;                 //	Graphics of the panel object
+  		Bitmap		g_bmBitmap = null;					//	Bitmap object
+diff --cc Tas1945_mon/bin/Debug/Tas1945_mon.exe
+index b8f6403,b8f6403..d14a851
+Binary files differ
+diff --cc Tas1945_mon/bin/Debug/Tas1945_mon.pdb
+index c2992d2,c2992d2..57056cb
+Binary files differ
+diff --cc Tas1945_mon/obj/Debug/DesignTimeResolveAssemblyReferences.cache
+index c684983,c684983..4ec7b81
+Binary files differ
+diff --cc Tas1945_mon/obj/Debug/Tas1945_mon.csproj.AssemblyReference.cache
+index f362e6e,f362e6e..cc952fb
+Binary files differ
+diff --cc Tas1945_mon/obj/Debug/Tas1945_mon.csproj.GenerateResource.cache
+index d3ecc26,d3ecc26..0e419ea
+Binary files differ
+diff --cc Tas1945_mon/obj/Debug/Tas1945_mon.exe
+index b8f6403,b8f6403..d14a851
+Binary files differ
+diff --cc Tas1945_mon/obj/Debug/Tas1945_mon.pdb
+index c2992d2,c2992d2..57056cb
+Binary files differ
