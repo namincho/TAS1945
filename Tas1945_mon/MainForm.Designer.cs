@@ -92,10 +92,7 @@ namespace Tas1945_mon
             this.tbRegData = new System.Windows.Forms.TextBox();
             this.nudRegAddr = new System.Windows.Forms.NumericUpDown();
             this.gbTcpConnect = new System.Windows.Forms.GroupBox();
-            this.btnComClose = new System.Windows.Forms.Button();
-            this.btnComOpen = new System.Windows.Forms.Button();
-            this.btnPortSearch = new System.Windows.Forms.Button();
-            this.cbPort = new System.Windows.Forms.ComboBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tgsNetMode = new JCS.ToggleSwitch();
             this.ipAddress = new IPAddressControlLib.IPAddressControl();
             this.nudTcpPort = new System.Windows.Forms.NumericUpDown();
@@ -213,6 +210,10 @@ namespace Tas1945_mon
             this.label32 = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
+            this.tpFTDI = new System.Windows.Forms.TabPage();
+            this.cbFTDILog = new System.Windows.Forms.CheckBox();
+            this.btnFTDIoffset = new System.Windows.Forms.Button();
+            this.btnFTDIRead = new System.Windows.Forms.Button();
             this.ssMainStrip = new System.Windows.Forms.StatusStrip();
             this.tssConnectStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.rtbLog = new System.Windows.Forms.RichTextBox();
@@ -243,6 +244,7 @@ namespace Tas1945_mon
             this.lbEven = new Bulb.LedBulb();
             this.lbOdd = new Bulb.LedBulb();
             this.panMain = new Tas1945_mon.DoubleBufferPanel();
+            this.tmSisoRD = new System.Windows.Forms.Timer(this.components);
             this.tpTas1945Ctrl.SuspendLayout();
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudCsvSaveCnt)).BeginInit();
@@ -262,6 +264,7 @@ namespace Tas1945_mon
             this.rgRegCtrl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudRegAddr)).BeginInit();
             this.gbTcpConnect.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudTcpPort)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tpDeviceCtrl.SuspendLayout();
@@ -284,6 +287,7 @@ namespace Tas1945_mon
             ((System.ComponentModel.ISupportInitialize)(this.nudTestReg_213)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudTestReg_154)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudTestReg_127)).BeginInit();
+            this.tpFTDI.SuspendLayout();
             this.ssMainStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudPixelSpace)).BeginInit();
             this.SuspendLayout();
@@ -1112,10 +1116,7 @@ namespace Tas1945_mon
             // 
             // gbTcpConnect
             // 
-            this.gbTcpConnect.Controls.Add(this.btnComClose);
-            this.gbTcpConnect.Controls.Add(this.btnComOpen);
-            this.gbTcpConnect.Controls.Add(this.btnPortSearch);
-            this.gbTcpConnect.Controls.Add(this.cbPort);
+            this.gbTcpConnect.Controls.Add(this.pictureBox1);
             this.gbTcpConnect.Controls.Add(this.tgsNetMode);
             this.gbTcpConnect.Controls.Add(this.ipAddress);
             this.gbTcpConnect.Controls.Add(this.nudTcpPort);
@@ -1129,44 +1130,14 @@ namespace Tas1945_mon
             this.gbTcpConnect.TabStop = false;
             this.gbTcpConnect.Text = "TCP IP / UDP";
             // 
-            // btnComClose
+            // pictureBox1
             // 
-            this.btnComClose.Location = new System.Drawing.Point(86, 123);
-            this.btnComClose.Name = "btnComClose";
-            this.btnComClose.Size = new System.Drawing.Size(77, 31);
-            this.btnComClose.TabIndex = 71;
-            this.btnComClose.Text = "Close";
-            this.btnComClose.UseVisualStyleBackColor = true;
-            this.btnComClose.Click += new System.EventHandler(this.btnComClose_Click);
-            // 
-            // btnComOpen
-            // 
-            this.btnComOpen.Location = new System.Drawing.Point(5, 123);
-            this.btnComOpen.Name = "btnComOpen";
-            this.btnComOpen.Size = new System.Drawing.Size(77, 31);
-            this.btnComOpen.TabIndex = 71;
-            this.btnComOpen.Text = "Open";
-            this.btnComOpen.UseVisualStyleBackColor = true;
-            this.btnComOpen.Click += new System.EventHandler(this.btnComOpen_Click);
-            // 
-            // btnPortSearch
-            // 
-            this.btnPortSearch.Font = new System.Drawing.Font("Consolas", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPortSearch.Location = new System.Drawing.Point(5, 91);
-            this.btnPortSearch.Name = "btnPortSearch";
-            this.btnPortSearch.Size = new System.Drawing.Size(67, 31);
-            this.btnPortSearch.TabIndex = 71;
-            this.btnPortSearch.Text = "COM";
-            this.btnPortSearch.UseVisualStyleBackColor = true;
-            this.btnPortSearch.Click += new System.EventHandler(this.btnPortSearch_Click);
-            // 
-            // cbPort
-            // 
-            this.cbPort.FormattingEnabled = true;
-            this.cbPort.Location = new System.Drawing.Point(78, 94);
-            this.cbPort.Name = "cbPort";
-            this.cbPort.Size = new System.Drawing.Size(93, 26);
-            this.cbPort.TabIndex = 70;
+            this.pictureBox1.Image = global::Tas1945_mon.Properties.Resources._크기변환_Tempus_Logo;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 89);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(177, 70);
+            this.pictureBox1.TabIndex = 70;
+            this.pictureBox1.TabStop = false;
             // 
             // tgsNetMode
             // 
@@ -1263,6 +1234,7 @@ namespace Tas1945_mon
             this.tabControl1.Controls.Add(this.tpFilter);
             this.tabControl1.Controls.Add(this.tpImageCal);
             this.tabControl1.Controls.Add(this.tpRegTest);
+            this.tabControl1.Controls.Add(this.tpFTDI);
             this.tabControl1.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.tabControl1.Location = new System.Drawing.Point(6, 831);
             this.tabControl1.Name = "tabControl1";
@@ -2560,6 +2532,49 @@ namespace Tas1945_mon
             this.label29.TabIndex = 0;
             this.label29.Text = "Addr.";
             // 
+            // tpFTDI
+            // 
+            this.tpFTDI.Controls.Add(this.cbFTDILog);
+            this.tpFTDI.Controls.Add(this.btnFTDIoffset);
+            this.tpFTDI.Controls.Add(this.btnFTDIRead);
+            this.tpFTDI.Location = new System.Drawing.Point(4, 27);
+            this.tpFTDI.Name = "tpFTDI";
+            this.tpFTDI.Padding = new System.Windows.Forms.Padding(3);
+            this.tpFTDI.Size = new System.Drawing.Size(1370, 168);
+            this.tpFTDI.TabIndex = 5;
+            this.tpFTDI.Text = "FTDI Ctrl";
+            this.tpFTDI.UseVisualStyleBackColor = true;
+            // 
+            // cbFTDILog
+            // 
+            this.cbFTDILog.AutoSize = true;
+            this.cbFTDILog.Location = new System.Drawing.Point(477, 43);
+            this.cbFTDILog.Name = "cbFTDILog";
+            this.cbFTDILog.Size = new System.Drawing.Size(102, 22);
+            this.cbFTDILog.TabIndex = 2;
+            this.cbFTDILog.Text = "Log Check";
+            this.cbFTDILog.UseVisualStyleBackColor = true;
+            // 
+            // btnFTDIoffset
+            // 
+            this.btnFTDIoffset.Location = new System.Drawing.Point(298, 68);
+            this.btnFTDIoffset.Name = "btnFTDIoffset";
+            this.btnFTDIoffset.Size = new System.Drawing.Size(123, 42);
+            this.btnFTDIoffset.TabIndex = 1;
+            this.btnFTDIoffset.Text = "FTDI Offset";
+            this.btnFTDIoffset.UseVisualStyleBackColor = true;
+            this.btnFTDIoffset.Click += new System.EventHandler(this.btnFTDIOffset_Click);
+            // 
+            // btnFTDIRead
+            // 
+            this.btnFTDIRead.Location = new System.Drawing.Point(299, 19);
+            this.btnFTDIRead.Name = "btnFTDIRead";
+            this.btnFTDIRead.Size = new System.Drawing.Size(123, 42);
+            this.btnFTDIRead.TabIndex = 0;
+            this.btnFTDIRead.Text = "FTDI Read";
+            this.btnFTDIRead.UseVisualStyleBackColor = true;
+            this.btnFTDIRead.Click += new System.EventHandler(this.btnFTDIOpen_Click);
+            // 
             // ssMainStrip
             // 
             this.ssMainStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -2887,6 +2902,10 @@ namespace Tas1945_mon
             this.panMain.Size = new System.Drawing.Size(693, 826);
             this.panMain.TabIndex = 20;
             // 
+            // tmSisoRD
+            // 
+            this.tmSisoRD.Tick += new System.EventHandler(this.tmSisoRD_Tick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
@@ -2956,6 +2975,7 @@ namespace Tas1945_mon
             ((System.ComponentModel.ISupportInitialize)(this.nudRegAddr)).EndInit();
             this.gbTcpConnect.ResumeLayout(false);
             this.gbTcpConnect.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudTcpPort)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tpDeviceCtrl.ResumeLayout(false);
@@ -2982,6 +3002,8 @@ namespace Tas1945_mon
             ((System.ComponentModel.ISupportInitialize)(this.nudTestReg_213)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudTestReg_154)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudTestReg_127)).EndInit();
+            this.tpFTDI.ResumeLayout(false);
+            this.tpFTDI.PerformLayout();
             this.ssMainStrip.ResumeLayout(false);
             this.ssMainStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudPixelSpace)).EndInit();
@@ -3199,10 +3221,12 @@ namespace Tas1945_mon
         private System.Windows.Forms.TextBox tbReg127_Set2;
         private System.Windows.Forms.ComboBox cbReg127mode;
         public System.Windows.Forms.CheckBox cbReg24yearSetting;
-        private System.Windows.Forms.Button btnComClose;
-        private System.Windows.Forms.Button btnComOpen;
-        private System.Windows.Forms.Button btnPortSearch;
-        private System.Windows.Forms.ComboBox cbPort;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.TabPage tpFTDI;
+        private System.Windows.Forms.CheckBox cbFTDILog;
+        private System.Windows.Forms.Button btnFTDIoffset;
+        private System.Windows.Forms.Button btnFTDIRead;
+        public System.Windows.Forms.Timer tmSisoRD;
     }
 }
 

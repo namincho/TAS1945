@@ -19,15 +19,15 @@ namespace Tas1945_mon
 {
 	public partial class MainForm : Form
 	{
-		public	Tas1945_Uc_RawImage g_ucRawImage;
-		public	Tas1945_Uc_RawPixels g_ucRawPixels;
+		public Tas1945_Uc_RawImage g_ucRawImage;
+		public Tas1945_Uc_RawPixels g_ucRawPixels;
 
-		public	OpenFileDialog g_openFileDlg = new OpenFileDialog ();
+		public OpenFileDialog g_openFileDlg = new OpenFileDialog();
 
 		private string g_strTitle = "GUI Ver 2.77";
 		// 20240215 GitHub version v2.77 배포
 
-		public DirectoryInfo dirPixelCsvFolder = new DirectoryInfo (Application.StartupPath + @"\Data\");
+		public DirectoryInfo dirPixelCsvFolder = new DirectoryInfo(Application.StartupPath + @"\Data\");
 
 		public Tas1945_RegForm g_fTas1945RegForm;
 		public Tas1945_PixelChartForm g_fPixelChartForm;
@@ -35,14 +35,6 @@ namespace Tas1945_mon
 		public UDPSocket g_clsUDPClient;
 
 		public Thread g_thrImage;
-		
-		// SERIAL SETTING --------------------------------------------------------
-		public SerialPort serial = new SerialPort();       // Set Serial Port
-		private const int BAURATE = 115200;                   // Set Baurate
-		private const int DATABITS = 8;                     // Set BataBits
-		private const StopBits STOPBITS = (StopBits)1;      // Set StopBits
-		private const Parity PARITY = (Parity)0;            // Set Parity
-		private Mutex mutex = new Mutex();
 
 		//private const string dialogInitPath    = "c:\\";
 		public string dialogInitPath = "c:\\Cal_buf_Info\\";
@@ -59,7 +51,7 @@ namespace Tas1945_mon
 
 		public bool cal_mode = false;
 		public bool sensitivity_cal_flag = false;
-		public bool DP_apply_flag=false;
+		public bool DP_apply_flag = false;
 		public bool StoN_flag = false;
 		public bool Signal_flag = false;
 		public bool Noise_flag = false;
@@ -70,19 +62,40 @@ namespace Tas1945_mon
 		public bool g_bContinueRead;
 		public bool g_bFistImage;
 		public int g_ContinuePixelRead_Cnt = 0;
-//		public double g_dbMaxScale = 33200;
-//		public double g_dbMinScale = 32400;
+		//		public double g_dbMaxScale = 33200;
+		//		public double g_dbMinScale = 32400;
 
 		decimal g_decPreClockValue;
 
 		public string Ret_Log_String = "";
 
+		public const int SPI_DEVICE_BUFFER_SIZE = 256;
+		public const int SPI_WRITE_COMPLETION_RETRY = 10;
+		public const int CHANNEL_TO_OPEN = 0;
+		public const byte START_ADDRESS_EEPROM = 0x00;
+		public const byte END_ADDRESS_EEPROM = 0x10;
+		public const int RETRY_COUNT_EEPROM = 10;
+		public const int SPI_SLAVE_0 = 0;
+		public const int SPI_SLAVE_1 = 1;
+		public const int SPI_SLAVE_2 = 2;
+		public const int DATA_OFFSET = 3;
+
+		byte[] rx_ftData = new byte[SpiTempDataSizeByte];
+
+		uint channels;
+		FtChannelConfig ftChannelConfig;
+		byte[] ftbuffer = new byte[SPI_DEVICE_BUFFER_SIZE];
+
+		int frame_cnt = 0;
+
+
+
 		/// <summary>
 		/// 
 		/// </summary>
-		public MainForm ()
+		public MainForm()
 		{
-			InitializeComponent ();
+			InitializeComponent();
 		}
 
 		/// <summary>
@@ -90,92 +103,92 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void MainForm_Load (object sender, EventArgs e)
+		private void MainForm_Load(object sender, EventArgs e)
 		{
 			DateTime buildDate = new FileInfo(Assembly.GetExecutingAssembly().Location).LastWriteTime;
 			g_strTitle = this.Text + " " + g_strTitle + "  [ Built : " + buildDate + " ]";
 
 			this.Text = g_strTitle;
 
-			Initialize ();
-			Select_RawImageType ();
-			ToolHint ();
+			Initialize();
+			Select_RawImageType();
+			ToolHint();
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		private void Select_RawImageType ()
+		private void Select_RawImageType()
 		{
-			if (TGSGet (tgsPixels) == false)
+			if (TGSGet(tgsPixels) == false)
 			{
 				nudPixelSpace.Enabled = false;
 
-				g_ucRawImage = new Tas1945_Uc_RawImage (this);
-				UserControlRawImage (panMain, g_ucRawImage);
+				g_ucRawImage = new Tas1945_Uc_RawImage(this);
+				UserControlRawImage(panMain, g_ucRawImage);
 			}
 			else
 			{
 				nudPixelSpace.Enabled = true;
 
-				g_ucRawPixels = new Tas1945_Uc_RawPixels (this);
-				UserControlRawPixel (panMain, g_ucRawPixels);
+				g_ucRawPixels = new Tas1945_Uc_RawPixels(this);
+				UserControlRawPixel(panMain, g_ucRawPixels);
 			}
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		private void Initialize ()
+		private void Initialize()
 		{
 			try
 			{
-				g_clsUDPClient = new UDPSocket (this);
+				g_clsUDPClient = new UDPSocket(this);
 
 				//ComButtonEnable (false);
 
-				TGSSet (tgsDebugLog, false);
-				TGSSet (tgsCsvSave, false);
+				TGSSet(tgsDebugLog, false);
+				TGSSet(tgsCsvSave, false);
 				g_bCsvOn = false;
-				TGSSet (tgsImageX10, false);
+				TGSSet(tgsImageX10, false);
 
-				RBSet (rbSetPixel1, true);
-				
+				RBSet(rbSetPixel1, true);
+
 				// default rb 변경 - 23' 12/18 조남인
 				//RBSet (rbNormal, true);
 				RBSet(rbNormal, true);
 
-				NUDSet (nudInterval, 50);
+				NUDSet(nudInterval, 50);
 
-				if (TGSGet (tgsNetMode) == true)
+				if (TGSGet(tgsNetMode) == true)
 				{
-					NUDSet (nudTcpPort, 5000);
-					NUDSet (nupSetPort, 5000);
+					NUDSet(nudTcpPort, 5000);
+					NUDSet(nupSetPort, 5000);
 				}
 				else
 				{
-					NUDSet (nudTcpPort, 10000);
-					NUDSet (nupSetPort, 10000);
+					NUDSet(nudTcpPort, 10000);
+					NUDSet(nupSetPort, 10000);
 				}
 
-				TcpIpButtonEnable (false);
+				TcpIpButtonEnable(false);
 
-				if (rbClient.Checked == true)	BTNSet (btnTcpConnect, "Connect");
-				else							BTNSet (btnTcpConnect, "Start");
+				if (rbClient.Checked == true) BTNSet(btnTcpConnect, "Connect");
+				else BTNSet(btnTcpConnect, "Start");
 
-				BTNSet (btnGetPixelInfo, "Read");
+				BTNSet(btnGetPixelInfo, "Read");
 
 				//Tas1945_LoadPixelOffset (dirPixelCsvFolder + "Pixel_Offset.csv");
 
-				Tas1945_RegisterInit ();
-							
+				Tas1945_RegisterInit();
+
 				tssConnectStatus.Text = "Connected : No";
 
-				NUDSet (nudSetClock, 100);
+				NUDSet(nudSetClock, 100);
 				g_decPreClockValue = nudSetClock.Value;
 
-				NUDSet (nudClockDelay, 1);
-				TGSSet (tgsReadEdge, false);
+				NUDSet(nudClockDelay, 1);
+				TGSSet(tgsReadEdge, false);
 
 				nudMaxVal.Maximum = 32767;
 				nudMaxVal.Minimum = -32767;
@@ -185,20 +198,20 @@ namespace Tas1945_mon
 				nudSetCenterValue.Maximum = 32767;
 				nudSetCenterValue.Minimum = -32768;
 
-				NUDSet (nudMaxVal, 300);
-				NUDSet (nudMinVal, -300);
+				NUDSet(nudMaxVal, 300);
+				NUDSet(nudMinVal, -300);
 
-				NUDSet (nudSetCenterValue, 0);
+				NUDSet(nudSetCenterValue, 0);
 
 				cbReg127mode.SelectedIndex = 0;
 
 				for (int i = 0; i < 4860; i++)
-                {
+				{
 					row = (int)i / COL;
 					col = i - row * COL;
 
-					Active_Line_Ctrl[row,col] = 1;
-					Active_XY_Ctrl[row,col] = 1;
+					Active_Line_Ctrl[row, col] = 1;
+					Active_XY_Ctrl[row, col] = 1;
 				}
 
 				btnRegRD_Set1.Enabled = false;
@@ -230,7 +243,7 @@ namespace Tas1945_mon
 
 				cbNF_apply.Enabled = false;
 				tbKalmanError.Enabled = false;
-				btnKalmanError.Enabled=false;
+				btnKalmanError.Enabled = false;
 
 				cbDPC_apply.Enabled = false;
 
@@ -247,12 +260,12 @@ namespace Tas1945_mon
 
 				g_bContinueRead = false;
 
-				RBSet (rbTestPixel, true);
-				if (RBGet (rbTestPixel) == true)
+				RBSet(rbTestPixel, true);
+				if (RBGet(rbTestPixel) == true)
 				{
 					g_iCsvSaveMode = 0;
 				}
-				else if (RBGet (rbChartPixel) == true)
+				else if (RBGet(rbChartPixel) == true)
 				{
 					g_iCsvSaveMode = 1;
 				}
@@ -261,11 +274,11 @@ namespace Tas1945_mon
 					g_iCsvSaveMode = 0;
 				}
 
-				tmImageDsp.Start ();					//	Timer 에서 display
+				tmImageDsp.Start();                 //	Timer 에서 display
 			}
 			catch (Exception)
 			{
-				;	//
+				;   //
 			}
 		}
 
@@ -274,16 +287,16 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void MainForm_FormClosed (object sender, FormClosedEventArgs e)
+		private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			TcpUdp_Close ();
+			TcpUdp_Close();
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="bEnable"></param>
-		public void TcpIpButtonEnable (bool bEnable)
+		public void TcpIpButtonEnable(bool bEnable)
 		{
 			btnRegWrite.Enabled = bEnable;
 			btnRegRead.Enabled = bEnable;
@@ -313,9 +326,9 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void btnLogClear_Click (object sender, EventArgs e)
-		{	
-			rtbLog.Clear ();
+		private void btnLogClear_Click(object sender, EventArgs e)
+		{
+			rtbLog.Clear();
 		}
 
 		/// <summary>
@@ -323,17 +336,17 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="pan"></param>
 		/// <param name="uc"></param>
-		private void UserControlRawImage (Panel pan, UserControl uc)
+		private void UserControlRawImage(Panel pan, UserControl uc)
 		{
 			try
 			{
-				pan.Controls.Clear ();
-				pan.Controls.Add (uc);
+				pan.Controls.Clear();
+				pan.Controls.Add(uc);
 				uc.Dock = DockStyle.Fill;
 			}
 			catch (Exception ex)
 			{
-				ERR (ex.Message);
+				ERR(ex.Message);
 			}
 		}
 
@@ -342,17 +355,17 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="pan"></param>
 		/// <param name="uc"></param>
-		private void UserControlRawPixel (Panel pan, UserControl uc)
+		private void UserControlRawPixel(Panel pan, UserControl uc)
 		{
 			try
 			{
-				pan.Controls.Clear ();
-				pan.Controls.Add (uc);
+				pan.Controls.Clear();
+				pan.Controls.Add(uc);
 				uc.Dock = DockStyle.Fill;
 			}
 			catch (Exception ex)
 			{
-				ERR (ex.Message);
+				ERR(ex.Message);
 			}
 		}
 
@@ -361,22 +374,22 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void btnImageClear_Click (object sender, EventArgs e)
+		private void btnImageClear_Click(object sender, EventArgs e)
 		{
 			try
 			{
-				if (TGSGet (tgsPixels) == false)
+				if (TGSGet(tgsPixels) == false)
 				{
-					g_ucRawImage.ClearBitmap ();
+					g_ucRawImage.ClearBitmap();
 				}
 				else
 				{
-					g_ucRawPixels.ClearPixels ();
+					g_ucRawPixels.ClearPixels();
 				}
 			}
 			catch (Exception ex)
 			{
-				ERR (ex.Message);
+				ERR(ex.Message);
 			}
 		}
 
@@ -385,7 +398,7 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void btnTcpConnect_Click (object sender, EventArgs e)
+		private void btnTcpConnect_Click(object sender, EventArgs e)
 		{
 			try
 			{
@@ -393,96 +406,96 @@ namespace Tas1945_mon
 				int iTcpPort;
 
 				strIp = ipAddress.Text;
-				iTcpPort = Convert.ToInt32 (NUDGet (nudTcpPort));
+				iTcpPort = Convert.ToInt32(NUDGet(nudTcpPort));
 
-				if (BTNGet (btnTcpConnect) == "Connect")
+				if (BTNGet(btnTcpConnect) == "Connect")
 				{
-					TcpIpButtonEnable (true);
+					TcpIpButtonEnable(true);
 
-					if (RBGet (rbClient) == true)
+					if (RBGet(rbClient) == true)
 					{
-						BTNSet (btnTcpConnect, "Disconnect");
+						BTNSet(btnTcpConnect, "Disconnect");
 
-						tssConnectStatus.Text = (TGSGet (tgsNetMode) == true) ? "TCP " : "UDP " + "Connected : Server " + strIp + ":" + iTcpPort;
+						tssConnectStatus.Text = (TGSGet(tgsNetMode) == true) ? "TCP " : "UDP " + "Connected : Server " + strIp + ":" + iTcpPort;
 
-						if (TGSGet (tgsNetMode) == true)
+						if (TGSGet(tgsNetMode) == true)
 						{
-							TcpIp_ClientConnectToServer (strIp, iTcpPort);
+							TcpIp_ClientConnectToServer(strIp, iTcpPort);
 						}
 						else
 						{
-							g_clsUDPClient.Setup (false, strIp, iTcpPort);
+							g_clsUDPClient.Setup(false, strIp, iTcpPort);
 
-							Tas1945_DeviceInitSetup ();
+							Tas1945_DeviceInitSetup();
 						}
 					}
-					else if (RBGet (rbServer) == true)
+					else if (RBGet(rbServer) == true)
 					{
-						BTNSet (btnTcpConnect, "Stop");
+						BTNSet(btnTcpConnect, "Stop");
 
-						string ip = GetLocalIP ();
-						int port = Convert.ToInt32 (NUDGet (nudTcpPort));
+						string ip = GetLocalIP();
+						int port = Convert.ToInt32(NUDGet(nudTcpPort));
 
 						ipAddress.Text = ip;
-					
-						if (TGSGet (tgsNetMode) == true)
+
+						if (TGSGet(tgsNetMode) == true)
 						{
-							TcpIp_ServerStart (ip, port);
+							TcpIp_ServerStart(ip, port);
 						}
 						else
 						{
-							g_clsUDPClient.Setup (true, strIp, iTcpPort);
+							g_clsUDPClient.Setup(true, strIp, iTcpPort);
 
-							Tas1945_DeviceInitSetup ();
+							Tas1945_DeviceInitSetup();
 						}
 					}
 				}
 				else
 				{
-					if (BTNGet (btnGetPixelInfo) == "Stop")	
+					if (BTNGet(btnGetPixelInfo) == "Stop")
 					{
-						GetPixelInfoRead_Click ();
+						GetPixelInfoRead_Click();
 					}
 
-					TcpIpButtonEnable (false);
+					TcpIpButtonEnable(false);
 
 					tssConnectStatus.Text = "Connected : No";
 
-					if (RBGet (rbClient) == true)
+					if (RBGet(rbClient) == true)
 					{
-						BTNSet (btnTcpConnect, "Connect");
+						BTNSet(btnTcpConnect, "Connect");
 
-						if (TGSGet (tgsNetMode) == true)
+						if (TGSGet(tgsNetMode) == true)
 						{
-							TcpIp_ClientDisconnectFromServer ();
+							TcpIp_ClientDisconnectFromServer();
 						}
 						else
 						{
-							Tas1945_PL_StatusCheck (false);
+							Tas1945_PL_StatusCheck(false);
 
-							g_clsUDPClient.Close ();
+							g_clsUDPClient.Close();
 						}
 					}
-					else if (RBGet (rbServer) == true)
+					else if (RBGet(rbServer) == true)
 					{
-						BTNSet (btnTcpConnect, "Start");
+						BTNSet(btnTcpConnect, "Start");
 
-						if (TGSGet (tgsNetMode) == true)
+						if (TGSGet(tgsNetMode) == true)
 						{
-							TcpIp_ServerStop ();
+							TcpIp_ServerStop();
 						}
 						else
 						{
-							Tas1945_PL_StatusCheck (false);
+							Tas1945_PL_StatusCheck(false);
 
-							g_clsUDPClient.Close ();
+							g_clsUDPClient.Close();
 						}
 					}
 				}
 			}
 			catch (Exception ex)
 			{
-				ERR (ex.Message);
+				ERR(ex.Message);
 			}
 		}
 
@@ -491,9 +504,9 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void tbRegData_KeyPress (object sender, KeyPressEventArgs e)
+		private void tbRegData_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			HexCheckForInputChar (sender, e);
+			HexCheckForInputChar(sender, e);
 		}
 
 		/// <summary>
@@ -501,18 +514,18 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void rbClient_CheckedChanged (object sender, EventArgs e)
+		private void rbClient_CheckedChanged(object sender, EventArgs e)
 		{
-			if (BTNGet (btnTcpConnect) == "Disconnect")
+			if (BTNGet(btnTcpConnect) == "Disconnect")
 			{
-				TcpIp_ClientDisconnectFromServer ();
+				TcpIp_ClientDisconnectFromServer();
 			}
-			else if (BTNGet (btnTcpConnect) == "Stop")
+			else if (BTNGet(btnTcpConnect) == "Stop")
 			{
-				TcpIp_ServerStop ();
+				TcpIp_ServerStop();
 			}
 
-            BTNSet (btnTcpConnect, "Connect");
+			BTNSet(btnTcpConnect, "Connect");
 		}
 
 		/// <summary>
@@ -520,18 +533,18 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void rbServer_CheckedChanged (object sender, EventArgs e)
+		private void rbServer_CheckedChanged(object sender, EventArgs e)
 		{
-			if (BTNGet (btnTcpConnect) == "Disconnect")
+			if (BTNGet(btnTcpConnect) == "Disconnect")
 			{
-				TcpIp_ClientDisconnectFromServer ();
+				TcpIp_ClientDisconnectFromServer();
 			}
-			else if (BTNGet (btnTcpConnect) == "Stop")
+			else if (BTNGet(btnTcpConnect) == "Stop")
 			{
-				TcpIp_ServerStop ();
+				TcpIp_ServerStop();
 			}
 
-			BTNSet (btnTcpConnect, "Start");
+			BTNSet(btnTcpConnect, "Start");
 		}
 
 		/// <summary>
@@ -539,9 +552,9 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void btnSpiWrite_Click (object sender, EventArgs e)
-		{	
-			Tas1945_RegisterWrite ();
+		private void btnSpiWrite_Click(object sender, EventArgs e)
+		{
+			Tas1945_RegisterWrite();
 		}
 
 		/// <summary>
@@ -549,78 +562,78 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void btnSpiRead_Click (object sender, EventArgs e)
+		private void btnSpiRead_Click(object sender, EventArgs e)
 		{
-			Tas1945_RegisterRead (1);
+			Tas1945_RegisterRead(1);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		private void GetPixelInfoRead_Click ()
+		private void GetPixelInfoRead_Click()
 		{
-			bool	bStatus;
+			bool bStatus;
 
 			try
 			{
-				if ((TGSGet (tgsContinue) == true) || (RBGet (rbGuiAvr) == true))
+				if ((TGSGet(tgsContinue) == true) || (RBGet(rbGuiAvr) == true))
 				{
-					if (BTNGet (btnGetPixelInfo) == "Read")
-					{	
+					if (BTNGet(btnGetPixelInfo) == "Read")
+					{
 						//	PL read
-						Tas1945_PL_StatusCheck (true);
+						Tas1945_PL_StatusCheck(true);
 
-	//					if (BTNGet (btnSetReadPLStart) == "PL Read")
-	//					{	
-	//						BTNSet (btnSetReadPLStart, "PL Stop");
-	//		
-	//						Tas1945_PLReadCtrl (true);
-	//		
-	//						if (Resp_CheckWait (5000) == false)		return;
-	//					}
+						//					if (BTNGet (btnSetReadPLStart) == "PL Read")
+						//					{	
+						//						BTNSet (btnSetReadPLStart, "PL Stop");
+						//		
+						//						Tas1945_PLReadCtrl (true);
+						//		
+						//						if (Resp_CheckWait (5000) == false)		return;
+						//					}
 
-						if (TGSGet (tgsNetMode) == false)
-						{ 
+						if (TGSGet(tgsNetMode) == false)
+						{
 							if (g_bPLReadStart == false)
 							{
-								ERR ("PL Read not enable !!!");
+								ERR("PL Read not enable !!!");
 								return;
 							}
 						}
 
-						BTNSet (btnGetPixelInfo, "Stop");
-						tmPixelCountinue.Interval = (int)NUDGet (nudInterval);
-						if((int)NUDGet(nudInterval) < 10)
-                        {
+						BTNSet(btnGetPixelInfo, "Stop");
+						tmPixelCountinue.Interval = (int)NUDGet(nudInterval);
+						if ((int)NUDGet(nudInterval) < 10)
+						{
 							tmImageDsp.Interval = (int)NUDGet(nudInterval);   // 120frame 을 위해 추가함 - 20230817 조남인
 						}
 
-						Kalman_Init ();
-						LPF_IIR_Init ((double)NUDGet (nudLpfSensitive));
+						Kalman_Init();
+						LPF_IIR_Init((double)NUDGet(nudLpfSensitive));
 
 						g_bFistImage = false;
 
-						if (TGSGet (tgsCsvSave) == true)
+						if (TGSGet(tgsCsvSave) == true)
 						{
 							g_bCsvOn = true;
 
-							if (RBGet (rbTestPixel) == true)
+							if (RBGet(rbTestPixel) == true)
 							{
 								g_iCsvSaveMode = 0;
 
-								TestPixelLog_CsvFileOpen ();
+								TestPixelLog_CsvFileOpen();
 							}
-							else if (RBGet (rbChartPixel) == true)
+							else if (RBGet(rbChartPixel) == true)
 							{
 								g_iCsvSaveMode = 1;
-								RawLog_CsvFileOpen ();
+								RawLog_CsvFileOpen();
 							}
 							else
 							{
-								RBSet (rbTestPixel, true);
+								RBSet(rbTestPixel, true);
 								g_iCsvSaveMode = 0;
 
-								TestPixelLog_CsvFileOpen ();
+								TestPixelLog_CsvFileOpen();
 							}
 						}
 						else
@@ -628,44 +641,44 @@ namespace Tas1945_mon
 							g_bCsvOn = false;
 						}
 
-						tmPixelCountinue.Start ();
+						tmPixelCountinue.Start();
 						//tmFrameCnt.Start ();
 
 						bStatus = false;
 
-						if(tmImageDsp.Enabled == false)
+						if (tmImageDsp.Enabled == false)
 							tmImageDsp.Start();
 						//tmImageDsp.Interval = 100;
 					}
 					else
 					{
-						BTNSet (btnGetPixelInfo, "Read");
-					
+						BTNSet(btnGetPixelInfo, "Read");
+
 						if (g_iCsvSaveMode == 1)
 						{
-							RawLog_CsvFileClose ();
+							RawLog_CsvFileClose();
 						}
 						else
-						{	
-							Save_TestPixelCsv ();
+						{
+							Save_TestPixelCsv();
 
-							TestPixelLog_CsvFileClose ();
-						}	
+							TestPixelLog_CsvFileClose();
+						}
 
-						tmImageDsp.Stop ();
-						tmPixelCountinue.Stop ();
+						tmImageDsp.Stop();
+						tmPixelCountinue.Stop();
 						//tmFrameCnt.Stop();
 
-						Tas1945_PL_StatusCheck (false);
+						Tas1945_PL_StatusCheck(false);
 
-	//					if (BTNGet (btnSetReadPLStart) == "PL Stop")
-	//					{	
-	//						BTNSet (btnSetReadPLStart, "PL Read");
-	//		
-	//						Tas1945_PLReadCtrl (false);
-	//		
-	//						if (Resp_CheckWait (5000) == false)		return;
-	//					}
+						//					if (BTNGet (btnSetReadPLStart) == "PL Stop")
+						//					{	
+						//						BTNSet (btnSetReadPLStart, "PL Read");
+						//		
+						//						Tas1945_PLReadCtrl (false);
+						//		
+						//						if (Resp_CheckWait (5000) == false)		return;
+						//					}
 
 						bStatus = true;
 					}
@@ -690,13 +703,13 @@ namespace Tas1945_mon
 					btnSetReadPLStart.Enabled = bStatus;
 					btnResend.Enabled = bStatus;
 					btnReset.Enabled = bStatus;
-				
+
 					tgsContinue.Enabled = bStatus;
-				
+
 					rbNormal.Enabled = bStatus;
 					rbFpgaAvr.Enabled = bStatus;
 					rbGuiAvr.Enabled = bStatus;
-					rbMoveAvr.Enabled= bStatus;
+					rbMoveAvr.Enabled = bStatus;
 
 					tgsCsvSave.Enabled = bStatus;
 
@@ -706,7 +719,7 @@ namespace Tas1945_mon
 
 					rbOffsetDisable.Enabled = bStatus;
 					rbDark_X_Offset.Enabled = bStatus;
-					rbDark_Y_Offset.Enabled	= bStatus;
+					rbDark_Y_Offset.Enabled = bStatus;
 					rbAvrOffset.Enabled = bStatus;
 
 					nudSetCenterValue.Enabled = bStatus;
@@ -716,7 +729,7 @@ namespace Tas1945_mon
 
 					g_iAvrCount = 0;
 
-					Array.Clear	(g_aiOffAvrData, 0, g_aiOffAvrData.Length);
+					Array.Clear(g_aiOffAvrData, 0, g_aiOffAvrData.Length);
 
 					s_bInitKalamn = false;
 
@@ -760,21 +773,21 @@ namespace Tas1945_mon
 
 					g_bContinueRead = !bStatus;
 
-					if (BTNGet (btnGetPixelInfo) == "Read")		return;
+					if (BTNGet(btnGetPixelInfo) == "Read") return;
 				}
 				else
 				{
-					if (TGSGet (tgsNetMode) == false)
+					if (TGSGet(tgsNetMode) == false)
 					{
 						if (g_bPLReadStart == false)
 						{
-							ERR ("PL Read not enable !!!");
+							ERR("PL Read not enable !!!");
 							return;
 						}
 					}
 				}
 
-				Tas1945_GetPixelInfo ();			
+				Tas1945_GetPixelInfo();
 			}
 			catch (Exception)
 			{
@@ -784,47 +797,47 @@ namespace Tas1945_mon
 		/// <summary>
 		/// 
 		/// </summary>
-		private void PushModeRead_Click ()
+		private void PushModeRead_Click()
 		{
-			bool	bStatus;
+			bool bStatus;
 
-			if (BTNGet (btnReadPushMode) == "Push Read")
+			if (BTNGet(btnReadPushMode) == "Push Read")
 			{
-				Tas1945_PL_StatusCheck (true);	
+				Tas1945_PL_StatusCheck(true);
 
 				if (g_bPLReadStart == false)
 				{
-					ERR ("PL Read not enable !!!");
+					ERR("PL Read not enable !!!");
 					return;
 				}
 
-				RBSet (rbFpgaAvr, true);
+				RBSet(rbFpgaAvr, true);
 
-				BTNSet (btnReadPushMode, "Push Stop");
+				BTNSet(btnReadPushMode, "Push Stop");
 
 				g_bFistImage = false;
 
-				if (TGSGet (tgsCsvSave) == true)
+				if (TGSGet(tgsCsvSave) == true)
 				{
 					g_bCsvOn = true;
 
-					if (RBGet (rbTestPixel) == true)
+					if (RBGet(rbTestPixel) == true)
 					{
 						g_iCsvSaveMode = 0;
 
-						TestPixelLog_CsvFileOpen ();
+						TestPixelLog_CsvFileOpen();
 					}
-					else if (RBGet (rbChartPixel) == true)
+					else if (RBGet(rbChartPixel) == true)
 					{
 						g_iCsvSaveMode = 1;
-						RawLog_CsvFileOpen ();
+						RawLog_CsvFileOpen();
 					}
 					else
 					{
-						RBSet (rbTestPixel, true);
+						RBSet(rbTestPixel, true);
 						g_iCsvSaveMode = 0;
 
-						TestPixelLog_CsvFileOpen ();
+						TestPixelLog_CsvFileOpen();
 					}
 				}
 				else
@@ -836,43 +849,43 @@ namespace Tas1945_mon
 
 				//RBSet (rbOffNormal, true);
 
-				Thread.Sleep (200);
+				Thread.Sleep(200);
 
 				g_bPushSkipFlag = false;
-				
+
 				g_bOffPixelApply = false;
 				g_iOffPixelCnt = 0;
 				g_bOffAvrApply = false;
 				g_iOffAvfrCnt = 0;
 
-				Kalman_Init ();
-				LPF_IIR_Init ((double)NUDGet (nudLpfSensitive));
+				Kalman_Init();
+				LPF_IIR_Init((double)NUDGet(nudLpfSensitive));
 
 				//tmImageDsp.Interval = 60;
 				//tmImageDsp.Start ();					//	Timer 에서 display
 
-				Tas1945_GetPixelInfoPushMode ();
+				Tas1945_GetPixelInfoPushMode();
 			}
 			else
 			{
-				BTNSet (btnReadPushMode, "Push Read");
+				BTNSet(btnReadPushMode, "Push Read");
 
 				if (g_iCsvSaveMode == 1)
 				{
-					RawLog_CsvFileClose ();
+					RawLog_CsvFileClose();
 				}
 				else
 				{
-					Save_TestPixelCsv ();
+					Save_TestPixelCsv();
 
-					TestPixelLog_CsvFileClose ();
-				}	
+					TestPixelLog_CsvFileClose();
+				}
 
 				bStatus = true;
 
-				Tas1945_PushModeStop ();
+				Tas1945_PushModeStop();
 
-				Tas1945_PL_StatusCheck (false);
+				Tas1945_PL_StatusCheck(false);
 
 				//tmImageDsp.Stop ();
 			}
@@ -892,11 +905,11 @@ namespace Tas1945_mon
 			btnReset.Enabled = bStatus;
 
 			tgsContinue.Enabled = bStatus;
-				
+
 			rbNormal.Enabled = bStatus;
 			rbFpgaAvr.Enabled = bStatus;
 			rbGuiAvr.Enabled = bStatus;
-			rbMoveAvr.Enabled= bStatus;
+			rbMoveAvr.Enabled = bStatus;
 
 			tgsCsvSave.Enabled = bStatus;
 
@@ -932,9 +945,9 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void btnGetPixelInfoRead_Click (object sender, EventArgs e)
+		private void btnGetPixelInfoRead_Click(object sender, EventArgs e)
 		{
-			GetPixelInfoRead_Click ();
+			GetPixelInfoRead_Click();
 		}
 
 		/// <summary>
@@ -942,9 +955,9 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void btnReset_Click (object sender, EventArgs e)
+		private void btnReset_Click(object sender, EventArgs e)
 		{
-			Tas1945_Reset ();
+			Tas1945_Reset();
 		}
 
 		/// <summary>
@@ -952,9 +965,9 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void btnIpSetup_Click (object sender, EventArgs e)
+		private void btnIpSetup_Click(object sender, EventArgs e)
 		{
-			Tas1945_IpSetup ();
+			Tas1945_IpSetup();
 		}
 
 		/// <summary>
@@ -962,37 +975,37 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void tmImage_Tick (object sender, EventArgs e)
+		private void tmImage_Tick(object sender, EventArgs e)
 		{
 			try
 			{
 				if (g_queImage.Count > 0)
 				{
-					float[]	asImage = g_queImage.Dequeue ();
+					float[] asImage = g_queImage.Dequeue();
 
-					if (asImage == null)		return;
-					if (asImage.Length <= 0)	return;
+					if (asImage == null) return;
+					if (asImage.Length <= 0) return;
 
 					if (g_fPixelChartForm != null)
 					{
-						g_fPixelChartForm.Chart_Update (asImage, asImage.Length);
+						g_fPixelChartForm.Chart_Update(asImage, asImage.Length);
 					}
 
-					if (TGSGet (tgsShowImage) == false)		return;
+					if (TGSGet(tgsShowImage) == false) return;
 
-					if (TGSGet (tgsPixels) == false)
+					if (TGSGet(tgsPixels) == false)
 					{
-						g_ucRawImage.CreateColorBitmapZoom (asImage, asImage.Length);
+						g_ucRawImage.CreateColorBitmapZoom(asImage, asImage.Length);
 					}
 					else
 					{
-						g_ucRawPixels.CreatePixels (asImage, asImage.Length);
+						g_ucRawPixels.CreatePixels(asImage, asImage.Length);
 					}
 				}
 			}
 			catch (Exception)
 			{
-				ERR ("Image Error !!!");
+				ERR("Image Error !!!");
 			}
 		}
 
@@ -1001,40 +1014,40 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void Get_PosXY_Value (object sender, KeyPressEventArgs e)
+		private void Get_PosXY_Value(object sender, KeyPressEventArgs e)
 		{
 			try
 			{
-				if (e.KeyChar != Convert.ToChar (Keys.Enter))
+				if (e.KeyChar != Convert.ToChar(Keys.Enter))
 				{
-					if (CheckDigit (sender, e) == false)	return;
+					if (CheckDigit(sender, e) == false) return;
 
 					return;
 				}
 
-				int x = StringToInt (tbPixelX.Text);
-				int y = StringToInt (tbPixelY.Text);
+				int x = StringToInt(tbPixelX.Text);
+				int y = StringToInt(tbPixelY.Text);
 
-				if (x > 80)		x = 80;					
-				if (y > 59)		y = 59;					
+				if (x > 80) x = 80;
+				if (y > 59) y = 59;
 
-				TBSet (tbPixelX, x.ToString ());
-				TBSet (tbPixelY, y.ToString ());
+				TBSet(tbPixelX, x.ToString());
+				TBSet(tbPixelY, y.ToString());
 
-				if (TGSGet (tgsPixels) == false)
+				if (TGSGet(tgsPixels) == false)
 				{
-					if (TGSGet (tgsImageX10) == false)
+					if (TGSGet(tgsImageX10) == false)
 					{
 						x = x * g_ucRawImage.g_iZoom;
 						y = y * g_ucRawImage.g_iZoom;
 					}
 
-					g_ucRawImage.GetPanelBitmapValue (x, y);
+					g_ucRawImage.GetPanelBitmapValue(x, y);
 				}
 				else
 				{
-					g_ucRawPixels.GetPanelPixelValue (x * 10, y * 10);
-				}		
+					g_ucRawPixels.GetPanelPixelValue(x * 10, y * 10);
+				}
 			}
 			catch (Exception)
 			{
@@ -1047,9 +1060,9 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void tbPixelX_KeyPress (object sender, KeyPressEventArgs e)
+		private void tbPixelX_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			Get_PosXY_Value (sender, e);
+			Get_PosXY_Value(sender, e);
 		}
 
 		/// <summary>
@@ -1057,9 +1070,9 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void tbPixelY_KeyPress (object sender, KeyPressEventArgs e)
+		private void tbPixelY_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			Get_PosXY_Value (sender, e);
+			Get_PosXY_Value(sender, e);
 		}
 
 		/// <summary>
@@ -1067,12 +1080,12 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void MainForm_SizeChanged (object sender, EventArgs e)
+		private void MainForm_SizeChanged(object sender, EventArgs e)
 		{
 			if (g_ucRawImage == null) return;
-			if (TGSGet (tgsPixels) == false)
+			if (TGSGet(tgsPixels) == false)
 			{
-				g_ucRawImage.ImageRefresh ();
+				g_ucRawImage.ImageRefresh();
 			}
 			else
 			{
@@ -1085,16 +1098,16 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void MainForm_Activated (object sender, EventArgs e)
+		private void MainForm_Activated(object sender, EventArgs e)
 		{
-			if (TGSGet (tgsPixels) == false)
+			if (TGSGet(tgsPixels) == false)
 			{
-				g_ucRawImage.ImageRefresh ();
+				g_ucRawImage.ImageRefresh();
 			}
 			else
 			{
 				//g_ucRawPixels.Refresh ();
-			}	
+			}
 		}
 
 		/// <summary>
@@ -1102,26 +1115,26 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void btnTas1945Init_Click (object sender, EventArgs e)
+		private void btnTas1945Init_Click(object sender, EventArgs e)
 		{
 			try
-			{				
-				if (g_fTas1945RegForm != null)	return;
+			{
+				if (g_fTas1945RegForm != null) return;
 
-				Tas1945_RegisterInit ();
+				Tas1945_RegisterInit();
 
-				g_fTas1945RegForm = new Tas1945_RegForm (this);
+				g_fTas1945RegForm = new Tas1945_RegForm(this);
 
 				// 레지스터form 시작위치 지정 - v2.05 240101 조남인
 				g_fTas1945RegForm.StartPosition = FormStartPosition.Manual;
-				g_fTas1945RegForm.Location = new Point (300,3);
+				g_fTas1945RegForm.Location = new Point(300, 3);
 
-				g_fTas1945RegForm.Show ();
+				g_fTas1945RegForm.Show();
 			}
 			catch (Exception ex)
 			{
-				ERR (ex.Message);
-			}	
+				ERR(ex.Message);
+			}
 		}
 
 		/// <summary>
@@ -1129,25 +1142,25 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void tmPixelCountinue_Tick (object sender, EventArgs e)
+		private void tmPixelCountinue_Tick(object sender, EventArgs e)
 		{
 			if (g_bContinueRead == true)
 			{
-				if ((g_bCommComplete == false)&&(g_bSendRead == true))
+				if ((g_bCommComplete == false) && (g_bSendRead == true))
 				//if (g_bCommComplete == false)
-				{ 
-//					g_ContinuePixelRead_Cnt++;
-//					
-//					if (g_ContinuePixelRead_Cnt < 3)	return;
-//
-//					g_ContinuePixelRead_Cnt = 0;
+				{
+					//					g_ContinuePixelRead_Cnt++;
+					//					
+					//					if (g_ContinuePixelRead_Cnt < 3)	return;
+					//
+					//					g_ContinuePixelRead_Cnt = 0;
 
 					return;
 				}
 
-				if ((RBGet (rbGuiAvr) == true) && (g_iAvrCount == (int)NUDGet (nudAvrCnt)))
+				if ((RBGet(rbGuiAvr) == true) && (g_iAvrCount == (int)NUDGet(nudAvrCnt)))
 				{
-					GetPixelInfoRead_Click ();
+					GetPixelInfoRead_Click();
 					return;
 				}
 
@@ -1155,12 +1168,12 @@ namespace Tas1945_mon
 
 				if (Algorithm_Flag == true)
 					return;
-                else
-                {
+				else
+				{
 					// BookMark #4 : 타이머로 돌면서 FPGA에 PixelData를 요청하는 부분
 					Algorithm_Flag = true;
 					Tas1945_GetPixelInfo();
-                }
+				}
 			}
 		}
 
@@ -1168,16 +1181,16 @@ namespace Tas1945_mon
 		/// 
 		/// </summary>
 		/// <param name="byBankNum"></param>
-		private void Set_Bank (byte byBankNum)
+		private void Set_Bank(byte byBankNum)
 		{
-			byte[]		abyData = new byte[2];
+			byte[] abyData = new byte[2];
 
 			abyData[0] = 255;
 			abyData[1] = byBankNum;
 
-			LOG ("REG WR : " + abyData[0].ToString () + ", " + abyData[1].ToString () + "[0x" + HexToAscStr (abyData[1], false) + "]" , Color.Blue);
+			LOG("REG WR : " + abyData[0].ToString() + ", " + abyData[1].ToString() + "[0x" + HexToAscStr(abyData[1], false) + "]", Color.Blue);
 
-			Tas1945_TcpUdpSend ((uint)REQ.REG_WR, abyData, 2);		
+			Tas1945_TcpUdpSend((uint)REQ.REG_WR, abyData, 2);
 		}
 
 		/// <summary>
@@ -1185,9 +1198,9 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void btnRegAllRead_Click (object sender, EventArgs e)
+		private void btnRegAllRead_Click(object sender, EventArgs e)
 		{
-			Tas1945_InitDataAllRead ();
+			Tas1945_InitDataAllRead();
 		}
 
 		/// <summary>
@@ -1195,34 +1208,34 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void nudSetClock_ValueChanged (object sender, EventArgs e)
-		{	
-			if (NUDGet (nudSetClock) == 10 || NUDGet (nudSetClock) == 50 || NUDGet (nudSetClock) == 100)	return;
+		private void nudSetClock_ValueChanged(object sender, EventArgs e)
+		{
+			if (NUDGet(nudSetClock) == 10 || NUDGet(nudSetClock) == 50 || NUDGet(nudSetClock) == 100) return;
 
-			if (NUDGet (nudSetClock) < g_decPreClockValue)						//	down
-            {
-                if (50 < NUDGet (nudSetClock))
+			if (NUDGet(nudSetClock) < g_decPreClockValue)                       //	down
+			{
+				if (50 < NUDGet(nudSetClock))
 				{
-					NUDSet (nudSetClock, 50);
+					NUDSet(nudSetClock, 50);
 				}
 				else
 				{
-					NUDSet (nudSetClock, 10);
+					NUDSet(nudSetClock, 10);
 				}
-            }
-            else if(NUDGet (nudSetClock) > g_decPreClockValue)					//	up
-            {
-				if (50 <= NUDGet (nudSetClock))
+			}
+			else if (NUDGet(nudSetClock) > g_decPreClockValue)                  //	up
+			{
+				if (50 <= NUDGet(nudSetClock))
 				{
-					NUDSet (nudSetClock, 100);
+					NUDSet(nudSetClock, 100);
 				}
 				else
 				{
-					NUDSet (nudSetClock, 50);
+					NUDSet(nudSetClock, 50);
 				}
-            }
+			}
 
-            g_decPreClockValue = NUDGet (nudSetClock);
+			g_decPreClockValue = NUDGet(nudSetClock);
 		}
 
 		/// <summary>
@@ -1230,9 +1243,9 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void btnSetClock_Click (object sender, EventArgs e)
+		private void btnSetClock_Click(object sender, EventArgs e)
 		{
-			Tas1945_SetClock ();
+			Tas1945_SetClock();
 		}
 
 		/// <summary>
@@ -1240,9 +1253,9 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void tgsPixels_CheckedChanged (object sender, EventArgs e)
+		private void tgsPixels_CheckedChanged(object sender, EventArgs e)
 		{
-			Select_RawImageType ();
+			Select_RawImageType();
 		}
 
 		/// <summary>
@@ -1250,11 +1263,11 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void btnPixelChartShow_Click (object sender, EventArgs e)
+		private void btnPixelChartShow_Click(object sender, EventArgs e)
 		{
 			try
-			{				
-				if (g_fPixelChartForm != null)	return;
+			{
+				if (g_fPixelChartForm != null) return;
 
 				rbSetPixel1.Enabled = true;
 				rbSetPixel2.Enabled = true;
@@ -1264,14 +1277,14 @@ namespace Tas1945_mon
 				btnChartClear.Enabled = true;
 				btnPixelChartShow.Enabled = false;
 
-				g_fPixelChartForm = new Tas1945_PixelChartForm (this);
+				g_fPixelChartForm = new Tas1945_PixelChartForm(this);
 
-				g_fPixelChartForm.Show ();
+				g_fPixelChartForm.Show();
 			}
 			catch (Exception ex)
 			{
-				ERR (ex.Message);
-			}	
+				ERR(ex.Message);
+			}
 		}
 
 		/// <summary>
@@ -1279,9 +1292,9 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void btnChartClear_Click (object sender, EventArgs e)
+		private void btnChartClear_Click(object sender, EventArgs e)
 		{
-			g_fPixelChartForm.Clear_PixelChart ();
+			g_fPixelChartForm.Clear_PixelChart();
 		}
 
 		/// <summary>
@@ -1289,7 +1302,7 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void tgsCsvSave_CheckedChanged (object sender, EventArgs e)
+		private void tgsCsvSave_CheckedChanged(object sender, EventArgs e)
 		{
 			//if (TGSGet (tgsCsvSave) == true)	RawLog_CsvFileOpen ();
 			//else								RawLog_CsvFileClose ();
@@ -1298,10 +1311,10 @@ namespace Tas1945_mon
 		/// <summary>
 		/// 
 		/// </summary>
-		private void AverageMode_Change ()
+		private void AverageMode_Change()
 		{
-			if (RBGet (rbFpgaAvr) == true)		NUDSet (nudInterval, 50);
-			else								NUDSet (nudInterval, 50);
+			if (RBGet(rbFpgaAvr) == true) NUDSet(nudInterval, 50);
+			else NUDSet(nudInterval, 50);
 		}
 
 		/// <summary>
@@ -1309,9 +1322,9 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void rbNormal_CheckedChanged (object sender, EventArgs e)
+		private void rbNormal_CheckedChanged(object sender, EventArgs e)
 		{
-			AverageMode_Change ();
+			AverageMode_Change();
 		}
 
 		/// <summary>
@@ -1319,9 +1332,9 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void rbFpgaAvr_CheckedChanged (object sender, EventArgs e)
+		private void rbFpgaAvr_CheckedChanged(object sender, EventArgs e)
 		{
-			AverageMode_Change ();
+			AverageMode_Change();
 		}
 
 		/// <summary>
@@ -1329,9 +1342,9 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void rbGuiAvr_CheckedChanged (object sender, EventArgs e)
+		private void rbGuiAvr_CheckedChanged(object sender, EventArgs e)
 		{
-			AverageMode_Change ();
+			AverageMode_Change();
 		}
 
 		/// <summary>
@@ -1339,9 +1352,9 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void rbMoveAvr_CheckedChanged (object sender, EventArgs e)
+		private void rbMoveAvr_CheckedChanged(object sender, EventArgs e)
 		{
-			AverageMode_Change ();
+			AverageMode_Change();
 		}
 
 		/// <summary>
@@ -1349,9 +1362,9 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void nudInterval_Click (object sender, EventArgs e)
+		private void nudInterval_Click(object sender, EventArgs e)
 		{
-			tmPixelCountinue.Interval = (int)NUDGet (nudInterval);
+			tmPixelCountinue.Interval = (int)NUDGet(nudInterval);
 			if ((int)NUDGet(nudInterval) < 10)
 			{
 				tmImageDsp.Interval = (int)NUDGet(nudInterval);   // 120frame 을 위해 추가함 - 20230817 조남인
@@ -1363,9 +1376,9 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void btnSetRead_Click (object sender, EventArgs e)
+		private void btnSetRead_Click(object sender, EventArgs e)
 		{
-			Tas1945_SetRead ();
+			Tas1945_SetRead();
 		}
 
 		/// <summary>
@@ -1373,9 +1386,9 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void btnSetAverage_Click (object sender, EventArgs e)
+		private void btnSetAverage_Click(object sender, EventArgs e)
 		{
-			Tas1945_SetAverageCount ();
+			Tas1945_SetAverageCount();
 		}
 
 		/// <summary>
@@ -1383,9 +1396,9 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void btnGetSetupInfo_Click (object sender, EventArgs e)
+		private void btnGetSetupInfo_Click(object sender, EventArgs e)
 		{
-			Tas1945_GetSetupInfo ();
+			Tas1945_GetSetupInfo();
 		}
 
 		/// <summary>
@@ -1393,9 +1406,9 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void btnReadPushMode_Click (object sender, EventArgs e)
+		private void btnReadPushMode_Click(object sender, EventArgs e)
 		{
-			PushModeRead_Click ();
+			PushModeRead_Click();
 		}
 
 		/// <summary>
@@ -1403,11 +1416,11 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void tgsNetMode_CheckedChanged (object sender, EventArgs e)
+		private void tgsNetMode_CheckedChanged(object sender, EventArgs e)
 		{
-			if (TGSGet (tgsNetMode) == true)
+			if (TGSGet(tgsNetMode) == true)
 			{
-				NUDSet (nudTcpPort, 5000);
+				NUDSet(nudTcpPort, 5000);
 
 				btnSetClock.Visible = false;
 				btnSetRead.Visible = false;
@@ -1426,7 +1439,7 @@ namespace Tas1945_mon
 			}
 			else
 			{
-				NUDSet (nudTcpPort, 10000);
+				NUDSet(nudTcpPort, 10000);
 
 				btnSetClock.Visible = true;
 				btnSetRead.Visible = true;
@@ -1450,19 +1463,19 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void btnSetReadPLStart_Click (object sender, EventArgs e)
+		private void btnSetReadPLStart_Click(object sender, EventArgs e)
 		{
-			if (BTNGet (btnSetReadPLStart) == "PL Read")
-			{	
-				BTNSet (btnSetReadPLStart, "PL Stop");
+			if (BTNGet(btnSetReadPLStart) == "PL Read")
+			{
+				BTNSet(btnSetReadPLStart, "PL Stop");
 
-				Tas1945_PLReadCtrl (true);
+				Tas1945_PLReadCtrl(true);
 			}
 			else
 			{
-				BTNSet (btnSetReadPLStart, "PL Read");
+				BTNSet(btnSetReadPLStart, "PL Read");
 
-				Tas1945_PLReadCtrl (false);
+				Tas1945_PLReadCtrl(false);
 			}
 		}
 
@@ -1471,9 +1484,9 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void btnResend_Click (object sender, EventArgs e)
+		private void btnResend_Click(object sender, EventArgs e)
 		{
-			Tas1945_Resend ();
+			Tas1945_Resend();
 		}
 
 		/// <summary>
@@ -1481,25 +1494,12 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void rbAvrOffset_CheckedChanged (object sender, EventArgs e)
-		{
-			nudPixelMeasure.Maximum = 100;
-			NUDSet (nudPixelMeasure, 10);
-
-			NUDSet (nudInterval, 50);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void rbPixelOffset_CheckedChanged (object sender, EventArgs e)
+		private void rbAvrOffset_CheckedChanged(object sender, EventArgs e)
 		{
 			nudPixelMeasure.Maximum = 100;
-			NUDSet (nudPixelMeasure, 10);
+			NUDSet(nudPixelMeasure, 10);
 
-			NUDSet (nudInterval, 50);
+			NUDSet(nudInterval, 50);
 		}
 
 		/// <summary>
@@ -1507,7 +1507,20 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void tgsIntValue_CheckedChanged (object sender, EventArgs e)
+		private void rbPixelOffset_CheckedChanged(object sender, EventArgs e)
+		{
+			nudPixelMeasure.Maximum = 100;
+			NUDSet(nudPixelMeasure, 10);
+
+			NUDSet(nudInterval, 50);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void tgsIntValue_CheckedChanged(object sender, EventArgs e)
 		{
 			nudMaxVal.Maximum = 32767;
 			nudMaxVal.Minimum = -32767;
@@ -1517,10 +1530,10 @@ namespace Tas1945_mon
 			nudSetCenterValue.Maximum = 32767;
 			nudSetCenterValue.Minimum = -32768;
 
-			NUDSet (nudMaxVal, nudMaxVal.Maximum);
-			NUDSet (nudMinVal, nudMinVal.Minimum);
+			NUDSet(nudMaxVal, nudMaxVal.Maximum);
+			NUDSet(nudMinVal, nudMinVal.Minimum);
 
-			NUDSet (nudSetCenterValue, 0);
+			NUDSet(nudSetCenterValue, 0);
 		}
 
 		/// <summary>
@@ -1528,9 +1541,9 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void rbOffNormal_CheckedChanged (object sender, EventArgs e)
+		private void rbOffNormal_CheckedChanged(object sender, EventArgs e)
 		{
-			NUDSet (nudInterval, 50);
+			NUDSet(nudInterval, 50);
 		}
 
 		/// <summary>
@@ -1538,34 +1551,34 @@ namespace Tas1945_mon
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void rbDarkOffset_CheckedChanged (object sender, EventArgs e)
+		private void rbDarkOffset_CheckedChanged(object sender, EventArgs e)
 		{
-			NUDSet (nudInterval, 50);
+			NUDSet(nudInterval, 50);
 		}
 
-        private void tmFrameCnt_Tick(object sender, EventArgs e)
-        {
+		private void tmFrameCnt_Tick(object sender, EventArgs e)
+		{
 			maxFrame = cntFrames;
-			LBSet(lbMaxFrame,maxFrame.ToString());
+			LBSet(lbMaxFrame, maxFrame.ToString());
 			cntFrames = 0;
-        }
+		}
 
-        private void btncal25_Click(object sender, EventArgs e)
-        {
+		private void btncal25_Click(object sender, EventArgs e)
+		{
 			if (BTNGet(btnGetPixelInfo) == "Read") return;
 			Array.Clear(cal25AvrData, 0, cal25AvrData.Length);
 			cal25_flag = true;
 		}
 
-        private void btncal35_Click(object sender, EventArgs e)
-        {
+		private void btncal35_Click(object sender, EventArgs e)
+		{
 			if (BTNGet(btnGetPixelInfo) == "Read") return;
 			Array.Clear(cal35AvrData, 0, cal35AvrData.Length);
 			cal35_flag = true;
 		}
 
-        private void btncal45_Click(object sender, EventArgs e)
-        {
+		private void btncal45_Click(object sender, EventArgs e)
+		{
 			if (BTNGet(btnGetPixelInfo) == "Read") return;
 			Array.Clear(cal45AvrData, 0, cal45AvrData.Length);
 			cal45_flag = true;
@@ -1656,7 +1669,7 @@ namespace Tas1945_mon
 			else if (bt == btcal35load)
 			{
 				Image_buf_35C = iBuffer; LOG("Successful saving of 35℃ image buffer", Color.Blue);
-				
+
 			}
 			else if (bt == btcal45load) { Image_buf_45C = iBuffer; LOG("Successful saving of 45℃ image buffer", Color.Blue); }
 			else if (bt == btcalOffsetload) { Image_buf_offset = iBuffer; LOG("Successful saving of Offset image buffer", Color.Blue); }
@@ -1675,7 +1688,7 @@ namespace Tas1945_mon
 				cbDP_apply.Enabled = true;
 				cbNF_apply.Enabled = true;
 				cbDPC_apply.Enabled = true;
-				
+
 				// Cal_mode 진입 flag
 				cal_mode = true;
 			}
@@ -1704,12 +1717,12 @@ namespace Tas1945_mon
 			}
 		}
 
-        private void cbSensitivy_cal_CheckedChanged(object sender, EventArgs e)
-        {
+		private void cbSensitivy_cal_CheckedChanged(object sender, EventArgs e)
+		{
 			if (cbSensitivy_cal.Checked == true)
 			{
 				for (int i = 0; i < 4860; i++)
-                {
+				{
 					row = (int)i / COL;
 					col = i - row * COL;
 
@@ -1730,8 +1743,8 @@ namespace Tas1945_mon
 			}
 		}
 
-        private void btnGain_Click(object sender, EventArgs e)
-        {
+		private void btnGain_Click(object sender, EventArgs e)
+		{
 			string inputText = tbGain.Text;
 			double result;
 
@@ -1746,10 +1759,10 @@ namespace Tas1945_mon
 				// 숫자로 변환에 실패한 경우
 				return;
 			}
-        }
+		}
 
-        private void cbDP_apply_CheckedChanged(object sender, EventArgs e)
-        {
+		private void cbDP_apply_CheckedChanged(object sender, EventArgs e)
+		{
 			if (cbDP_apply.Checked == true)
 			{
 				StoN_ck.Enabled = true;
@@ -1768,8 +1781,8 @@ namespace Tas1945_mon
 			else
 			{
 				StoN_ck.Checked = false;
-				Signal_ck.Checked=false;
-				Noise_ck.Checked=false;
+				Signal_ck.Checked = false;
+				Noise_ck.Checked = false;
 
 				StoN_ck.Enabled = false;
 				Signal_ck.Enabled = false;
@@ -1786,29 +1799,29 @@ namespace Tas1945_mon
 			}
 		}
 
-        private void StoN_ck_CheckedChanged(object sender, EventArgs e)
-        {
+		private void StoN_ck_CheckedChanged(object sender, EventArgs e)
+		{
 			if (StoN_ck.Checked == true)
 				StoN_flag = true;
 			else StoN_flag = false;
 		}
 
-        private void Signal_ck_CheckedChanged(object sender, EventArgs e)
-        {
+		private void Signal_ck_CheckedChanged(object sender, EventArgs e)
+		{
 			if (Signal_ck.Checked == true)
 				Signal_flag = true;
 			else Signal_flag = false;
 		}
 
-        private void Noise_ck_CheckedChanged(object sender, EventArgs e)
-        {
+		private void Noise_ck_CheckedChanged(object sender, EventArgs e)
+		{
 			if (Noise_ck.Checked == true)
 				Noise_flag = true;
 			else Noise_flag = false;
 		}
 
-        private void btnDP_cal_Click(object sender, EventArgs e)
-        {
+		private void btnDP_cal_Click(object sender, EventArgs e)
+		{
 			string inputText;
 			double result;
 
@@ -1867,8 +1880,8 @@ namespace Tas1945_mon
 				return;
 		}
 
-        private void cbNF_apply_CheckedChanged(object sender, EventArgs e)
-        {
+		private void cbNF_apply_CheckedChanged(object sender, EventArgs e)
+		{
 			if (cbNF_apply.Checked == true)
 			{
 				for (int i = 0; i < 4860; i++)
@@ -1903,8 +1916,8 @@ namespace Tas1945_mon
 			}
 		}
 
-        private void btnKalmanError_Click(object sender, EventArgs e)
-        {
+		private void btnKalmanError_Click(object sender, EventArgs e)
+		{
 			string inputText;
 			double result;
 
@@ -1927,15 +1940,15 @@ namespace Tas1945_mon
 
 		}
 
-        private void btnDataverify_Click(object sender, EventArgs e)
-        {
+		private void btnDataverify_Click(object sender, EventArgs e)
+		{
 			if (BTNGet(btnGetPixelInfo) == "Read") return;
 
 			Dataverify_flag = true;
 		}
 
-        private void cbDPC_apply_CheckedChanged(object sender, EventArgs e)
-        {
+		private void cbDPC_apply_CheckedChanged(object sender, EventArgs e)
+		{
 			if (cbDPC_apply.Checked == true)
 			{
 				DPC_apply_flag = true;
@@ -1946,30 +1959,30 @@ namespace Tas1945_mon
 			}
 		}
 
-        private void btnISPoffsetCal_Click(object sender, EventArgs e)
-        {
+		private void btnISPoffsetCal_Click(object sender, EventArgs e)
+		{
 			if (ISP_cnt_flag == false)
 				return;
 			else
-            {
+			{
 				Array.Clear(Image_buf_ISP_offset, 0, Image_buf_ISP_offset.Length);
 				for (int i = 0; i < 50; i++)
-                {
-					for(int j = 0; j < 4860; j++)
-                    {
+				{
+					for (int j = 0; j < 4860; j++)
+					{
 						Image_buf_ISP_offset[j] += Image_buf_ISP[i, j];
 					}
 				}
-				for(int i = 0;i < 4860; i++)
-                {
-					Image_buf_ISP_offset[i] /= (float) 50.0 ;
+				for (int i = 0; i < 4860; i++)
+				{
+					Image_buf_ISP_offset[i] /= (float)50.0;
 				}
 				LOG("Image_buf_ISP_offset 세팅 완료", Color.Blue);
 			}
-        }
+		}
 
-        private void cbISPoffset_CheckedChanged(object sender, EventArgs e)
-        {
+		private void cbISPoffset_CheckedChanged(object sender, EventArgs e)
+		{
 			if (cbISPoffset.Checked == true)
 			{
 				ISP_offset_flag = true;
@@ -1980,8 +1993,8 @@ namespace Tas1945_mon
 			}
 		}
 
-        private void btnColDead_Click(object sender, EventArgs e)
-        {
+		private void btnColDead_Click(object sender, EventArgs e)
+		{
 			string inputText;
 			int result;
 
@@ -1998,8 +2011,8 @@ namespace Tas1945_mon
 				return;
 		}
 
-        private void btnColLive_Click(object sender, EventArgs e)
-        {
+		private void btnColLive_Click(object sender, EventArgs e)
+		{
 			string inputText;
 			int result;
 
@@ -2016,8 +2029,8 @@ namespace Tas1945_mon
 				return;
 		}
 
-        private void btnColInit_Click(object sender, EventArgs e)
-        {
+		private void btnColInit_Click(object sender, EventArgs e)
+		{
 			for (int i = 0; i < 4860; i++)
 			{
 				row = (int)i / COL;
@@ -2027,14 +2040,14 @@ namespace Tas1945_mon
 			}
 		}
 
-        private void btnXYDead_Click(object sender, EventArgs e)
-        {
+		private void btnXYDead_Click(object sender, EventArgs e)
+		{
 			string inputText_X;
 			string inputText_Y;
 			int result_X;
 			int result_Y;
 
-            inputText_X = tbX_dpc.Text;
+			inputText_X = tbX_dpc.Text;
 			inputText_Y = tbY_dpc.Text;
 
 			if (int.TryParse(inputText_X, out result_X) && int.TryParse(inputText_Y, out result_Y))
@@ -2046,8 +2059,8 @@ namespace Tas1945_mon
 				return;
 		}
 
-        private void btnXYLive_Click(object sender, EventArgs e)
-        {
+		private void btnXYLive_Click(object sender, EventArgs e)
+		{
 			string inputText_X;
 			string inputText_Y;
 			int result_X;
@@ -2065,8 +2078,8 @@ namespace Tas1945_mon
 				return;
 		}
 
-        private void btnXYInit_Click(object sender, EventArgs e)
-        {
+		private void btnXYInit_Click(object sender, EventArgs e)
+		{
 			for (int i = 0; i < 4860; i++)
 			{
 				row = (int)i / COL;
@@ -2076,16 +2089,16 @@ namespace Tas1945_mon
 			}
 		}
 
-        private void cbDark_Apply_CheckedChanged(object sender, EventArgs e)
-        {
+		private void cbDark_Apply_CheckedChanged(object sender, EventArgs e)
+		{
 			if (cbDark_Apply.Checked)
 				DarkAvg_flag = true;
 			else
 				DarkAvg_flag = false;
 		}
 
-        private void tabControl1_DrawItem(object sender, DrawItemEventArgs e)
-        {
+		private void tabControl1_DrawItem(object sender, DrawItemEventArgs e)
+		{
 			Graphics gr = e.Graphics;
 			Font fon1 = new Font(e.Font, FontStyle.Regular);
 
@@ -2093,15 +2106,16 @@ namespace Tas1945_mon
 			sf.Alignment = StringAlignment.Center;
 			sf.LineAlignment = StringAlignment.Center;
 
-			gr.DrawString("TAS1945 Ctrl", fon1, Brushes.Black, this.tabControl1.GetTabRect(0),sf);
+			gr.DrawString("TAS1945 Ctrl", fon1, Brushes.Black, this.tabControl1.GetTabRect(0), sf);
 			gr.DrawString("Device Ctrl", fon1, Brushes.BlueViolet, this.tabControl1.GetTabRect(1), sf);
 			gr.DrawString("Filter", fon1, Brushes.IndianRed, this.tabControl1.GetTabRect(2), sf);
 			gr.DrawString("Image Cal", fon1, Brushes.Blue, this.tabControl1.GetTabRect(3), sf);
 			gr.DrawString("Reg Test", fon1, Brushes.CadetBlue, this.tabControl1.GetTabRect(4), sf);
+			gr.DrawString("FTDI Ctrl", fon1, Brushes.Indigo, this.tabControl1.GetTabRect(5), sf);
 		}
 
-        private void btnRegWR_Set1_Click(object sender, EventArgs e)
-        {
+		private void btnRegWR_Set1_Click(object sender, EventArgs e)
+		{
 			string inputText_127;
 			string inputText_154;
 			string inputText_213;
@@ -2133,8 +2147,8 @@ namespace Tas1945_mon
 				return;
 		}
 
-        private void btnRegWR_Set2_Click(object sender, EventArgs e)
-        {
+		private void btnRegWR_Set2_Click(object sender, EventArgs e)
+		{
 			string inputText_127;
 			string inputText_154;
 			string inputText_213;
@@ -2166,18 +2180,18 @@ namespace Tas1945_mon
 				return;
 		}
 
-        private void btnRegRD_Set1_Click(object sender, EventArgs e)
-        {
-			return ;
-        }
+		private void btnRegRD_Set1_Click(object sender, EventArgs e)
+		{
+			return;
+		}
 
-        private void btnRegRD_Set2_Click(object sender, EventArgs e)
-        {
-			return ;
-        }
+		private void btnRegRD_Set2_Click(object sender, EventArgs e)
+		{
+			return;
+		}
 
-        private void cbReg127mode_SelectedIndexChanged(object sender, EventArgs e)
-        {
+		private void cbReg127mode_SelectedIndexChanged(object sender, EventArgs e)
+		{
 			if (CBBIdxGet(cbReg127mode) == 0)   // 미선택
 			{
 				LOG("미선택 모드", Color.Blue);
@@ -2204,32 +2218,31 @@ namespace Tas1945_mon
 			}
 		}
 
-        private void btnPortSearch_Click(object sender, EventArgs e)
-        {
-			cbPort.DataSource = SerialPort.GetPortNames();
-			
-			// SerialPort.GetPortNames()로 검색된 모든 포트 가져오기
-			string[] portNames = SerialPort.GetPortNames();
+		byte[] rcvBuf = new byte[1024];
+		byte[] sndBuf = new byte[1024];
 
-			// 각 포트를 로그로 출력
-			foreach (string portName in portNames)
-			{
-				LOG("Found Port: " + portName, Color.Blue);
-			}
-		}
+		int rcv_len = 1024;
+		int snd_len = 1024;
 
-		private void btnComOpen_Click(object sender, EventArgs e)
+		public FT_DEVICE_LIST_INFO_NODE ftDevList = default;
+
+		public int mis_match_cnt = 0;
+
+		/// <summary>
+		/// FTDI 모듈과 연결하기 위해 첫번째로 작성했던 함수 (~24' 03/06 조남인)
+		/// SPI Open 부터 image data read까지 all in one 함수
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void btnFTDIOpen_Click(object sender, EventArgs e)
 		{
-			//if (cbPort.Text == "") return;
-
 			FTDI.FT_STATUS ftStaus = FTDI.FT_STATUS.FT_OK;
-			FT_DEVICE_LIST_INFO_NODE ftDevList = default;
+
+			FtResult ftResult = default;
+
 			FtChannelConfig ftChannelConfig = default;
-			uint address = 0;
-			ushort data = 0;
-			uint i = 0;
+
 			byte latency = 2;
-			int numChannels = 0;
 
 			ftChannelConfig.ClockRate = 5000000;
 			ftChannelConfig.LatencyTimer = latency;
@@ -2238,72 +2251,212 @@ namespace Tas1945_mon
 
 			LibMpsse.Init();
 
-			LibMpsseSpi.SPI_GetNumChannels(out numChannels);
+			LibMpsseSpi.SPI_GetNumChannels(out int numChannels);
 			print_ftStatus(ftStaus);
-			Ret_Log_String = "channel num : " + numChannels.ToString() + "\r\n";
+			Ret_Log_String = "channel num : " + numChannels.ToString();
 			LOG(Ret_Log_String);
 
-
-
-
-			// UART 통신 준비하는 코드
-			//if (!serial.IsOpen)
-			//{
-			//    /* SERIAL OPEN BEGIN */
-			//    serial.PortName = cbPort.Text;          // Port Name
-			//    serial.BaudRate = BAURATE;              // Baud Rate
-			//    serial.DataBits = DATABITS;             // Data Bits
-			//    serial.StopBits = STOPBITS;             // Stop Bits
-			//    serial.Parity = PARITY;                 // Parity
-			//    serial.DataReceived += new SerialDataReceivedEventHandler(Receive_USB); // Event Handler
-			//    serial.Open();                          // Serial Open
-
-			//    btnPortSearch.Enabled = false;
-			//    cbPort.Enabled = false;
-
-			//	TcpIpButtonEnable(true);
-
-			//	/* SERIAL OPEN END */
-			//	LOG("Port Open : " + cbPort.Text, Color.Blue);
-			//}
-			//else
-			//{
-			//	LOG("Port Already Open", Color.Red);
-			//}
-		}
-		private void Receive_USB(object sender, SerialDataReceivedEventArgs e)
-		{
-			// 이벤트 핸들러에서 호출할 메서드
-			if (serial.IsOpen)
+			for (int k = 0; k < 4860; k++)
 			{
-				int bytesToRead = serial.BytesToRead;
-				byte[] buffer = new byte[bytesToRead];
-				serial.Read(buffer, 0, bytesToRead);
-
-				// 데이터를 받으면 Tas1945_RespParser 호출
-				Tas1945_RespParser(buffer, bytesToRead);
+				for (int t = 0; t < 3; t++)
+					offsetdata_ft[t, k] = 0;
+				offset_ft[k] = 0;
 			}
-		}
 
-		private void btnComClose_Click(object sender, EventArgs e)
+			if (numChannels > 0)
+			{
+				for (int i = 0; i < numChannels; i++)
+				{
+					LibMpsseSpi.SPI_GetChannelInfo(numChannels, out ftDevList);
+					print_ftStatus(ftStaus);
+
+					Ret_Log_String = "Flag : " + ftDevList.Flags.ToString() + ", Type : " + ftDevList.Type.ToString()
+					 + ", ID : " + ftDevList.ID.ToString() + ", LocId : " + ftDevList.LocId.ToString()
+					 + ", serial_num : " + ftDevList.SerialNumber.ToString() + ", description : " + ftDevList.Description.ToString()
+					 + ", handle : " + ftDevList.ftHandle.ToString();
+
+					LOG(Ret_Log_String);
+
+					ftResult = LibMpsseSpi.SPI_OpenChannel(CHANNEL_TO_OPEN, out ftDevList.ftHandle);
+					ftStaus = (FTDI.FT_STATUS)ftResult;
+					print_ftStatus(ftStaus);
+					ftResult = LibMpsseSpi.SPI_InitChannel(ftDevList.ftHandle, ref ftChannelConfig);
+					ftStaus = (FTDI.FT_STATUS)ftResult;
+					print_ftStatus(ftStaus);
+
+					sndBuf[0] = 0xB0;
+					sndBuf[1] = 0x00;
+					sndBuf[2] = 0xFF;
+					sndBuf[3] = 0xFF;
+					snd_len = 4;
+
+					ftResult = LibMpsseSpi.SPI_ReadWrite(ftDevList.ftHandle, rcvBuf, sndBuf, snd_len, out int snd_len_l, FtSpiTransferOptions.SizeInBytes | FtSpiTransferOptions.ChipselectEnable | FtSpiTransferOptions.ChipselectDisable);
+					ftStaus = (FTDI.FT_STATUS)ftResult;
+					print_ftStatus(ftStaus);
+
+					Ret_Log_String = "";
+					for (int j = 0; j < snd_len; j++)
+						Ret_Log_String += sndBuf[j].ToString("X2") + " ";
+					LOG(Ret_Log_String);
+
+					Ret_Log_String = "";
+					for (int j = 0; j < snd_len; j++)
+						Ret_Log_String += rcvBuf[j].ToString("X2") + " ";
+					LOG(Ret_Log_String);
+
+					LOG("Success SPI Open", Color.Blue);
+
+                    LOG("init reg start");
+                    tp3l_init_sen();
+                    LOG("init reg end");
+                    Thread.Sleep(1000);
+
+                    if (mis_match_cnt > 13)
+                    {
+                        LOG($"Register mis_match : {mis_match_cnt}개 발생으로 통신종료");
+                        mis_match_cnt = 0;
+
+                        LibMpsse.Cleanup();
+                        return;
+                    }
+
+                    tp3l_rd_img_enable();
+
+                    tp3l_spi_wr_fpga(ftDevList.ftHandle, RahDbgCode01, 0x0, 0x0728);
+
+                    //tmSisoRD.Interval = (int)NUDGet(nudInterval);
+                    tmSisoRD.Interval = (int)150;
+                    tmSisoRD.Start();
+                    tmImageDsp.Start();
+
+                    return;
+                }
+            }
+			else
+				LOG("Failed SPI Open", Color.Red);
+		}
+        void tp3l_rd_img_enable()
         {
-			if (serial.IsOpen)
-			{
-				serial.Close();
+            tp3l_spi_wr_fpga(ftDevList.ftHandle, RahRdSenImgFrameCycleMs, 0x0, 150);
+            tp3l_spi_wr_fpga(ftDevList.ftHandle, RahRdSenImgEn, 0x0, RdRdBufFrStart | RdRdSenImgEnOddEvAll);    // Read Sensor Start Odd & Even
+        }
+		private void tmSisoRD_Tick(object sender, EventArgs e)
+		{
+			tp3l_rd_img_Namin3();
+		}
 
-				btnPortSearch.Enabled = true;
-				cbPort.Enabled = true;
-
-				LOG("Port Close" , Color.Blue);
-			}
+		private void btnFTDIOffset_Click(object sender, EventArgs e)
+        {
+			if (FToffset_flag == false)
+            {
+				FToffset_flag = true;
+				BTNSet(btnFTDIoffset, "Offset 적용중");
+            }
 			else
 			{
-				btnPortSearch.Enabled = true;
-				cbPort.Enabled = true;
-
-				LOG("Port Already Close", Color.Red);
+				FToffset_flag = false;
+				FToffset_Apply_flag = false;
+				BTNSet(btnFTDIoffset, "Offset 해제");
 			}
 		}
+
+        void tp3l_spi_rd_img_frame(IntPtr ftHandle, int rdFrameSize)
+		{
+			FtResult ftResult = default;
+			int sizeTransfered;
+			int snd_len_l = 0;
+			ushort spi_rdData;
+
+			ftResult = LibMpsseSpi.SPI_Read(ftHandle, rx_ftData, rdFrameSize, out sizeTransfered, FtSpiTransferOptions.SizeInBytes | FtSpiTransferOptions.ChipselectEnable | FtSpiTransferOptions.ChipselectDisable);
+		}
+
+		float[] imgdata_ft = new float[4860];
+		float[,] offsetdata_ft = new float[3, 4860];
+		float[] offset_ft = new float[4860];
+
+		int ft_cnt = 0;
+		int byte_cnt = 0;
+		int ftoffset_cnt = 0;
+
+		bool FToffset_flag = false;
+		bool FToffset_Apply_flag = false;
+
+		void tp3l_rd_img_Namin3()
+		{
+			byte[] imgRaw = new byte[4860 * 2];
+			ushort rdData;
+
+			while (true)
+			{
+				rdData = tp3l_spi_rd_fpga(ftDevList.ftHandle, RahRdStatus, 0x0);
+				Thread.Sleep(5);
+				//if ((rdData & 0x1) != 0)
+					break;
+				LOG("#");
+			}
+
+			tp3l_spi_wr_fpga(ftDevList.ftHandle, RahRdBufFrStart, 0x0, (ushort) RdRdBufFrStart);
+
+			ft_cnt = 0;
+			byte_cnt = 0;
+
+			for (int j = 0; j< 60; j++)
+            {
+				tp3l_spi_rd_img_frame(ftDevList.ftHandle, 81 * 2);
+				for (int i = 0; i< 81 * 2; i++)
+				{
+					if ((i & 0x1) == 0)
+                    {
+						imgRaw[byte_cnt] = rx_ftData[i];
+						byte_cnt++;
+					}
+                    else
+	                {
+						imgRaw[byte_cnt] = rx_ftData[i];
+						byte_cnt++;
+	                }
+				}
+			}
+
+			Convert_PixelData(imgRaw, 4860 * 2, ref imgdata_ft);
+
+            if ((FToffset_flag == false) && (FToffset_Apply_flag == false))
+            {
+                for (int k = 0; k < 4860; k++)
+                    offsetdata_ft[ftoffset_cnt, k] = imgdata_ft[k];
+                ftoffset_cnt++;
+                ftoffset_cnt %= 3;
+            }
+            else if ((FToffset_flag == true) && (FToffset_Apply_flag == false))
+            {
+                for (int k = 0; k < 4860; k++)
+                {
+                    offset_ft[k] = 0;
+                    for (int j = 0; j < 3; j++)
+                        offset_ft[k] += offsetdata_ft[j, k];
+                    offset_ft[k] /= 3;
+                }
+                FToffset_Apply_flag = true;
+                LOG("Offset Apply", Color.Blue);
+            }
+            else if ((FToffset_flag == true) && (FToffset_Apply_flag == true))
+            {
+                for (int k = 0; k < 4860; k++)
+                    imgdata_ft[k] = imgdata_ft[k] - offset_ft[k];
+            }
+
+
+            if (g_queImage.Count < 20)              //	Timer 에서 Display 할 시
+            {
+                g_queImage.Enqueue(imgdata_ft);
+            }
+
+            frame_cnt++;
+
+            if (CBGet(cbFTDILog) == true)
+                LOG($"Frame No. : {frame_cnt} , Pixel[1035] : {imgdata_ft[1035]}");
+        }
+
     }
 
     /// <summary>

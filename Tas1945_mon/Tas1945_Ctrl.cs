@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FTD2XX_NET;
+using libMPSSEWrapper.Types;
 
 namespace Tas1945_mon
 {
@@ -146,10 +148,41 @@ namespace Tas1945_mon
 
 		public int int32data;
 
-		/// <summary>
-		/// 
-		/// </summary>
-		public void cal25_calibration(float[] g_asPixelData_Cal)
+        #region  //FTDI parameter
+        public const int SpiTempHeaderSize = 0;
+        public const int SpiTempLineSize = 81;
+        public const int SpiTempLineSizeByte = SpiTempLineSize * 2;
+        public const int SpiTempRowSize = 60;
+        public const int SpiTempDataSize = SpiTempLineSize * SpiTempRowSize;
+        public const int SpiTempDataSizeByte = SpiTempDataSize * 2;
+
+        public const byte RahSenCtrl = 0x00;
+
+        public const byte RahRdSenImgEn = 0x01;
+        public const byte RdRdSenImgEn = 0x01;
+        public const byte RdRdSenImgEnOdd = 0x02;
+        public const byte RdRdSenImgEnOddEvAll = 0x04;
+
+        public const byte RahRdBufFrStart = 0x02;
+        public const byte RdRdBufFrStart = 0x01;
+
+        // Uncomment if needed
+        // public const byte RahRdBufImg = 0x03;
+
+        public const byte RahRdSenImgFrameCycleMs = 0x04;
+
+        public const byte RahRdStatus = 0x20;
+
+        public const byte RahRdVersion = 0x30;
+        public const byte RahRdWrTest = 0x31;
+        public const byte RahDbgCode01 = 0x32;
+        #endregion
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void cal25_calibration(float[] g_asPixelData_Cal)
         {
 			cal25_Cnt++;
 
@@ -3947,82 +3980,220 @@ namespace Tas1945_mon
 			LOG($"Bitmap Time: {stopwatch_Bitmap.ElapsedMilliseconds} ms", Color.Red);
 			//Console.WriteLine($"Data Processing Time: {stopwatch.ElapsedMilliseconds} ms");
 		}
-		/*
-		private void BicubicInterpolation(ref float[,] data, int outWidth, int outHeight)
-		{
-			if (outWidth < 1 || outHeight < 1)
-			{
-				throw new ArgumentException(
-					"BicubicInterpolation: Expected output size to be " +
-					$"[1, 1] or greater, got [{outHeight}, {outWidth}].");
-			}
 
-			// props to https://stackoverflow.com/a/20924576/240845 for getting me started
-			float InterpolateCubic(float v0, float v1, float v2, float v3, float fraction)
-			{
-				float p = (v3 - v2) - (v0 - v1);
-				float q = (v0 - v1) - p;
-				float r = v2 - v0;
+        void tp3l_init_sen()
+        {
+            tp3l_sen_wr_rd(255, 0x10);
+            tp3l_sen_wr_rd(255, 0x00);
+            tp3l_sen_wr_rd(0, 0x01);
+            tp3l_sen_wr_rd(1, 0x00);
+            tp3l_sen_wr_rd(2, 0xA6);
+            tp3l_sen_wr_rd(3, 0x01);
+            tp3l_sen_wr_rd(4, 0x00);
+            tp3l_sen_wr_rd(5, 0x01);
+            tp3l_sen_wr_rd(6, 0x02);
+            tp3l_sen_wr_rd(7, 0x01);
+            tp3l_sen_wr_rd(8, 0x01);
+            tp3l_sen_wr_rd(9, 0x00);
+            tp3l_sen_wr_rd(10, 0x1A);
+            tp3l_sen_wr_rd(11, 0x00);
+            tp3l_sen_wr_rd(12, 0x01);
+            tp3l_sen_wr_rd(13, 0x00);
+            tp3l_sen_wr_rd(14, 0x0E);
+            tp3l_sen_wr_rd(15, 0x00);
+            tp3l_sen_wr_rd(16, 0x01);
+            tp3l_sen_wr_rd(17, 0x00);
+            tp3l_sen_wr_rd(18, 0x0E);
+            tp3l_sen_wr_rd(19, 0x00);
+            tp3l_sen_wr_rd(20, 0x1A);
+            tp3l_sen_wr_rd(21, 0x00);
+            tp3l_sen_wr_rd(22, 0x01);
+            tp3l_sen_wr_rd(23, 0x00);
+            tp3l_sen_wr_rd(24, 0x03);
+            tp3l_sen_wr_rd(25, 0x01);
+            tp3l_sen_wr_rd(26, 0x05);
+            tp3l_sen_wr_rd(27, 0x01);
+            tp3l_sen_wr_rd(28, 0x0C);
+            tp3l_sen_wr_rd(29, 0x01);
+            tp3l_sen_wr_rd(30, 0x06);
+            tp3l_sen_wr_rd(31, 0x01);
+            tp3l_sen_wr_rd(32, 0x01);
+            tp3l_sen_wr_rd(33, 0x00);
+            tp3l_sen_wr_rd(34, 0x1C);
+            tp3l_sen_wr_rd(35, 0x00);
+            tp3l_sen_wr_rd(36, 0x01);
+            tp3l_sen_wr_rd(37, 0x00);
+            tp3l_sen_wr_rd(38, 0xEE);
+            tp3l_sen_wr_rd(39, 0x0F);
+            tp3l_sen_wr_rd(40, 0x07);
+            tp3l_sen_wr_rd(41, 0x00);
+            tp3l_sen_wr_rd(42, 0x09);
+            tp3l_sen_wr_rd(43, 0x00);
+            tp3l_sen_wr_rd(48, 0x50);
+            tp3l_sen_wr_rd(49, 0x00);
+            tp3l_sen_wr_rd(50, 0x6A);
+            tp3l_sen_wr_rd(51, 0x03);
+            tp3l_sen_wr_rd(52, 0x54);
+            tp3l_sen_wr_rd(53, 0x00);
+            tp3l_sen_wr_rd(54, 0x66);
+            tp3l_sen_wr_rd(55, 0x03);
+            tp3l_sen_wr_rd(56, 0x01);
+            tp3l_sen_wr_rd(57, 0x00);
+            tp3l_sen_wr_rd(58, 0x1C);
+            tp3l_sen_wr_rd(59, 0x03);
+            tp3l_sen_wr_rd(60, 0x2E);
+            tp3l_sen_wr_rd(61, 0x06);
+            tp3l_sen_wr_rd(62, 0x31);
+            tp3l_sen_wr_rd(63, 0x06);
+            tp3l_sen_wr_rd(64, 0x65);
+            tp3l_sen_wr_rd(65, 0x00);
+            tp3l_sen_wr_rd(66, 0x30);
+            tp3l_sen_wr_rd(67, 0x00);
+            tp3l_sen_wr_rd(68, 0x32);
+            tp3l_sen_wr_rd(69, 0x00);
+            tp3l_sen_wr_rd(70, 0x65);
+            tp3l_sen_wr_rd(71, 0x00);
+            tp3l_sen_wr_rd(72, 0x5F);
+            tp3l_sen_wr_rd(73, 0x00);
+            tp3l_sen_wr_rd(74, 0x3D);
+            tp3l_sen_wr_rd(75, 0x00);
+            tp3l_sen_wr_rd(76, 0x2C);
+            tp3l_sen_wr_rd(77, 0x00);
+            tp3l_sen_wr_rd(78, 0x09);
+            tp3l_sen_wr_rd(79, 0x00);
+            tp3l_sen_wr_rd(80, 0x01);
+            tp3l_sen_wr_rd(81, 0x00);
+            tp3l_sen_wr_rd(82, 0x31);
+            tp3l_sen_wr_rd(83, 0x00);
+            tp3l_sen_wr_rd(84, 0x32);
+            tp3l_sen_wr_rd(85, 0x00);
+            tp3l_sen_wr_rd(86, 0x00);
+            tp3l_sen_wr_rd(87, 0x00);
+            tp3l_sen_wr_rd(88, 0x00);
+            tp3l_sen_wr_rd(89, 0x00);
+            tp3l_sen_wr_rd(90, 0x00);
+            tp3l_sen_wr_rd(91, 0x00);
+            tp3l_sen_wr_rd(92, 0x62);
+            tp3l_sen_wr_rd(93, 0x00);
+            tp3l_sen_wr_rd(94, 0x64);
+            tp3l_sen_wr_rd(95, 0x00);
+            tp3l_sen_wr_rd(112, 0x1E);
+            tp3l_sen_wr_rd(113, 0x1E);
+            tp3l_sen_wr_rd(114, 0x1E);
+            tp3l_sen_wr_rd(115, 0x1E);
+            tp3l_sen_wr_rd(116, 0x1E);
+            tp3l_sen_wr_rd(117, 0x1E);
+            tp3l_sen_wr_rd(118, 0x1E);
+            tp3l_sen_wr_rd(119, 0x1E);
+            tp3l_sen_wr_rd(121, 0x25);
+            tp3l_sen_wr_rd(122, 0x09);
+            tp3l_sen_wr_rd(123, 0x1F);
+            tp3l_sen_wr_rd(127, 0x00);
+            //tp3l_sen_wr_rd(127	  ,	0x03	 );
+            tp3l_sen_wr_rd(128, 0xAA);
+            tp3l_sen_wr_rd(129, 0x00);
+            tp3l_sen_wr_rd(130, 0xA8);
+            tp3l_sen_wr_rd(131, 0x00);
+            tp3l_sen_wr_rd(132, 0x2A);
+            tp3l_sen_wr_rd(133, 0x00);
+            tp3l_sen_wr_rd(134, 0xAA);
+            tp3l_sen_wr_rd(135, 0x00);
+            tp3l_sen_wr_rd(136, 0xAA);
+            tp3l_sen_wr_rd(137, 0x00);
+            tp3l_sen_wr_rd(138, 0xAA);
+            tp3l_sen_wr_rd(139, 0x00);
+            tp3l_sen_wr_rd(140, 0xAA);
+            tp3l_sen_wr_rd(141, 0x00);
+            tp3l_sen_wr_rd(144, 0x00);
+            tp3l_sen_wr_rd(154, 0x2F);
+            //tp3l_sen_wr_rd(154	  ,	0x1F	 );
+            tp3l_sen_wr_rd(155, 0x00);
+            tp3l_sen_wr_rd(156, 0x00);
+            tp3l_sen_wr_rd(157, 0x00);
+            tp3l_sen_wr_rd(158, 0xC0);
+            tp3l_sen_wr_rd(176, 0x00);
+            tp3l_sen_wr_rd(177, 0x00);
+            tp3l_sen_wr_rd(178, 0x01);
+            tp3l_sen_wr_rd(179, 0x00);
+            tp3l_sen_wr_rd(180, 0x00);
+            tp3l_sen_wr_rd(181, 0x48);
+            tp3l_sen_wr_rd(182, 0x00);
+            tp3l_sen_wr_rd(190, 0x00);
+            tp3l_sen_wr_rd(191, 0x00);
+            tp3l_sen_wr_rd(208, 0x00);
+            tp3l_sen_wr_rd(209, 0x00);
+            tp3l_sen_wr_rd(210, 0x53);
+            tp3l_sen_wr_rd(211, 0x01);
+            tp3l_sen_wr_rd(212, 0x81);
+            tp3l_sen_wr_rd(213, 0x14);
+            tp3l_sen_wr_rd(214, 0x1D);
+            tp3l_sen_wr_rd(215, 0x1F);
+            tp3l_sen_wr_rd(216, 0x1F);
+            tp3l_sen_wr_rd(217, 0x1F);
+            tp3l_sen_wr_rd(218, 0x1F);
+            tp3l_sen_wr_rd(219, 0x07);
+            tp3l_sen_wr_rd(220, 0x1D);
+            tp3l_sen_wr_rd(221, 0x1B);
+            tp3l_sen_wr_rd(240, 0x80);
+            tp3l_sen_wr_rd(255, 0x00);
+            tp3l_sen_wr_rd(138, 0x6A);
+            tp3l_sen_wr_rd(138, 0xAA);
+            tp3l_sen_wr_rd(134, 0x6A);
+            tp3l_sen_wr_rd(134, 0xAA);
+        }
 
-				return (fraction * ((fraction * ((fraction * p) + q)) + r)) + v1;
-			}
+        void tp3l_sen_wr_rd(byte regAddr, byte regData)
+        {
+            ushort rdData_echo;
+            ushort rdData;
 
-			// around 6000 gives fastest results on my computer.
-			int rowsPerChunk = 6000 / outWidth;
-			if (rowsPerChunk == 0)
-			{
-				rowsPerChunk = 1;
-			}
+            tp3l_spi_wr_fpga(ftDevList.ftHandle, RahSenCtrl, regAddr, (ushort)regData);
+            rdData_echo = tp3l_spi_rd_fpga(ftDevList.ftHandle, RahSenCtrl, regAddr);
+            rdData = tp3l_spi_rd_fpga(ftDevList.ftHandle, RahSenCtrl, regAddr);
 
-			int chunkCount = (outHeight / rowsPerChunk)
-							 + (outHeight % rowsPerChunk != 0 ? 1 : 0);
+            if (regData == (byte)(rdData & 0xff))
+            {
+                Ret_Log_String = $"(match)    {regAddr} : 0x{regData:X2}, 0x{(byte)(rdData & 0xFF):X2}(0x{(byte)(rdData_echo & 0xFF):X2})";
+                LOG(Ret_Log_String);
+            }
+            else
+            {
+                Ret_Log_String = $"(mis-match) {regAddr}  : 0x{regData:X2}, 0x{(byte)(rdData & 0xFF):X2}(0x{(byte)(rdData_echo & 0xFF):X2})";
+                LOG(Ret_Log_String);
+                mis_match_cnt++;
+            }
+        }
 
-			var width = data.GetLength(1);
-			var height = data.GetLength(0);
-			var ret = new float[outHeight, outWidth];
+        void tp3l_spi_wr_fpga(IntPtr ftHandle, byte addrH, byte addrL, ushort wrData)
+        {
+            int sizeTransfered;
+            byte[] txBuf = new byte[4];
+            byte[] rxBuf = new byte[4];
 
-			Parallel.For(0, chunkCount, (chunkNumber) =>
-			{
-				int jStart = chunkNumber * rowsPerChunk;
-				int jStop = jStart + rowsPerChunk;
-				if (jStop > outHeight)
-				{
-					jStop = outHeight;
-				}
+            txBuf[0] = (byte)(addrH & 0x7F);        // & 0x7f : Write Bit Mast
+            txBuf[1] = addrL;
+            txBuf[2] = (byte)((wrData >> 0) & 0xff);
+            txBuf[3] = (byte)((wrData >> 8) & 0xff);
 
-				for (int j = jStart; j < jStop; ++j)
-				{
-					float jLocationFraction = j / (float)outHeight;
-					var jFloatPosition = height * jLocationFraction;
-					var j2 = (int)jFloatPosition;
-					var jFraction = jFloatPosition - j2;
-					var j1 = j2 > 0 ? j2 - 1 : j2;
-					var j3 = j2 < height - 1 ? j2 + 1 : j2;
-					var j4 = j3 < height - 1 ? j3 + 1 : j3;
-					for (int i = 0; i < outWidth; ++i)
-					{
-						float iLocationFraction = i / (float)outWidth;
-						var iFloatPosition = width * iLocationFraction;
-						var i2 = (int)iFloatPosition;
-						var iFraction = iFloatPosition - i2;
-						var i1 = i2 > 0 ? i2 - 1 : i2;
-						var i3 = i2 < width - 1 ? i2 + 1 : i2;
-						var i4 = i3 < width - 1 ? i3 + 1 : i3;
-						float jValue1 = InterpolateCubic(
-							data[j1, i1], data[j1, i2], data[j1, i3], data[j1, i4], iFraction);
-						float jValue2 = InterpolateCubic(
-							data[j2, i1], data[j2, i2], data[j2, i3], data[j2, i4], iFraction);
-						float jValue3 = InterpolateCubic(
-							data[j3, i1], data[j3, i2], data[j3, i3], data[j3, i4], iFraction);
-						float jValue4 = InterpolateCubic(
-							data[j4, i1], data[j4, i2], data[j4, i3], data[j4, i4], iFraction);
-						data[j, i] = InterpolateCubic(
-							jValue1, jValue2, jValue3, jValue4, jFraction);
-					}
-				}
-			});
+            LibMpsseSpi.SPI_Write(ftHandle, txBuf, 4, out sizeTransfered, FtSpiTransferOptions.SizeInBytes | FtSpiTransferOptions.ChipselectEnable | FtSpiTransferOptions.ChipselectDisable);
+        }
 
-			return ;
-		}*/
-	}
+        ushort tp3l_spi_rd_fpga(IntPtr ftHandle, byte addrH, byte addrL)
+        {
+            //FTDI.FT_STATUS ftStaus = FTDI.FT_STATUS.FT_OK;
+            int snd_len_l;
+            ushort spi_rdData;
+
+            FtResult ftResult = default;
+
+            byte[] txBuf = new byte[] { (byte)(addrH | 0x80), addrL, 0xFF, 0xFF };
+            byte[] rxBuf = new byte[4];
+
+            ftResult = LibMpsseSpi.SPI_ReadWrite(ftHandle, rxBuf, txBuf, 4, out snd_len_l, FtSpiTransferOptions.SizeInBytes | FtSpiTransferOptions.ChipselectEnable | FtSpiTransferOptions.ChipselectDisable);
+            //ftStaus = (FTDI.FT_STATUS)ftResult;
+            spi_rdData = (ushort)((rxBuf[3] << 8) | (rxBuf[2] & 0xFF));
+            return (spi_rdData);
+        }
+
+    }
 }

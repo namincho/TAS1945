@@ -19,7 +19,7 @@ namespace Tas1945_mon
 		ushort[]    g_u16ImageValue = new ushort[4860]; //	X, Y position pixel value
 		float[]		g_s16ImageValue = new float[4860]; //	X, Y position pixel value
 
-		public int	g_iZoom = 1;
+		public int	g_iZoom = 10;
 
 		Graphics	g_gGraphics = null;                 //	Graphics of the panel object
 		Bitmap		g_bmBitmap = null;					//	Bitmap object
