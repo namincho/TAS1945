@@ -290,6 +290,8 @@ namespace Tas1945_mon
 		private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			TcpUdp_Close();
+
+			RawLog_CsvFileClose();
 		}
 
 		/// <summary>
@@ -2228,6 +2230,12 @@ namespace Tas1945_mon
 
 		public int mis_match_cnt = 0;
 
+		int px1 = 300;
+		int px2 = 1500;
+		int px3 = 2200;
+		int px4 = 2300;
+		int px5 = 3200;
+
 		/// <summary>
 		/// FTDI 모듈과 연결하기 위해 첫번째로 작성했던 함수 (~24' 03/06 조남인)
 		/// SPI Open 부터 image data read까지 all in one 함수
@@ -2445,8 +2453,18 @@ namespace Tas1945_mon
                     imgdata_ft[k] = imgdata_ft[k] - offset_ft[k];
             }
 
+			if (CBGet(cbFTDICSV) == true)
+            {
+				RawLog_CsvFileWrite(imgdata_ft[px1].ToString() + ", ");
+				RawLog_CsvFileWrite(imgdata_ft[px2].ToString() + ", ");
+				RawLog_CsvFileWrite(imgdata_ft[px3].ToString() + ", ");
+				RawLog_CsvFileWrite(imgdata_ft[px4].ToString() + ", ");
+				RawLog_CsvFileWrite(imgdata_ft[px5].ToString() + ", ");
+				swCsvStreamW.Write("\n");
+            }
 
-            if (g_queImage.Count < 20)              //	Timer 에서 Display 할 시
+
+			if (g_queImage.Count < 20)              //	Timer 에서 Display 할 시
             {
                 g_queImage.Enqueue(imgdata_ft);
             }
@@ -2454,9 +2472,16 @@ namespace Tas1945_mon
             frame_cnt++;
 
             if (CBGet(cbFTDILog) == true)
-                LOG($"Frame No. : {frame_cnt} , Pixel[1035] : {imgdata_ft[1035]}");
+                LOG($"Frame No. : {frame_cnt} , Pixel[{px3}] : {imgdata_ft[px3]}");
         }
 
+        private void cbFTDICSV_CheckedChanged(object sender, EventArgs e)
+        {
+			if (CBGet(cbFTDICSV) == true)
+				RawLog_CsvFileOpen(px1, px2, px3, px4, px5);
+			else
+				RawLog_CsvFileClose();
+		}
     }
 
     /// <summary>

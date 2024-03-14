@@ -62,6 +62,42 @@ namespace Tas1945_mon
 			}
 		}
 
+		public void RawLog_CsvFileOpen(int i1, int i2, int i3, int i4, int i5)
+		{
+			try
+			{
+				if (swCsvStreamW == null)
+				{
+					strRawLogPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+					strRawLogPath = strRawLogPath + @"\PixelInfo\" + DateTime.Now.ToString("yyyy_MM_dd_HH_m_ss") + @"\";
+
+					dirRawLogFolder = new DirectoryInfo(strRawLogPath);
+
+					if (dirRawLogFolder.Exists == false)
+					{
+						dirRawLogFolder.Create();
+					}
+
+					swCsvStreamW = new StreamWriter(strRawLogPath + "PixelInfo_" + DateTime.Now.ToString("yyyy_MM_dd_HH_m_ss") + ".csv");
+
+					swCsvStreamW.Write("P-" + i1.ToString() + ", ");
+					swCsvStreamW.Write("P-" + i2.ToString() + ", ");
+					swCsvStreamW.Write("P-" + i3.ToString() + ", ");
+					swCsvStreamW.Write("P-" + i4.ToString() + ", ");
+					swCsvStreamW.Write("P-" + i5.ToString() + ", ");
+
+					swCsvStreamW.Write("TP, ");
+
+					swCsvStreamW.Write("\n");
+				}
+			}
+			catch (Exception ex)
+			{
+				ERR(ex.Message);
+			}
+		}
+
 		/// <summary>
 		/// 
 		/// </summary>

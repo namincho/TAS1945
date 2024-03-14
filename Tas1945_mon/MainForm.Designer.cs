@@ -211,6 +211,7 @@ namespace Tas1945_mon
             this.label31 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.tpFTDI = new System.Windows.Forms.TabPage();
+            this.cbFTDICSV = new System.Windows.Forms.CheckBox();
             this.cbFTDILog = new System.Windows.Forms.CheckBox();
             this.btnFTDIoffset = new System.Windows.Forms.Button();
             this.btnFTDIRead = new System.Windows.Forms.Button();
@@ -2534,6 +2535,7 @@ namespace Tas1945_mon
             // 
             // tpFTDI
             // 
+            this.tpFTDI.Controls.Add(this.cbFTDICSV);
             this.tpFTDI.Controls.Add(this.cbFTDILog);
             this.tpFTDI.Controls.Add(this.btnFTDIoffset);
             this.tpFTDI.Controls.Add(this.btnFTDIRead);
@@ -2544,6 +2546,17 @@ namespace Tas1945_mon
             this.tpFTDI.TabIndex = 5;
             this.tpFTDI.Text = "FTDI Ctrl";
             this.tpFTDI.UseVisualStyleBackColor = true;
+            // 
+            // cbFTDICSV
+            // 
+            this.cbFTDICSV.AutoSize = true;
+            this.cbFTDICSV.Location = new System.Drawing.Point(477, 73);
+            this.cbFTDICSV.Name = "cbFTDICSV";
+            this.cbFTDICSV.Size = new System.Drawing.Size(102, 22);
+            this.cbFTDICSV.TabIndex = 3;
+            this.cbFTDICSV.Text = "CSV Check";
+            this.cbFTDICSV.UseVisualStyleBackColor = true;
+            this.cbFTDICSV.CheckedChanged += new System.EventHandler(this.cbFTDICSV_CheckedChanged);
             // 
             // cbFTDILog
             // 
@@ -3227,6 +3240,7 @@ namespace Tas1945_mon
         private System.Windows.Forms.Button btnFTDIoffset;
         private System.Windows.Forms.Button btnFTDIRead;
         public System.Windows.Forms.Timer tmSisoRD;
+        private System.Windows.Forms.CheckBox cbFTDICSV;
     }
 }
 
