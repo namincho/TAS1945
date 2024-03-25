@@ -429,12 +429,12 @@ namespace Tas1945_mon
 
 								// BookMark #1 : 수신된 Byte Data가 short와 float형으로 바뀌는 함수
 								Convert_PixelData (g_abyPixelData, g_iPixelLen, ref g_asPixelData);                 //	2 byte Pixel data 를 signed data 로 변환
-								
+								/*
 								if (monteCarlo_Method(ref g_asPixelData, 8) == false)
 								{
 									Algorithm_Flag = false;
 									break;
-								}
+								}*/
 
 								//if (data_status != 1) LOG("비상!!", Color.Red);
 								//data_status = 2;

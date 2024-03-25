@@ -2472,7 +2472,7 @@ namespace Tas1945_mon
             frame_cnt++;
 
             if (CBGet(cbFTDILog) == true)
-                LOG($"Frame No. : {frame_cnt} , Pixel[{px3}] : {imgdata_ft[px3]}");
+                LOG($"Frame No. : {frame_cnt} , Pixel[{FTDI_Log_Pixel_Num}] : {imgdata_ft[FTDI_Log_Pixel_Num]}");
         }
 
         private void cbFTDICSV_CheckedChanged(object sender, EventArgs e)
@@ -2481,6 +2481,27 @@ namespace Tas1945_mon
 				RawLog_CsvFileOpen(px1, px2, px3, px4, px5);
 			else
 				RawLog_CsvFileClose();
+		}
+
+		int FTDI_Log_Pixel_Num= 0;
+		private void btnFTDILogPixelApply_Click(object sender, EventArgs e)
+        {
+			string Pixel_num;
+
+			Pixel_num = TBGet(tbFTDILogPixelNum);
+
+			if (int.TryParse(Pixel_num, out int num))
+			{
+				// 숫자로 변환에 성공한 경우
+				int temp = FTDI_Log_Pixel_Num;
+				FTDI_Log_Pixel_Num = num;
+				LOG($"Log Pixel Change Successed : {temp} → {FTDI_Log_Pixel_Num }", Color.Red);
+			}
+			else  // 숫자로 변환에 실패한 경우		
+            {
+				LOG($"Log Pixel Change failed", Color.Red);
+				return;
+            }
 		}
     }
 

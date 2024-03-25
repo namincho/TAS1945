@@ -246,6 +246,9 @@ namespace Tas1945_mon
             this.lbOdd = new Bulb.LedBulb();
             this.panMain = new Tas1945_mon.DoubleBufferPanel();
             this.tmSisoRD = new System.Windows.Forms.Timer(this.components);
+            this.tbFTDILogPixelNum = new System.Windows.Forms.TextBox();
+            this.label33 = new System.Windows.Forms.Label();
+            this.btnFTDILogPixelApply = new System.Windows.Forms.Button();
             this.tpTas1945Ctrl.SuspendLayout();
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudCsvSaveCnt)).BeginInit();
@@ -2535,6 +2538,9 @@ namespace Tas1945_mon
             // 
             // tpFTDI
             // 
+            this.tpFTDI.Controls.Add(this.btnFTDILogPixelApply);
+            this.tpFTDI.Controls.Add(this.label33);
+            this.tpFTDI.Controls.Add(this.tbFTDILogPixelNum);
             this.tpFTDI.Controls.Add(this.cbFTDICSV);
             this.tpFTDI.Controls.Add(this.cbFTDILog);
             this.tpFTDI.Controls.Add(this.btnFTDIoffset);
@@ -2919,6 +2925,32 @@ namespace Tas1945_mon
             // 
             this.tmSisoRD.Tick += new System.EventHandler(this.tmSisoRD_Tick);
             // 
+            // tbFTDILogPixelNum
+            // 
+            this.tbFTDILogPixelNum.Location = new System.Drawing.Point(685, 45);
+            this.tbFTDILogPixelNum.Name = "tbFTDILogPixelNum";
+            this.tbFTDILogPixelNum.Size = new System.Drawing.Size(100, 25);
+            this.tbFTDILogPixelNum.TabIndex = 4;
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(684, 24);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(110, 18);
+            this.label33.TabIndex = 5;
+            this.label33.Text = "Log Pixel 선택";
+            // 
+            // btnFTDILogPixelApply
+            // 
+            this.btnFTDILogPixelApply.Location = new System.Drawing.Point(808, 50);
+            this.btnFTDILogPixelApply.Name = "btnFTDILogPixelApply";
+            this.btnFTDILogPixelApply.Size = new System.Drawing.Size(69, 44);
+            this.btnFTDILogPixelApply.TabIndex = 6;
+            this.btnFTDILogPixelApply.Text = "변경";
+            this.btnFTDILogPixelApply.UseVisualStyleBackColor = true;
+            this.btnFTDILogPixelApply.Click += new System.EventHandler(this.btnFTDILogPixelApply_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
@@ -3241,6 +3273,9 @@ namespace Tas1945_mon
         private System.Windows.Forms.Button btnFTDIRead;
         public System.Windows.Forms.Timer tmSisoRD;
         private System.Windows.Forms.CheckBox cbFTDICSV;
+        private System.Windows.Forms.Button btnFTDILogPixelApply;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.TextBox tbFTDILogPixelNum;
     }
 }
 
